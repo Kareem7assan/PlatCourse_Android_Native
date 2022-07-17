@@ -1,0 +1,150 @@
+import deps.Config
+import deps.Deps
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+
+
+
+}
+android {
+
+    defaultConfig {
+        compileSdkVersion Config.targetsdk
+
+        minSdkVersion Config.minsdk
+        targetSdkVersion Config.targetsdk
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    // For Kotlin projects
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    // Specifies one flavor dimension.
+    /*flavorDimensions "version"
+    productFlavors {
+        devlopment {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension "version"
+            versionNameSuffix "-dev"
+            buildConfigField("String", "BASE_URL", "\"https://pub.rh.net.sa/diet-market-backend/master/public/api/deliveryMen/\"")
+        }
+        trial {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension "version"
+            versionNameSuffix "-trial"
+            buildConfigField("String", "BASE_URL", "\"https://pub.rh.net.sa/diet-market-backend/test/public/api/deliveryMen/\"")
+
+        }
+        full {
+            dimension "version"
+            //applicationIdSuffix ".full"
+            versionNameSuffix "-stage"
+            buildConfigField("String", "BASE_URL", "\"https://pub.rh.net.sa/diet-market-backend/newBranch2/public/api/deliveryMen/\"")
+        }
+    }*/
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation Deps.kotlin.stdLib
+    implementation Deps.androidx.core
+    implementation Deps.androidx.appCompat
+    implementation Deps.androidx.constraintLayout
+    implementation Deps.android.material
+    implementation Deps.android.material
+    implementation Deps.design.customDialog
+    implementation Deps.glide
+    implementation Deps.design.lottie
+    implementation Deps.design.swipeRefresh
+
+    implementation project(path: ':di')
+    implementation project(path: ':data')
+    implementation project(path: ':utils')
+    implementation project(path: ':dialogs-utils')
+
+    implementation Deps.kotlin.stdLib
+    //hilt
+    implementation Deps.dagger_hilt.hilt
+    kapt Deps.dagger_hilt.hilt_compiler
+
+
+    //room
+    implementation Deps.jetpack.room
+    implementation Deps.jetpack.roomKtx
+    kapt Deps.jetpack.compilerRoom
+
+    //retrofit
+    implementation Deps.retrofit.retrofit_lib
+    implementation Deps.retrofit.gson
+    implementation Deps.retrofit.okHttp
+
+    //anko
+    implementation Deps.anko.anko
+
+    //ktx
+    implementation Deps.ktx.ktx
+    implementation Deps.ktx.ktx_activity
+
+    //coroutines
+    implementation Deps.coroutines.core
+    implementation Deps.coroutines.android
+    implementation Deps.jetpack.lifeCycle
+
+
+    //unit test
+    testImplementation Deps.test.junit
+    testImplementation Deps.test.mockito
+    testImplementation Deps.test.mockitoKotlin
+    testImplementation Deps.test.archTest
+    testImplementation Deps.test.truthTest
+    testImplementation Deps.test.testCoroutine
+    testImplementation Deps.test.turbine
+    testImplementation Deps.test.mockitoInline
+    testImplementation Deps.jetpack.testRoom
+
+    androidTestImplementation Deps.test.testRules
+    androidTestImplementation Deps.test.hamCrest
+    androidTestImplementation Deps.test.espresso
+    androidTestImplementation Deps.test.uIAutomator
+    androidTestImplementation Deps.test.junitAndroid
+    androidTestImplementation Deps.test.truthTest
+
+    //full image
+    //implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+
+}

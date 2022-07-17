@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow_right"
+        android:tint="@color/soft_green"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="71dp"
+        android:padding="@dimen/margin_small"
+        android:rotation="180"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/privacy_terms"
+        android:textSize="20sp"
+        android:layout_marginTop="27dp"
+        android:textColor="@color/dark"
+        android:fontFamily="@font/medium"
+        android:layout_marginStart="26dp"
+        />
+    <TextView
+        android:id="@+id/tvTerms"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginBottom="33dp"
+        android:textAlignment="viewStart"
+        android:textSize="14.8sp"
+        android:textColor="@color/charcoal_grey"
+        android:gravity="start"
+        />
+</LinearLayout>
+</ScrollView>

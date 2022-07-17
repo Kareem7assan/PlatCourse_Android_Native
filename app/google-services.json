@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "81200764230",
+    "project_id": "tagharid-350a0",
+    "storage_bucket": "tagharid-350a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81200764230:android:d072be5648d3bcad600147",
+        "android_client_info": {
+          "package_name": "com.platCourse.platCourseAndroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81200764230-sf5sh3ii93j3i3j4daiaheeus7tck0ca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIE0MT2TVFA_am4IJwXSbscw2sWZwAbYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81200764230-sf5sh3ii93j3i3j4daiaheeus7tck0ca.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "81200764230-brlo1lbo6ctc8sa6ee1gdmuoaop626sa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Rowaad.Tagharid"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

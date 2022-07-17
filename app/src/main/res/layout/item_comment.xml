@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivOwner"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/profile"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="12.5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/medium"
+        android:textStyle="normal"
+        android:textSize="12.5sp"
+        app:layout_constraintStart_toEndOf="@id/ivOwner"
+        app:layout_constraintTop_toTopOf="@id/ivOwner"
+        android:layout_marginStart="12.5dp"
+        android:textColor="@color/dark"
+        android:lineSpacingExtra="0sp"
+        tools:text="كريـم الدالي"/>
+    <TextView
+        android:id="@+id/tvSince"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/light"
+        android:textStyle="normal"
+        android:textSize="11sp"
+        app:layout_constraintStart_toEndOf="@id/tvName"
+        app:layout_constraintTop_toTopOf="@id/tvName"
+        app:layout_constraintBottom_toBottomOf="@id/tvName"
+        android:layout_marginStart="@dimen/margin_small"
+        android:textColor="@color/brown_grey"
+        android:lineSpacingExtra="0sp"
+        tools:text="منذ دقيقة"/>
+
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/regular"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="18dp"
+        android:textAlignment="viewStart"
+        android:gravity="start"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="@id/tvName"
+        android:textSize="12.3sp"
+        android:textColor="@color/dark"
+        android:lineSpacingExtra="0.3sp"
+        tools:text="سعر نهائي هذا؟"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e4ebed"
+        android:layout_marginTop="17dp"
+        app:layout_constraintTop_toBottomOf="@id/tvComment"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

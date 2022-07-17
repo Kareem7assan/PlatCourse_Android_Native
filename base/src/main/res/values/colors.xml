@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#FA3C62</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorWhite">#fff</color>
+    <color name="red_pink">#ef3159</color>
+<!--
+
+    <color name="colorPrimary">#fff</color>
+    <color name="colorPrimaryDark">#0e251b</color>
+    <color name="colorAccent">#0e251b</color>
+-->
+
+    <!--    <color name="colorPrimary">#000</color>-->
+    <!--    <color name="colorPrimaryDark">#000</color>-->
+    <!--    <color name="colorAccent">#fff</color>-->
+    <color name="light_olive_green">#95ca52</color>
+
+    <color name="almost_black">#0e251b</color>
+    <color name="spruce">#08633c</color>
+    <color name="spruce_two">#106742</color>
+
+    <color name="cool_grey">#92a99f</color>
+    <color name="pale_grey_Three">#eef8fa</color>
+
+    <color name="booger">#8cc63f</color>
+    <color name="darkish_green">#2e7857</color>
+    <color name="dark_blue_green">#00673d</color>
+    <color name="colorHint">#0e251b</color>
+    <color name="colorHint2">#C9CAD3</color>
+    <color name="off_white">#f5ffe7</color>
+    <color name="booger_Two">#8dc73f</color>
+    <color name="light_grey">#a0a9a5</color>
+    <color name="light_grey_Two">#d2dac6</color>
+    <color name="beige">#f5faee</color>
+    <color name="ocean_green">#307c5b</color>
+    <color name="light_khaki_Two">#eaf9d6</color>
+    <color name="pale_grey">#f0f6f3</color>
+    <color name="light_sage">#f6fbee</color>
+    <color name="silver">#bbd4c9</color>
+    <color name="greyish_teal">#7f9089</color>
+    <color name="apple">#8cc63f</color>
+    <color name="egg_shell">#ecffd4</color>
+    <color name="silver_two">#b2dfcb</color>
+    <color name="steel_grey">#788781</color>
+    <color name="steel_grey_50">#50788781</color>
+    <color name="ice">#e5edea</color>
+    <color name="military_green">#527141</color>
+    <color name="shimmer_color">#dddddd</color>
+    <color name="very_light_pink">#f9f6f6</color>
+    <color name="stroke">#1708633c</color>
+    <color name="blue_grey">#7e94a5</color>
+    <color name="pinne">#446630</color>
+    <color name="almost_black_two">#172c23</color>
+    <color name="ice_two">#e9f1ed</color>
+    <color name="red_two">#ff0303</color>
+    <color name="egg_shell_three">#eaf9d6</color>
+    <color name="off_white_two">#eef0eb</color>
+    <color name="egg_shell_two">#e9f5d9</color>
+    <color name="light_teal">#adbbb5</color>
+    <color name="ice_three">#f2f7f4</color>
+    <color name="ice_four">#ebf1ef</color>
+    <color name="light_peach">#d5cfcf</color>
+    <color name="very_light_pink_two">#ebebeb</color>
+    <color name="off_white_four">#f8faf6</color>
+    <color name="pale_grey_original">#e8ebf1</color>
+    <color name="green_grey">#81847e</color>
+    <color name="tomato">#e21c1c</color>
+    <color name="color_disable_cart">#d4ddc8</color>
+    <color name="grey_green">#90a07a</color>
+    <color name="lipstick">#dc1c3b</color>
+    <color name="off_white_three">#f5f7f1</color>
+
+</resources>

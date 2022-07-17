@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_nav_graph.xml"
+    app:startDestination="@id/tweetsProfileFragment"
+
+    >
+
+    <fragment
+        android:id="@+id/tweetsProfileFragment"
+        android:name="com.platCourse.platCourseAndroid.home.profile.tweets.TweetsProfileFragment"
+        android:label="TweetsProfile"
+        tools:layout="@layout/fragment_tweets">
+    </fragment>
+    <action android:id="@+id/action_global_tweetsProfileFragment"
+        app:destination="@id/tweetsProfileFragment"/>
+
+
+    <fragment
+        android:id="@+id/tweetsRepliesFragment"
+        android:name="com.platCourse.platCourseAndroid.home.profile.replies.RepliesProfileFragment"
+        android:label="TweetsProfile"
+        tools:layout="@layout/fragment_replies">
+        <action
+            android:id="@+id/action_tweetsRepliesFragment_to_tweetsProfileFragment"
+            app:popUpTo="@id/tweetsProfileFragment" />
+    </fragment>
+
+    <action android:id="@+id/action_global_tweetsRepliesFragment"
+        app:destination="@id/tweetsRepliesFragment" />
+
+    <fragment
+        android:id="@+id/favsProfileFragment"
+        android:name="com.platCourse.platCourseAndroid.home.profile.favs.FavsProfileFragment"
+        android:label="FavsProfile"
+        tools:layout="@layout/fragment_favourites">
+        <action
+            android:id="@+id/action_favsProfileFragment_to_tweetsProfileFragment"
+            app:popUpTo="@id/tweetsProfileFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_favsProfileFragment"
+        app:destination="@id/favsProfileFragment"/>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.ad_details.AdDetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details">
+    </fragment>
+
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.platCourse.platCourseAndroid.home.report.ReportFragment"
+        android:label="ReportFragment"
+        tools:layout="@layout/fragment_report">
+    </fragment>
+    <fragment
+        android:id="@+id/hashFragment"
+        android:name="com.platCourse.platCourseAndroid.home.hash_tag.HashTagFragment"
+        android:label="HashFragment"
+        tools:layout="@layout/fragment_hash_tag">
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.platCourse.platCourseAndroid.home.chat.room.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat">
+    </fragment>
+
+
+    <action android:id="@+id/action_global_chatFragment"
+        app:destination="@id/chatFragment"/>
+    <action
+        android:id="@+id/action_global_hashFragment"
+        app:destination="@id/hashFragment"/>
+    <action android:id="@+id/action_global_detailsFragment"
+        app:destination="@id/detailsFragment"/>
+    <action android:id="@+id/action_global_favouriteFragment"
+        app:destination="@id/favouriteFragment" />
+    <action android:id="@+id/action_global_reportFragment"
+        app:destination="@id/reportFragment"/>
+
+</navigation>

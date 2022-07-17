@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/myCoursesMenuFragment"
+        android:icon="@drawable/ic_baseline_bookmark_24"
+        android:title="@string/my_courses" />
+    <item
+        android:id="@+id/coursesMenuFragment"
+        android:icon="@drawable/ic_baseline_cast_for_education_24"
+        android:title="@string/courses" />
+    <item
+        android:id="@+id/categoriesMenuFragment"
+        android:title="@string/categories"
+        android:icon="@drawable/heart"
+        />
+    <item
+        android:id="@+id/moreMenuFragment"
+        android:icon="@drawable/more_circle"
+        android:title="@string/more" />
+
+
+</menu>

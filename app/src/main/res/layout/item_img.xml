@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:layout_gravity="top"
+    android:layout_weight="1"
+    android:layout_marginStart="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small"
+    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_small"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_round_corner_img_tans_black"
+            android:elevation="@dimen/margin_normal"
+
+            />
+        <TextView
+            android:id="@+id/tvRest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/regular"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:lineSpacingExtra="8.5sp"
+            android:gravity="center_horizontal"
+            android:text="+7"
+            android:elevation="@dimen/margin_normal"
+            android:layout_gravity="center"
+            />
+        <ImageView
+            android:id="@+id/ivTweet"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:src="@mipmap/profile"
+            />
+    </FrameLayout>
+</LinearLayout>

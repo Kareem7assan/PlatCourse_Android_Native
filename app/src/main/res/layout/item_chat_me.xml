@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layoutDirection="ltr"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#30000000"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible"
+        android:layout_marginStart="17dp"
+        android:src="@mipmap/profile"
+    />
+
+
+    <TextView
+        android:id="@+id/tvSince"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/light"
+        android:lineSpacingExtra="-0.5sp"
+        android:textColor="@color/brown_grey"
+        android:textSize="11.5sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toEndOf="@id/barrier5"
+        app:layout_constraintTop_toBottomOf="@id/barrier4"
+        tools:text="منذ 180 دقيقة" />
+
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layoutDirection="rtl"
+        android:textAlignment="gravity"
+        android:gravity="left"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/bg_bank_account"
+        android:fontFamily="@font/light"
+        app:layout_constraintTop_toTopOf="@+id/ivAvatar"
+        app:layout_constraintLeft_toLeftOf="@id/ivAvatar"
+        android:lineSpacingExtra="5.5sp"
+        android:paddingTop="@dimen/margin_normal"
+        android:paddingBottom="@dimen/margin_normal"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="@color/dark"
+        android:textSize="13sp"
+        android:textStyle="normal"
+        app:layout_constrainedWidth="true"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintHorizontal_bias="0"
+        tools:text="  اخويا" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvImgs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginEnd="65dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivAvatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:spanCount="3"
+        android:visibility="gone"
+        android:layoutDirection="ltr"
+        tools:itemCount="1"
+        tools:listitem="@layout/img_chat" />
+
+    <TextView
+        android:id="@+id/tvSeen"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:background="@drawable/radio_uncheck_dot"
+        android:backgroundTint="@color/water_blue"
+        android:fontFamily="@font/medium"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tvBody"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSince"
+        app:layout_constraintTop_toTopOf="@id/tvBody" />
+
+    <View
+        android:id="@+id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#30000000"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/tvBody" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="#30000000"
+        app:layout_constraintTop_toBottomOf="@id/tvBody" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tvBody,rvImgs" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:barrierAllowsGoneWidgets="false"
+        app:constraint_referenced_ids="rvImgs,tvBody" />
+</androidx.constraintlayout.widget.ConstraintLayout>

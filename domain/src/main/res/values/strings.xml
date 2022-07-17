@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">data</string>
+
+
+    <!--esafirm imagepicker-->
+    <string name="images">Images</string>
+    <string name="choose_image">Choose Image</string>
+
+
+</resources>

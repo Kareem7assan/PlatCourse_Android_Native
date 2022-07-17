@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">base</string>
+    <string name="some_error" translatable="false">Something went wrong please try again </string>
+    <string name="you_should_login_first">Sorry,you should register first </string>
+    <string name="register">Register</string>
+    <string name="you_have_unauthorized">Your account suspended from administration contact with them</string>
+
+</resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--maintainance-->
+    <string name="app_in_maintainance">App in maintainance mode</string>
+    <string name="app_in_maintainance_msg">App currenlty in maintainance mode and we will back very soon</string>
+    <string name="retry">Retry</string>
+    <string name="close_app">Close App</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_hint">Are you sure want delete ?</string>
+    <string name="delete_address">Are you sure want delete address?</string>
+    <string name="not_login">You are not login!</string>
+    <string name="login_first">Please login first</string>
+    <string name="delete_msg">Ad will delete totally so please confirm delete ?</string>
+    <string name="login">Login</string>
+    <string name="delete_msg_fav">this ad will delete from your fav are you sure you want delete ?</string>
+    <string name="delete_msg_address">this address will delete from your addresses ?</string>
+    <string name="delete">delete</string>
+
+    <string name="connection_problem">You have a connection problem</string>
+    <string name="connection_problem_details">You have a problem connecting to the internet Try to connect again and try again</string>
+
+    <!--update-->
+    <string name="update">update</string>
+    <string name="force_update">force update</string>
+    <string name="update_msg">You should update your application to continue using it</string>
+    <string name="report_title">Report reason</string>
+    <string name="report_msg">Report message</string>
+    <string name="report">Report</string>
+    <string name="about_ad">About ad</string>
+    <string name="error_msg">message not correct</string>
+    <string name="alert">Alert</string>
+
+    <string name="cant_detect_location_hint">Cant detect your location ,
+        please active location setting
+    </string>
+    <string name="cancel_order_hint">Confirm cancel your order</string>
+    <string name="cancel_msg_order">You can cancel your order easily</string>
+    <string name="no_thanks">No thanks</string>
+    <string name="cance_order">Cancel order</string>
+    <string name="clear_cart">Clear cart</string>
+
+    <string name="replace_with_new_cart">When start another cart you will clear products from %1$s restaurant</string>
+    <string name="new_request">New request</string>
+    <string name="replace_points_money">Confirm exchange [%1$s] point with coupon value [%2$s]  valid in diet market  </string>
+    <string name="cancel_order">Cancel order</string>
+    <string name="exchange">Exchange</string>
+    <string name="confirm_replace">Confirm replace my points</string>
+    <string name="logout">Logout</string>
+    <string name="logout_msg_address">Are you sure , your cached data will be clear ?</string>
+    <string name="cant_detect_location">لم نستطيع تحديد موقعك</string>
+    <string name="active_location_service">activate location</string>
+
+</resources>

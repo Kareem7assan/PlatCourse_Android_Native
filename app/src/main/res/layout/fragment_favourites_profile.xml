@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f4f4"
+
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTweets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/searchBriefLay"
+            tools:listitem="@layout/item_tweet"
+            tools:itemCount="3"
+            app:layout_constraintBottom_toTopOf="@id/progressMore"
+
+            />
+        <ProgressBar
+            android:id="@+id/progressMore"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            android:indeterminateTint="@color/soft_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <include
+            layout="@layout/layout_progress"
+            android:id="@+id/progressLay"
+            app:layout_constraintTop_toBottomOf="@+id/nearByLay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constrainedHeight="true"
+            android:visibility="gone"
+            android:elevation="@dimen/margin_normal"
+            />
+        <include
+            layout="@layout/layout_empty"
+            android:id="@+id/emptyLay"
+            app:layout_constraintTop_toBottomOf="@+id/nearByLay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constrainedHeight="true"
+            android:visibility="gone"
+
+            />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

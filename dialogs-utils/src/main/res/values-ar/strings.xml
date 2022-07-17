@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--maintainance-->
+    <string name="app_in_maintainance">التطبيق في وضع الصيانة</string>
+    <string name="app_in_maintainance_msg">التطبيق حالياً في وضع الصيانة لكي نعود افضل
+من السابق وسيتم الانتهاء من الصيانة قريباً</string>
+    <string name="retry">اعادة المحاولة</string>
+    <string name="close_app">اغلاق التطبيق</string>
+    <string name="confirm">تأكيد</string>
+    <string name="cancel">إلغاء</string>
+    <string name="delete_hint">متاكد انك تريد حذف الاعلان؟</string>
+    <string name="not_login">انت غير مسجل دخول!</string>
+    <string name="login_first">من فضلك قم بتسجيل الدخول</string>
+    <string name="delete_msg">سيتم حذف الاعلان نهائياً اذا كنت تريد الحذف حقاً يرجي تأكيد الخذف ؟</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="delete_address">هل تريد حذف العنوان ؟</string>
+    <string name="delete_msg_address">سيتم حذف العنوان نهائياً من قائمة العناوين اذا كنت تريد الحذف حقاً يرجي تأكيد الخذف</string>
+
+    <string name="delete_msg_fav">سيتم حذف الاعلان نهائياً من المفضلة اذا كنت تريد الحذف حقاً يرجي تأكيد الخذف ؟</string>
+    <string name="delete">حذف</string>
+
+    <string name="connection_problem">لديك مشكلة في الاتصال</string>
+    <string name="connection_problem_details">لديك مشكلة في الاتصال بالانترنت حاول الاتصال مره اخري وإعادة المحاولة</string>
+    <string name="cant_detect_location_hint">لم نستطع تحديد موقعك ، يمكنك تفعيل الموقع من الاعدادات</string>
+
+    <!--update-->
+    <string name="update">تحديث</string>
+    <string name="force_update">تحديث اجباري</string>
+    <string name="update_msg">يجب تحديث النظام لتتمكن من استكمال استخدام التظبيق</string>
+    <string name="report_title">سبب الابلاغ</string>
+    <string name="report_msg">رسالة الابلاغ</string>
+    <string name="report">الابلاغ</string>
+    <string name="about_ad">عن الاعلان</string>
+    <string name="error_msg">الرسالة غير صحيحة</string>
+    <string name="alert">اعلان</string>
+    <string name="cancel_order_hint">متأكد أنك تريد أن تلغي طلبك</string>
+    <string name="cancel_msg_order">يمكنك الغاء الطلب او التراجع في عملية الغاء الطلب بسهولة</string>
+    <string name="no_thanks">لا شكراً</string>
+    <string name="cance_order">الغاء الطلب</string>
+    <string name="clear_cart">افراغ سلة المشتريات</string>
+    <string name="replace_with_new_cart"> سلة مشترياتك تحتوي علي بعض الاصناف من %1$s  هل تريد افراغ السلة و البدء من جديد؟</string>
+    <string name="new_request">طلب جديد</string>
+    <string name="replace_points_money">هل تريد تأكيد إستبدال نقاط [%1$s] التي  سيتم استبدالها مقابل كوبون تخفيض بقيمة  [%2$s ] سيكون صالح للإستخدام  في ديت ماركت.</string>
+    <string name="cancel_order">الغاء الطلب</string>
+    <string name="exchange">استبدال</string>
+    <string name="confirm_replace">تأكيد استبدال نقاطي </string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="logout_msg_address">هل تريد تأكيد تسجيل الخروج ؟</string>
+    <string name="cant_detect_location">لم نستطيع تحديد موقعك</string>
+    <string name="active_location_service">تفعيل الموقع</string>
+
+</resources>

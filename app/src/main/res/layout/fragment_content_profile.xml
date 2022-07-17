@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabProfile"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:tabIndicatorColor="@color/tea"
+        app:tabMinWidth="109dp"
+        app:tabIndicatorGravity="bottom"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabTextColor="@color/brown_grey_tab"
+        app:tabSelectedTextColor="@color/dark"
+        app:tabTextAppearance="@style/tab_text_profile"
+        app:tabIndicatorHeight="3.5dp"
+        app:tabMode="fixed"
+        />
+    <View
+        android:id="@+id/viewSep"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#30000000"
+        />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/profile_nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/main_bottom_navigation"
+        app:layout_constraintTop_toBottomOf="@id/tabProfile"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:navGraph="@navigation/profile_nav_graph" />
+</LinearLayout>

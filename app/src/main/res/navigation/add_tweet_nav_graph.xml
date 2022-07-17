@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_tweet_nav_graph.xml"
+    app:startDestination="@id/AddTweetFragment"
+    >
+    <fragment
+        android:id="@+id/AddTweetFragment"
+        android:name="com.platCourse.platCourseAndroid.home.add_ad.AddAdFragment"
+        android:label="AddAd"
+        tools:layout="@layout/fragment_add_ad">
+
+
+        <action
+            android:id="@+id/action_AddTweetFragment_to_regionsFragment"
+            app:destination="@id/regionsFragment" />
+        <action
+            android:id="@+id/action_AddTweetFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+        <action
+            android:id="@+id/action_AddTweetFragment_to_packagesFragment"
+            app:destination="@id/packagesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/packagesFragment"
+        android:name="com.platCourse.platCourseAndroid.home.add_ad.packages.PackagesFragment"
+        android:label="PackagesFragment"
+        tools:layout="@layout/fragment_packages">
+
+        <action
+            android:id="@+id/action_packagesFragment_to_paymentMethodsFragment"
+            app:destination="@id/paymentMethodsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentMethodsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.add_ad.payment_methods.PaymentMethodsFragment"
+        android:label="PaymentMethodsFragment"
+        tools:layout="@layout/fragment_payment_methods">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/regionsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.add_ad.regions.RegionsSingleFragment"
+        android:label="RegionsFragment"
+        tools:layout="@layout/fragment_regions_single">
+
+        <action
+            android:id="@+id/action_regionsFragment_to_citiesFragment"
+            app:destination="@id/citiesFragment" />
+    </fragment>
+       <fragment
+        android:id="@+id/citiesFragment"
+        android:name="com.platCourse.platCourseAndroid.home.add_ad.regions.CitiesSingleFragment"
+        android:label="CitiesFragment"
+        tools:layout="@layout/fragment_regions_single">
+           <action
+               android:id="@+id/action_citiesFragment_to_AddTweetFragment"
+               app:destination="@id/AddTweetFragment" />
+       </fragment>
+
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.platCourse.platCourseAndroid.home.add_ad.categories.CategoriesSingleFragment"
+        android:label="CategoriesFragment"
+        tools:layout="@layout/fragment_regions_single">
+
+        <action
+            android:id="@+id/action_categoriesFragment_to_subCatgeoriesFragment"
+            app:destination="@id/subCatgeoriesFragment" />
+        <action
+            android:id="@+id/action_categoriesFragment_to_AddTweetFragment"
+            app:destination="@id/AddTweetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subCatgeoriesFragment"
+        android:name="com.platCourse.platCourseAndroid.home.add_ad.categories.SubCategoriesSingleFragment"
+        android:label="SubCategoriesFragment"
+        tools:layout="@layout/fragment_regions_single">
+        <action
+            android:id="@+id/action_subCatgeoriesFragment_to_AddTweetFragment"
+            app:destination="@id/AddTweetFragment" />
+    </fragment>
+
+
+
+</navigation>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:id="@+id/scrollRoot"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right"
+            android:tint="@color/soft_green"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="71dp"
+            android:rotation="180"
+            android:padding="@dimen/margin_small"
+            />
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sales_policy_title"
+            android:textSize="20sp"
+            android:textColor="@color/dark"
+            android:fontFamily="@font/medium"
+            android:layout_marginTop="27dp"
+            android:layout_marginStart="26dp"
+            />
+        <WebView
+            android:id="@+id/tvTerms"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="26dp"
+            android:layout_marginEnd="26dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginBottom="33dp"
+            android:textAlignment="viewStart"
+            android:textSize="14.8sp"
+            android:textColor="@color/charcoal_grey"
+            android:gravity="start"
+            />
+    </LinearLayout>
+</ScrollView>

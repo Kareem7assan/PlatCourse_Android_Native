@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top|center_horizontal"
+    android:layout_weight="1"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="@dimen/margin_small"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/frameImgLay"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="@dimen/margin_small"
+        app:strokeColor="@color/soft_green"
+        app:strokeWidth="1dp"
+        app:cardElevation="0dp"
+        android:background="@drawable/stroke_bg_selected"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <ImageView
+            android:id="@+id/ivTweet"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@mipmap/profile"
+            android:layout_gravity="bottom"
+            />
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

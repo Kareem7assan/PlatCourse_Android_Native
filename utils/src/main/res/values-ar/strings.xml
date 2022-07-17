@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="am">ص</string>
+    <string name="pm">م</string>
+    <string name="from">من</string>
+    <string name="to">ل</string>
+    <string name="background_location_permission_title">تصريح لاستخدام الموقع</string>
+    <string name="background_location_permission_message">من فضلك قم باختيار السماح طوال الوقت لتصريح الموقع لكي نستطيع تحديد موقعك بشكل افضل للتواصل معك و تحسين استقبال الطلبات بالقرب منك</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="delete_notif">حذف</string>
+
+</resources>

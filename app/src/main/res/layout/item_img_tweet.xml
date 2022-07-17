@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="82dp"
+    android:layout_height="82dp"
+    android:layout_gravity="top"
+    android:layout_weight="1"
+    android:layout_marginStart="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardCornerRadius="7.5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/ivTweet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/profile"
+            android:scaleType="fitXY"
+            />
+        <ImageView
+            android:id="@+id/ivTrash"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/trash_delete"
+            android:background="@drawable/custom_oval_white"
+            android:padding="@dimen/margin_normal"
+            android:layout_gravity="center"
+            android:tint="#ff0000"
+            />
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

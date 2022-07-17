@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layout_base_view"
+        tools:context=".BaseActivity"
+        tools:showIn="@layout/activity_base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:gravity="center">
+
+    <include
+        android:id="@+id/layout_base_progress"
+        layout="@layout/progress_dialog"
+
+        />
+    RelativeLayout
+        android:id="@+id/progressL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        >
+
+
+        ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/azure"
+            android:indeterminateTint="@color/red_pink"
+            />
+    /RelativeLayout>
+
+
+
+        <include layout="@layout/layout_error"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#fff</color>
+    <color name="red">#bc1515</color>
+    <color name="transparent">#00000000</color>
+    <color name="turquoise_blue">#00B2D8</color>
+    <color name="deep_blue">#020887</color>
+    <color name="grey_900">#1B1A18</color>
+    <color name="almost_black">#0e251b</color>
+    <color name="booger_Two">#8dc73f</color>
+    <color name="red_pink">#ef2d56</color>
+    <color name="maize">#fdca40</color>
+    <color name="dimed_pink">#f4d6e0</color>
+    <color name="light_blue_grey">#b6b7b7</color>
+    <color name="semi_white">#f6f6f6</color>
+    <color name="pale_grey">#fffaff</color>
+    <color name="putty_text">#acaaa7</color>
+    <color name="dark_green_blue">#1d765d</color>
+    <color name="light_green_blue">#E61d765d</color>
+
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="black_bg">#141414</color>
+    <color name="shimmer_color">#dddddd</color>
+    <color name="dark_indigo">#0b0d39</color>
+    <color name="very_light_pink">#efeded</color>
+    <color name="red_a400">#e61010</color>
+    <color name="navy">#051e42</color>
+    <color name="spruce">#08633c</color>
+    <color name="tea">#62c196</color>
+    <color name="pale">#e5e1e1</color>
+    <color name="beig">#c9c8c6</color>
+    <color name="light_peach">#dfdddd</color>
+    <color name="pinkish_red">#f01f4a</color>
+    <color name="meduim_green">#329f51</color>
+    <color name="cherry">#d10c23</color>
+
+
+
+</resources>

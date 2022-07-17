@@ -1,0 +1,184 @@
+package com.platCourse.platCourseAndroid.menu
+
+import com.rowaad.app.base.BaseViewModel
+import com.rowaad.app.data.model.Menu
+import com.rowaad.app.data.model.MenuModel
+import com.rowaad.app.data.model.notification_model.NotificationItem
+import com.rowaad.app.data.remote.NetWorkState
+import com.rowaad.app.usecase.handleException
+import com.rowaad.app.usecase.menu.MenuUseCase
+import com.platCourse.platCourseAndroid.R
+import com.platCourse.platCourseAndroid.auth.register.RegisterViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import okhttp3.MultipartBody
+import javax.inject.Inject
+
+
+@HiltViewModel
+open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCase
+) : BaseViewModel(){
+
+
+
+    private val _userFlow= MutableSharedFlow<NetWorkState>()
+    val userFlow= _userFlow.asSharedFlow()
+
+    private val _contactsFlow= MutableSharedFlow<NetWorkState>()
+    val contactsFlow= _contactsFlow.asSharedFlow()
+
+    private val _myProfileFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+    val myProfileFlow = _myProfileFlow.asStateFlow()
+
+    private val _editProfileFlow= MutableSharedFlow<NetWorkState>()
+    val editProfileFlow= _editProfileFlow.asSharedFlow()
+
+
+    private val _contactsPostFlow= MutableSharedFlow<NetWorkState>()
+    val contactsPostFlow= _contactsPostFlow.asSharedFlow()
+
+    private val _settingsFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+    val settingsFlow= _settingsFlow.asSharedFlow()
+
+    private val _isValidNameFlow= MutableStateFlow<RegisterViewModel.Validation>(RegisterViewModel.Validation.Idle)
+    val isValidNameFlow= _isValidNameFlow.asSharedFlow()
+
+    private val _isValidEmailFlow= MutableStateFlow<RegisterViewModel.Validation>(RegisterViewModel.Validation.Idle)
+    val isValidEmailFlow= _isValidEmailFlow.asSharedFlow()
+
+    private val _isValidTitleFlow= MutableStateFlow<RegisterViewModel.Validation>(RegisterViewModel.Validation.Idle)
+    val isValidTitleFlow= _isValidTitleFlow.asSharedFlow()
+
+    private val _isValidBodyFlow= MutableStateFlow<RegisterViewModel.Validation>(RegisterViewModel.Validation.Idle)
+    val isValidBodyFlow= _isValidBodyFlow.asSharedFlow()
+
+    var pageNotificationNum=0
+
+    fun getUser()=menuUseCase.getUser()
+    val isVisitor=menuUseCase.isLogin.not()
+
+
+    fun getListMenu():MutableList<MenuModel>{
+        return if (menuUseCase.isLogin){
+            mutableListOf(
+                MenuModel(name = R.string.profile,resImg = R.drawable.profile,menuItem = Menu.PROFILE),
+                MenuModel(name = R.string.change_password,resImg = R.drawable.edit,menuItem = Menu.CHANGE_PASSWORD),
+                MenuModel(name = R.string.packages,resImg = R.drawable.chart,menuItem = Menu.PACKAGES),
+                MenuModel(name = R.string.contact_us,resImg = R.drawable.message,menuItem = Menu.CONTACT_US),
+                MenuModel(name = R.string.commission,resImg = R.drawable.wallet,menuItem = Menu.COMMISSION),
+                MenuModel(name = R.string.about_us,resImg = R.drawable.document,menuItem = Menu.ABOUT_US),
+                MenuModel(name = R.string.terms_menu,resImg = R.drawable.folder,menuItem = Menu.TERMS),
+                MenuModel(name = R.string.sales_policy_menu,resImg = R.drawable.graph,menuItem = Menu.PRIVACY_SALES),
+                MenuModel(name = R.string.logout,resImg = R.drawable.logout,menuItem = Menu.LOGOUT),
+
+                )
+        }
+        else{
+            mutableListOf(
+                MenuModel(name = R.string.login_register,resImg = R.drawable.profile,menuItem = Menu.LOGIN),
+                MenuModel(name = R.string.contact_us,resImg = R.drawable.message,menuItem = Menu.CONTACT_US),
+                //MenuModel(name = R.string.commission,resImg = R.drawable.wallet,menuItem = Menu.COMMISSION),
+                MenuModel(name = R.string.about_us,resImg = R.drawable.document,menuItem = Menu.ABOUT_US),
+                MenuModel(name = R.string.terms_menu,resImg = R.drawable.folder,menuItem = Menu.TERMS),
+                MenuModel(name = R.string.sales_policy_menu,resImg = R.drawable.graph,menuItem = Menu.PRIVACY_SALES)
+
+                )
+        }
+
+    }
+
+
+
+    fun contactUsContacts(){
+        executeSharedApi(_contactsFlow){
+            menuUseCase.contactUsContacts()
+                    .onStart { _contactsFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _contactsFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _contactsFlow.emit(NetWorkState.Error(it)) }
+                    .collectLatest {  _contactsFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+    fun myProfile(){
+        executeSharedApi(_myProfileFlow){
+            menuUseCase.myProfile()
+                    .onStart { _myProfileFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _myProfileFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _myProfileFlow.emit(NetWorkState.Error(it)) }
+                    .collectLatest {  _myProfileFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+
+    fun editProfile(name:String, phone:String, email: String, bio:String?=null, userName:String?=null,
+                    cover: MultipartBody.Part?=null, avatar: MultipartBody.Part?=null,){
+        if (menuUseCase.validateEditProfile(name,phone,email)) {
+            executeSharedApi(_editProfileFlow) {
+                menuUseCase.editProfile(name, phone, email, bio, userName, cover, avatar)
+                        .onStart { _editProfileFlow.emit(NetWorkState.Loading) }
+                        .onCompletion { _editProfileFlow.emit(NetWorkState.StopLoading) }
+                        .catch { _editProfileFlow.emit(NetWorkState.Error(it)) }
+                        .collectLatest { _editProfileFlow.emit(NetWorkState.Success(it)) }
+            }
+        }
+    }
+
+
+    fun contactUsPost(name: String,email: String,subject:String,msg:String){
+        executeSharedApi(_contactsPostFlow){
+            menuUseCase.contactUsPost(name = name, email = email, subject = subject, msg = msg)
+                    .onStart { _contactsPostFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _contactsPostFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _contactsPostFlow.emit(NetWorkState.Error(it)) }
+                    .collectLatest {  _contactsPostFlow.emit(NetWorkState.Success(it))  }
+        }
+    }
+
+    fun logout(){
+        executeSharedApi(_userFlow){
+            menuUseCase.logout()
+                    .onStart { _userFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _userFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _userFlow.emit(NetWorkState.Error(it)) }
+                    .collectLatest { menuUseCase.clearPrefs().also { _userFlow.emit(NetWorkState.Success(it)) } }
+        }
+    }
+
+    private val _notificationFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+    val notificationFlow= _notificationFlow.asStateFlow()
+
+    private val _notificationRemoveFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+    val notificationRemoveFlow= _notificationRemoveFlow.asStateFlow()
+
+
+    fun showNotifications(page:Int){
+        executeApi(_notificationFlow){
+            menuUseCase.notifications(page)
+                    .onStart { _notificationFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _notificationFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _notificationFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collect {resp-> _notificationFlow.emit(NetWorkState.Success(resp))}
+        }
+    }
+
+    fun deleteNotification(notificationId:Int){
+        executeApi(_notificationRemoveFlow){
+            menuUseCase.deleteNotification(notificationId)
+                    .catch { _notificationRemoveFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collect()
+        }
+    }
+
+    fun isValidMailFlow(email: String){
+        _isValidEmailFlow.value=(RegisterViewModel.Validation.IsValid(menuUseCase.isValidMail(email)))
+    }
+    fun isValidNameFlow(name: String){
+        _isValidNameFlow.value=(RegisterViewModel.Validation.IsValid(menuUseCase.isValidName(name)))
+    }
+    fun isValidTitleFlow(title: String){
+        _isValidTitleFlow.value=(RegisterViewModel.Validation.IsValid(menuUseCase.isValidTitle(title)))
+    }
+    fun isValidBodyFlow(body: String){
+        _isValidBodyFlow.value=(RegisterViewModel.Validation.IsValid(menuUseCase.isValidBody(body)))
+    }
+
+
+}

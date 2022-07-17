@@ -1,0 +1,179 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/light_green_blue</item>
+        <item name="colorPrimaryDark">@color/semi_white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/light_grey</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+
+    </style>
+
+
+
+    <style name="FullScreen" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+
+    <style name="Widget.App.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    </style>
+
+
+    <style name="ThemeOverlay.App.RadioButton" parent="">
+        <item name="colorOnSurface">@color/light_grey</item>
+        <item name="colorSecondary">@color/light_grey</item>
+    </style>
+
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/meduim</item>
+    </style>
+
+    <style name="MyButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/meduim</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="backgroundTint">@color/spruce</item>
+        <item name="cornerRadius">32dp</item>
+    </style>
+    <style name="MyButtonGreenStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/meduim</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="backgroundTint">@color/light_olive_green</item>
+        <item name="cornerRadius">32dp</item>
+    </style>
+
+    <style name="MyButtonGreyishStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/meduim</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="backgroundTint">@color/greyish_teal</item>
+        <item name="cornerRadius">32dp</item>
+    </style>
+
+    <style name="MyButtonWithStrokeStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:fontFamily">@font/meduim</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/darkish_green</item>
+        <item name="backgroundTint">@color/colorWhite</item>
+        <item name="strokeColor">@color/spruce</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="cornerRadius">32dp</item>
+    </style>
+
+    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
+        <!-- reference our hint & error styles -->
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorHint2</item>
+        <item name="colorControlNormal">@color/colorHint2</item>
+        <item name="colorControlActivated">@color/colorHint2</item>
+        <item name="colorControlHighlight">@color/colorHint2</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="HintTextInputLayoutAppearance" parent="TextAppearance.Design.Hint">
+        <!-- reference our hint & error styles -->
+        <item name="android:fontFamily">@font/light</item>
+
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/light</item>
+        <item name="android:fontFamily">@font/light</item>
+    </style>
+
+    style name="TextLabel" parent="TextAppearance.AppCompat">
+    <!-- Hint color and label color in FALSE state -->
+
+    <style name="TextInputLayoutHintText">
+        <item name="android:textColor">@color/colorHint2</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <style name="Widget.App.TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+        <item name="hintTextColor">@color/almost_black</item>
+        <item name="android:textColorHint">@color/almost_black</item>
+    </style>
+
+    <style name="Widget.App.TextInputLayout2" parent="Widget.Design.TextInputLayout">
+    </style>
+
+    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+        <item name="colorControlNormal">@color/colorHint2</item>
+        <item name="colorControlActivated">@color/colorHint2</item>
+        <item name="colorControlHighlight">@color/colorHint2</item>
+    </style>
+
+
+
+
+    <!-- change bottom navigation text font -->
+    <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/light</item>
+    </style>
+    deviceId: 57ae34ef-4429-45b0-ac02-5d888f0c05b0
+    token: key DSFBNHJM891543EDVBNCNKIU65
+
+    <!-- change bottom navigation text font  when Active-->
+    <style name="Widget.BottomNavigationViewActive" parent="Widget.Design.BottomNavigationView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/medium</item>
+    </style>
+
+
+    <!--  Edittext Suffix Style    -->
+    <style name="pre_suffixStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="MyBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/MYBottomSheetStyle</item>
+    </style>
+    <style name="MYBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+</resources>

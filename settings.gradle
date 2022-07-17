@@ -1,0 +1,8 @@
+include ':base'
+include ':dialogs-utils'
+include ':utils'
+include ':di'
+include ':domain'
+include ':data'
+include ':app'
+rootProject.name = "PlatCourse Android"

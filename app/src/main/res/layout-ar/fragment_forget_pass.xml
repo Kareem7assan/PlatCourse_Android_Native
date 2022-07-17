@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right"
+            android:tint="@color/soft_green"
+            android:layout_marginTop="71dp"
+            android:layout_marginStart="-8dp"
+            android:rotation="180"
+            app:layout_constraintStart_toStartOf="@id/startGuide"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recovery_password"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/ivBack"
+            app:layout_constraintStart_toStartOf="@id/startGuide"
+            android:layout_marginTop="27dp"
+            android:textColor="@color/dark"
+            android:fontFamily="@font/medium"
+            />
+
+        <TextView
+            android:id="@+id/tvSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/light"
+            android:textStyle="normal"
+            android:textSize="15.5sp"
+            android:textColor="@color/greyish_brown"
+            android:lineSpacingExtra="6.8sp"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="@id/startGuide"
+            android:text="@string/add_email_hint"
+            android:layout_marginTop="13.5dp"
+            />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="13.5dp"
+            android:fontFamily="@font/regular"
+            android:lineSpacingExtra="25sp"
+            android:text="@string/email"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:textColor="@color/dark_indigo"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/startGuide"
+            app:layout_constraintTop_toBottomOf="@id/tvSubTitle"
+
+            />
+
+        <ImageView
+            android:id="@+id/ivMarkEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="3dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tvEmail"
+            app:layout_constraintStart_toEndOf="@id/tvEmail"
+            app:layout_constraintTop_toTopOf="@id/tvEmail" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="19dp"
+            android:fontFamily="@font/medium"
+            android:gravity="center_vertical"
+            android:background="@drawable/border_white"
+            android:hint="@string/enter_email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:minHeight="41dp"
+            android:paddingStart="13.5dp"
+            android:paddingEnd="@dimen/margin_large"
+            android:textAlignment="gravity"
+            android:textColor="@color/black"
+            android:textSize="13.5sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/startGuide"
+            app:layout_constraintTop_toBottomOf="@id/tvEmail"
+            />
+
+        <TextView
+            android:id="@+id/tvErrorMail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:fontFamily="@font/regular"
+            android:text="@string/check_email"
+            android:textColor="@color/red_pink"
+            android:layout_marginBottom="13dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@id/etEmail"
+            app:layout_constraintTop_toBottomOf="@id/etEmail"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/completeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:layout_marginEnd="19dp"
+            android:layout_marginBottom="9dp"
+            android:background="@drawable/grad_background_btn"
+            android:backgroundTint="@null"
+            android:fontFamily="@font/medium"
+            android:layout_marginTop="@dimen/margin_normal"
+
+            android:minHeight="44dp"
+            android:text="@string/complete"
+            android:textColor="@color/white"
+            app:backgroundTint="@null"
+            app:layout_constraintTop_toBottomOf="@id/tvErrorMail" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="18.5dp"
+            />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="18.5dp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

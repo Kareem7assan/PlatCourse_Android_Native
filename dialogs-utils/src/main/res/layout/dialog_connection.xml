@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_gradient"
+    android:layout_margin="16dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="8dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:fontFamily="@font/bold"
+            android:layout_gravity="start"
+            android:text="@string/cant_detect_location"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/bold"
+            android:text="@string/cant_detect_location_hint"
+            android:textColor="@color/white"
+            android:lineSpacingExtra="6.5sp"
+            android:textSize="14sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/active_location_btn"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:fontFamily="@font/bold"
+            android:text="@string/active_location_service"
+            android:layout_margin="8dp"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</LinearLayout>

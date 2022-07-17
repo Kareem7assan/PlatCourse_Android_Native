@@ -1,0 +1,100 @@
+import deps.Config
+import deps.Deps
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+
+
+
+}
+
+android {
+    compileSdkVersion Config.compileSdk
+    buildToolsVersion Config.buildToolsSdk
+
+
+    defaultConfig {
+        minSdkVersion Config.minsdk
+        targetSdkVersion Config.targetsdk
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kapt {
+        correctErrorTypes = true
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation project(path: ':data')
+
+    implementation Deps.kotlin.stdLib
+    //hilt
+    implementation Deps.dagger_hilt.hilt
+    kapt Deps.dagger_hilt.hilt_compiler
+
+
+    //room
+    implementation Deps.jetpack.room
+    implementation Deps.jetpack.roomKtx
+    kapt Deps.jetpack.compilerRoom
+
+    //retrofit
+    implementation Deps.retrofit.retrofit_lib
+    implementation Deps.retrofit.gson
+    implementation Deps.retrofit.okHttp
+
+    //anko
+    implementation Deps.anko.anko
+
+    //ktx
+    implementation Deps.ktx.ktx
+    implementation Deps.ktx.ktx_activity
+
+    //coroutines
+    implementation Deps.coroutines.core
+    implementation Deps.coroutines.android
+    implementation Deps.jetpack.lifeCycle
+
+
+    //unit test
+    testImplementation Deps.test.junit
+    testImplementation Deps.test.mockito
+    testImplementation Deps.test.mockitoKotlin
+    testImplementation Deps.test.archTest
+    testImplementation Deps.test.truthTest
+    testImplementation Deps.test.testCoroutine
+    testImplementation Deps.test.turbine
+    testImplementation Deps.test.mockitoInline
+    testImplementation Deps.jetpack.testRoom
+
+    androidTestImplementation Deps.test.testRules
+    androidTestImplementation Deps.test.hamCrest
+    androidTestImplementation Deps.test.espresso
+    androidTestImplementation Deps.test.uIAutomator
+    androidTestImplementation Deps.test.junitAndroid
+    androidTestImplementation Deps.test.truthTest
+
+
+}
