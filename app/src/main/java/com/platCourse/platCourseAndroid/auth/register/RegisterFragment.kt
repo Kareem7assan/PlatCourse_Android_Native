@@ -13,14 +13,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
-import com.rowaad.app.data.model.TweetAdModel
-import com.rowaad.app.data.model.tweets_model.TweetsModel
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentRegisterBinding
 import com.platCourse.platCourseAndroid.home.HomeActivity
-import com.platCourse.platCourseAndroid.home.add_ad.AddAdActivity
-import com.platCourse.platCourseAndroid.home.add_ad.AddAdFragment
-import com.platCourse.platCourseAndroid.home.add_ad.viewmodel.AddAdViewModel
 import com.rowaad.utils.extention.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -30,7 +25,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     private val binding by viewBinding<FragmentRegisterBinding>()
     private val viewModel: RegisterViewModel by viewModels()
-    private val addViewModel: AddAdViewModel by activityViewModels()
+    //private val addViewModel: AddAdViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -211,10 +206,6 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     }
 
     private fun navigateToActivation() {
-        if ((arguments?.getSerializable("fromTweet") as TweetAdModel?)!= null) AddAdFragment.navigateToAddTweet(requireContext(),
-            (arguments?.getSerializable("fromTweet") as TweetAdModel?)!!
-        ).also { Log.e("data_to_tweet",(arguments?.getSerializable("fromTweet") as TweetAdModel?)!!.imgsModel.map { it.part?.body }.toString() )}
-        else requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
 
     }
 

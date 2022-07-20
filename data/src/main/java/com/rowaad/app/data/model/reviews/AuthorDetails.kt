@@ -1,4 +1,4 @@
-package com.kareem.dietDelivery.data.model.reviews
+package com.rowaad.app.data.model.reviews
 
 data class AuthorDetails(
     var avatar_path: String? = null,

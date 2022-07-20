@@ -1,11 +1,9 @@
 package com.rowaad.app.usecase.menu
 
 import com.rowaad.app.data.model.UserModel
-import com.rowaad.app.data.model.my_subscription.MySubscriptionModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
-import com.rowaad.app.data.model.tweets_model.PaginationInfo
 import com.rowaad.app.data.repository.base.BaseRepository
 import com.rowaad.app.data.repository.menu.MenuRepository
 import com.rowaad.app.data.repository.user.AuthRepository
@@ -52,17 +50,12 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
     }
 
     //notifications
-    suspend fun notifications(page: Int): Flow<Pair<List<NotificationItem>, PaginationInfo>> {
+    suspend fun notifications(page: Int): Flow<List<NotificationItem>> {
         return menuRepository.notifications(page = page)
-                .transformResponseData { emit(Pair(it.records,it.paginationInfo!!)) }
+                .transformResponseData { emit(it.records) }
     }
 
-    //subscriptions
-    suspend fun subscriptions(): Flow<MySubscriptionModel> {
-        return menuRepository.mySubscriptions()
-                .transformResponseData {
-                    emit(it) }
-    }
+
 
     //notifications
     suspend fun deleteNotification(id:Int): Flow<Any> {

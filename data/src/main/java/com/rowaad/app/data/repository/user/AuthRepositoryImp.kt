@@ -3,10 +3,8 @@ package com.rowaad.app.data.repository.user
 import com.rowaad.app.data.cache.PreferencesGateway
 import com.rowaad.app.data.model.BaseResponse
 import com.rowaad.app.data.model.EndPointResponse
-import com.rowaad.app.data.model.bank_accounts_model.BankAccountsModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
-import com.rowaad.app.data.model.tweets_model.TweetsModel
 import com.rowaad.app.data.remote.UserApi
 import com.rowaad.app.data.repository.base.BaseRepository
 import com.rowaad.app.data.repository.base.BaseRepositoryImpl
@@ -80,20 +78,6 @@ class AuthRepositoryImp @Inject constructor(
         code: String?
     ): Flow<Response<EndPointResponse<RegisterModel>>> {
         return flow { emit(api.resetPassword(password = password,password_confirmation = password,email = email,code = code)) }
-    }
-
-    override fun bankAccounts(): Flow<Response<EndPointResponse<BankAccountsModel>>> {
-        return flow { emit(api.bankAccounts()) }
-    }
-
-    override fun myTweets(): Flow<Response<EndPointResponse<TweetsModel>>> {
-        return flow { emit(api.myTweets()) }
-    }
-
-    override fun bankTransfer(transName: String, description: String?, paidMoney: String, bankAccount: String, tweetId: String?, img: MultipartBody.Part?, transferDate: String?): Flow<Response<EndPointResponse<Any>>> {
-        return if (img!=null)flow { emit(api.bankTransfer(transName = transName,note =  description,paidMoney =  paidMoney,bankAccount =  bankAccount,tweetId =  tweetId,img =  img,transferDate =  transferDate)) }
-               else flow { emit(api.bankTransfer(transName = transName,note =  description,paidMoney =  paidMoney,bankAccount =  bankAccount,tweetId =  tweetId,transferDate =  transferDate)) }
-
     }
 
 

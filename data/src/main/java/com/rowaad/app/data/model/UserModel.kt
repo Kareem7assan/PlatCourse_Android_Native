@@ -1,8 +1,6 @@
 package com.rowaad.app.data.model
 
 import com.google.gson.annotations.SerializedName
-import com.rowaad.app.data.model.orders.OrderItem
-import com.rowaad.app.data.model.reasons_model.*
 
 
 data class UserModel(

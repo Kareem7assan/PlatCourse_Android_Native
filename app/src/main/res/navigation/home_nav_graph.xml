@@ -3,22 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_graph.xml"
-    app:startDestination="@id/myCoursesMenuFragment"
+    app:startDestination="@id/coursesFragment"
     >
     <fragment
-        android:id="@+id/myCoursesMenuFragment"
+        android:id="@+id/myCoursesFragment"
         android:name="com.platCourse.platCourseAndroid.home.my_courses.MyCoursesFragment"
         android:label="MyCoursesFragment"
         tools:layout="@layout/fragment_my_courses">
     </fragment>
     <fragment
         android:id="@+id/coursesFragment"
-        android:name="com.platCourse.platCourseAndroid.home.courses.CoursesFragment"
+        android:name="com.platCourse.platCourseAndroid.home.home.CoursesFragment"
         android:label="CoursesFragment"
         tools:layout="@layout/fragment_courses">
     </fragment>
 
-    <action android:id="@+id/action_global_myCoursesMenuFragment" app:destination="@id/myCoursesMenuFragment"/>
-    <action android:id="@+id/action_global_coursesFragment" app:destination="@id/coursesFragment"/>
+    <action android:id="@+id/action_global_coursesFragment" app:destination="@id/coursesFragment"/><action android:id="@+id/action_global_myCoursesFragment" app:destination="@id/myCoursesFragment"/>
 
 </navigation>

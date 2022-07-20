@@ -4,16 +4,9 @@ import com.rowaad.app.data.cache.PreferencesGateway
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.WalletModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
-import com.rowaad.app.data.model.history_model.HistoryModel
-import com.rowaad.app.data.model.map_location_model.MapLocationModel
-import com.rowaad.app.data.model.my_subscription.MySubscriptionModel
 import com.rowaad.app.data.model.notification_model.NotificationModel
-import com.rowaad.app.data.model.orders.OrdersModel
-import com.rowaad.app.data.model.reasons_model.ReasonsModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
-import com.rowaad.app.data.model.single_order.SingleOrderModel
-import com.rowaad.app.data.model.tweets_model.TweetsModel
 import com.rowaad.app.data.remote.UserApi
 import com.rowaad.app.data.repository.base.BaseRepository
 import com.rowaad.app.data.repository.base.BaseRepositoryImpl
@@ -37,10 +30,6 @@ class MenuRepositoryImp @Inject constructor(
 
     override fun deleteNotification(id: Int): Flow<Response<EndPointResponse<Any>>> {
         return flow { emit(api.removeNotification(id.toString())) }
-    }
-
-    override fun mySubscriptions(): Flow<Response<EndPointResponse<MySubscriptionModel>>> {
-        return flow { emit(api.mySubscriptions()) }
     }
 
     override fun contactUs(): Flow<Response<EndPointResponse<ContactUsModel>>> {
@@ -82,14 +71,6 @@ class MenuRepositoryImp @Inject constructor(
 
     override fun follow(customerId: String): Flow<Response<EndPointResponse<Any>>> {
         return flow { emit(api.follow(customerId)) }
-    }
-
-    override fun tweetsReplies(customerId: String,page: Int): Flow<Response<EndPointResponse<TweetsModel>>> {
-        return flow { emit(api.tweetsReplies(customerId,page)) }
-    }
-
-    override fun userTweets(customerId: String,page: Int): Flow<Response<EndPointResponse<TweetsModel>>> {
-        return flow { emit(api.userTweets(customerId,page)) }
     }
 
     override fun getNotifications(page: Int): Flow<Response<EndPointResponse<NotificationModel>>> {

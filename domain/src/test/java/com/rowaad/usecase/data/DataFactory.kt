@@ -2,8 +2,8 @@ package com.rowaad.usecase.data
 
 import com.kareem.dietDelivery.data.model.movies_model.Movie
 import com.kareem.dietDelivery.data.model.movies_model.MoviesModel
-import com.kareem.dietDelivery.data.model.reviews.Review
-import com.kareem.dietDelivery.data.model.reviews.ReviewsModel
+import com.rowaad.app.data.model.reviews.Review
+import com.rowaad.app.data.model.reviews.ReviewsModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody

@@ -1,13 +1,10 @@
 package com.rowaad.app.data.model
 
-import com.rowaad.app.data.model.orders.PaymentMethodInfo
-import com.rowaad.app.data.model.tweets_model.PaginationInfo
 
 data class WalletModel(
         val records:List<WalletItem>?=null,
         val walletBalance:Float?=0f,
         val walletBalanceText:String?=null,
-        val paginationInfo: PaginationInfo?=null,
         val deliveryMen:UserModel?=null
 )
 
@@ -30,7 +27,9 @@ data class WalletItem(
     val image:String?=null,
     val commissionDiteMarketText:String?=null,
     val totalAmountOrderText:String?=null,
+/*
     val paymentMethodInfo:PaymentMethodInfo?=null,
+*/
 
 
 )

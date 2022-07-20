@@ -1,4 +1,4 @@
-package com.plat.platCourse.app
+package com.platCourse.platCourseAndroid.app
 
 import android.util.Log
 import com.rowaad.app.base.BuildConfig

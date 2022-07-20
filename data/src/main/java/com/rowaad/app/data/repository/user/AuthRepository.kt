@@ -3,10 +3,8 @@ package com.rowaad.app.data.repository.user
 import com.rowaad.app.data.model.BaseResponse
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.UserModel
-import com.rowaad.app.data.model.bank_accounts_model.BankAccountsModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
-import com.rowaad.app.data.model.tweets_model.TweetsModel
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -26,14 +24,6 @@ interface AuthRepository{
     fun verify(verificationCode:String, email: String, type:String?="register"): Flow<Response<EndPointResponse<RegisterModel>>>
     fun resend(email:String, type:String?="register"): Flow<Response<EndPointResponse<RegisterModel>>>
     fun resetPassword(password:String, email:String,code:String?="0"): Flow<Response<EndPointResponse<RegisterModel>>>
-    fun bankAccounts(): Flow<Response<EndPointResponse<BankAccountsModel>>>
-    fun myTweets(): Flow<Response<EndPointResponse<TweetsModel>>>
-    fun bankTransfer(
-            transName:String, description:String?=null,
-            paidMoney:String, bankAccount:String,
-            tweetId:String?=null, img: MultipartBody.Part?=null,
-            transferDate:String?=null,
-    ): Flow<Response<EndPointResponse<Any>>>
 
 
     fun register(

@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.PlatCourse" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimaryVariant">@color/dark_green_blue</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/white</item>
 
-        <item name="colorPrimary">@color/green_apple</item> // Activated State
+        <item name="colorPrimary">@color/red_pink</item> // Activated State
         <item name="colorOnSurface">@color/radio_color</item> // Normal State
 
         <!-- Secondary brand color. -->

@@ -14,11 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentLoginBinding
 import com.platCourse.platCourseAndroid.home.HomeActivity
-import com.platCourse.platCourseAndroid.home.add_ad.AddAdFragment
-import com.platCourse.platCourseAndroid.home.add_ad.viewmodel.AddAdViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
-import com.rowaad.app.data.model.TweetAdModel
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.remote.NetWorkState
 import com.rowaad.utils.extention.getContent
@@ -30,7 +27,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
-    private val addViewModel: AddAdViewModel by activityViewModels()
     private val binding by viewBinding<FragmentLoginBinding>()
     private val viewModel: LoginViewModel by viewModels()
 
@@ -130,10 +126,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     private fun handleNavigation(userModel: UserModel) {
 
-        if ((arguments?.getSerializable("fromTweet") as TweetAdModel?)!= null) AddAdFragment.navigateToAddTweet(requireContext(),
-            (arguments?.getSerializable("fromTweet") as TweetAdModel?)!!
-        ).also { Log.e("data_to_tweet",(arguments?.getSerializable("fromTweet") as TweetAdModel?)!!.imgsModel.map { it.part?.body }.toString() )}
-        else requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
+         requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
 
     }
 

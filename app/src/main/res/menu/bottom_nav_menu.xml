@@ -2,15 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/coursesMenuFragment"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/home" />
 
     <item
         android:id="@+id/myCoursesMenuFragment"
         android:icon="@drawable/ic_baseline_bookmark_24"
         android:title="@string/my_courses" />
-    <item
-        android:id="@+id/coursesMenuFragment"
-        android:icon="@drawable/ic_baseline_cast_for_education_24"
-        android:title="@string/courses" />
     <item
         android:id="@+id/categoriesMenuFragment"
         android:title="@string/categories"

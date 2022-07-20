@@ -3,9 +3,9 @@ package com.rowaad.app.data.utils
 
 object Constants_Api {
 
-    var VARIANT_URL = "https://pub.rh.net.sa/taghareed/backend/main/public/api/"
+    var VARIANT_URL = "https://platcourse.com/api/"
 
-    const val BASE_TOKEN = "Bearer HJGFGDHFGJCHXGFDGHFHFXDFSHJFJKGKGHH"
+    const val BASE_TOKEN = ""
 
 object CODES{
     const val CAM_CODE=100

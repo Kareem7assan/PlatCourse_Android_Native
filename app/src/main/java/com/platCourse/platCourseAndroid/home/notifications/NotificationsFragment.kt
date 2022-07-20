@@ -1,32 +1,19 @@
 package com.platCourse.platCourseAndroid.home.notifications
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.platCourse.platCourseAndroid.R
+import com.platCourse.platCourseAndroid.databinding.FragmentNotificationsBinding
+import com.platCourse.platCourseAndroid.home.notifications.adapter.NotificationsAdapter
+import com.platCourse.platCourseAndroid.menu.MenuViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
-import com.rowaad.app.data.model.chanel_model.RoomChat
-import com.rowaad.app.data.model.chanel_model.TweetIds
 import com.rowaad.app.data.model.notification_model.NotificationItem
-import com.rowaad.app.data.model.tweets_model.PaginationInfo
-import com.rowaad.app.data.model.tweets_model.Tweets
-import com.platCourse.platCourseAndroid.R
-import com.platCourse.platCourseAndroid.databinding.FragmentFavouritesBinding
-import com.platCourse.platCourseAndroid.databinding.FragmentNotificationsBinding
-import com.platCourse.platCourseAndroid.home.favourites.viewmodel.FavouriteViewModel
-import com.platCourse.platCourseAndroid.home.notifications.adapter.NotificationsAdapter
-import com.platCourse.platCourseAndroid.home.time_line.adapter.TweetAdapter
-import com.platCourse.platCourseAndroid.home.time_line.viewmodel.TimeLineViewModel
-import com.platCourse.platCourseAndroid.menu.MenuViewModel
 import com.rowaad.utils.extention.handlePagination
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
-import com.rowaad.utils.extention.toJson
 
 class NotificationsFragment : BaseFragment(R.layout.fragment_notifications){
 
@@ -53,25 +40,7 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications){
 
     private fun onClickItem(notificationItem: NotificationItem, i: Int) {
 
-        if (notificationItem.type=="tweet"){
-            findNavController().navigate(R.id.action_global_detailsFragment,
-            bundleOf(
-                    "tweetId"
-                        to
-                   notificationItem.typeId.toString()
-            )
-                    )
-        }
-        else if (notificationItem.type=="message"){
-            val room=RoomChat(otherCustomer = notificationItem.customer,id = notificationItem.tweet?.id ?: 0,tweet = TweetIds(id =notificationItem.tweet?.id ?: 0,0)).toJson()
-            findNavController().navigate(R.id.action_global_chatFragment,
-                    bundleOf(
-                            "chat"
-                              to
-                            room
-                    )
-                    )
-        }
+
     }
 
     private fun sendRequestNotif() {
@@ -85,20 +54,7 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications){
     }
 
     private fun observeNotifications() {
-        handleSharedFlow(viewModel.notificationFlow ,onShowProgress = {
-            if (pageNumber>1) showBottomProgress() else showProgressContent()
-        },onHideProgress = {
-            if (pageNumber>1) hideBottomProgress() else hideProgressContent()
 
-        } ,onSuccess = {it as Pair<List<NotificationItem>?, PaginationInfo?>
-            totalPages=it.second?.numberOfPages ?: 0
-            if (pageNumber==1 && it.first!!.isEmpty()){
-                showEmpty()
-            }
-            else {
-                adapter.addData(it.first!!).also { showNotifications() }
-            }
-        })
     }
 
     private fun showBottomProgress() {

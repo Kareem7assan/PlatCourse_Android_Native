@@ -61,7 +61,7 @@ android {
             // that dimension.
             dimension "version"
             versionNameSuffix "-dev"
-            buildConfigField("String", "BASE_URL", "\"https://pub.rh.net.sa/taghareed/backend/dev/public/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://platcourse.com/api/\"")
 
         }
         trial {
@@ -71,14 +71,14 @@ android {
             // that dimension.
             dimension "version"
             versionNameSuffix "-trial"
-            buildConfigField("String", "BASE_URL", "\"https://pub.rh.net.sa/taghareed/backend/test/public/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://platcourse.com/api/\"")
 
         }
         full {
             dimension "version"
             //applicationIdSuffix ".full"
             //versionNameSuffix "-stage"
-            buildConfigField("String", "BASE_URL", "\"https://pub.rh.net.sa/taghareed/backend/main/public/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://platcourse.com/api/\"")
         }
         /* sourceSets {
              getByName("mock").java.srcDir("src/mock/kotlin")

@@ -61,7 +61,7 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
     inner class NotificationVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item:NotificationItem) = with(ItemNotificationBinding.bind(itemView)) {
             tvNotif.text=item.body
-            ivAvatar.hide().takeIf { item.customer?.image == null } ?: ivAvatar.show().also { ivAvatar.loadImage(item.customer?.image) }
+            //ivAvatar.hide().takeIf { item.customer?.image == null } ?: ivAvatar.show().also { ivAvatar.loadImage(item.customer?.image) }
             tvSince.text=item.createdAt?.humanTime
             itemView.setOnClickListener {
                 onClickItem?.invoke(item,adapterPosition)

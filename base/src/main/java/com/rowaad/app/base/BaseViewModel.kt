@@ -43,7 +43,6 @@ open class BaseViewModel :ViewModel() {
         return CoroutineExceptionHandler { coroutineContext, throwable ->
             when (throwable.message){
                 Constants_Api.ERROR_API.UNAUTHRIZED -> {
-
                         _unAuthorizedFlow
                                 .tryEmit(true)
 

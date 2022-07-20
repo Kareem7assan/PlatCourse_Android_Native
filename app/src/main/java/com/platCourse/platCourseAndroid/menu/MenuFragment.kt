@@ -12,10 +12,7 @@ import com.rowaad.dialogs_utils.LogoutDialog
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.auth.splash.SplashActivity
 import com.platCourse.platCourseAndroid.databinding.FragmentMenuBinding
-import com.platCourse.platCourseAndroid.home.profile.ProfileActivity
 import com.platCourse.platCourseAndroid.menu.adapter.MenuAdapter
-import com.platCourse.platCourseAndroid.menu.advertise_package.AdvertisePackageActivity
-import com.platCourse.platCourseAndroid.menu.bank_accounts.CommissionActivity
 import com.platCourse.platCourseAndroid.menu.change_password.ChangePasswordActivity
 import com.platCourse.platCourseAndroid.menu.contact_us.ContactUsActivity
 import com.platCourse.platCourseAndroid.menu.pages.PagesActivity
@@ -78,18 +75,18 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
     private fun onClickItem(menu: Menu) {
         when(menu){
             Menu.PROFILE->{
-                startActivity(Intent(requireContext(),ProfileActivity::class.java).also {
+               /* startActivity(Intent(requireContext(),ProfileActivity::class.java).also {
                     it.putExtra("userId",viewModel.getUser()?.id)
-                })
+                })*/
             }
             Menu.CHANGE_PASSWORD->{
                 startActivity(Intent(requireContext(),ChangePasswordActivity::class.java))
             }
             Menu.COMMISSION->{
-                startActivity(Intent(requireContext(),CommissionActivity::class.java))
+                //startActivity(Intent(requireContext(),CommissionActivity::class.java))
             }
             Menu.PACKAGES->{
-                startActivity(Intent(requireContext(),AdvertisePackageActivity::class.java))
+             //   startActivity(Intent(requireContext(),AdvertisePackageActivity::class.java))
             }
             Menu.CONTACT_US->{
                 startActivity(Intent(requireContext(),ContactUsActivity::class.java))

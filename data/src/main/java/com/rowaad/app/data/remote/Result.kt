@@ -1,6 +1,5 @@
 package com.rowaad.app.data.remote
 
-import com.kareem.dietDelivery.data.model.movies_model.Movie
 
 sealed class NetWorkState {
     data class Success<out T>(val data: T) : NetWorkState()
@@ -12,7 +11,7 @@ sealed class NetWorkState {
 }
 
 sealed class RoomMoviesState {
-    data class Success(val data: List<Movie>) : RoomMoviesState()
+    data class Success(val data: List<Any>) : RoomMoviesState()
     object Empty : RoomMoviesState()
     //object Idle : RoomState()
     object Loading : RoomMoviesState()

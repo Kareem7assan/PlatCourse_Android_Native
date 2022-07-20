@@ -43,10 +43,12 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     }
 
     private fun handleNavigation(){
+/*
         if ((requireActivity() as SplashActivity).fromLogout)
             findNavController().navigate(R.id.action_splashFragment_to_introFragment)
         else
             requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
+*/
     }
     override fun onDestroyView() {
         super.onDestroyView()
