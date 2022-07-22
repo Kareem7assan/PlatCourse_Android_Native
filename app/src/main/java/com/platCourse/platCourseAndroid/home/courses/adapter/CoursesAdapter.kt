@@ -1,4 +1,4 @@
-package com.platCourse.platCourseAndroid.home.home.adapter
+package com.platCourse.platCourseAndroid.home.courses.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemCourseBinding
 import com.rowaad.app.data.model.courses_model.CourseItem
-import com.rowaad.utils.extention.loadImage
+import com.rowaad.utils.extention.*
 import java.util.*
 
 class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.CoursesVH>() {
@@ -51,6 +51,19 @@ class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.CoursesVH>() {
             tvDescCourse.text=item.overview
             tvTeacherName.text=item.ownerName
             rbCourse.rating=item.rate ?: 0f
+            if (item.discountPrice==null || item.discountPrice==0f) {
+                tvPriceAfter.formatPrice(item.price ?: 0f,"ج.م")
+                tvPriceBefore.hide()
+            }
+            else {
+                tvPriceBefore.formatPrice(item.price ?: 0f,"ج.م")
+                tvPriceBefore.textWithNegativeFlag()
+                tvPriceAfter.formatPrice(item.discountPrice ?: 0f,"ج.م")
+                tvPriceBefore.show()
+
+            }
+
+
             ivImgCourse.loadImage(item.cover)
         }
     }

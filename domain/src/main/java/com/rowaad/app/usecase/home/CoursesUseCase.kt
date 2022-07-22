@@ -11,11 +11,6 @@ import javax.inject.Inject
 
 class CoursesUseCase @Inject constructor(private val baseRepository: BaseRepository,
                                          private val repository: HomeRepository) {
-/*
-    val dateFlow = flowOf(repository.requestDate())
-    val timeFlow = flowOf(repository.requestTime())
-    val zippedFlow = dateFlow.zip(timeFlow) { date, time -> Result(date, time) }
-*/
 
     suspend fun allCourses(page:Int?=1): Flow<Pair<CoursesModel,CoursesModel>> {
          return newCourses(1).zip(featuredCourses(1)) {newCoursesModel, featuredCoursesModel ->

@@ -1,4 +1,4 @@
-package com.platCourse.platCourseAndroid.home.home
+package com.platCourse.platCourseAndroid.home.courses
 
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging

@@ -1,6 +1,7 @@
 package com.rowaad.app.data.repository.home
 
 import com.rowaad.app.data.cache.PreferencesGateway
+import com.rowaad.app.data.model.categories_model.CategoriesModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
 import com.rowaad.app.data.remote.UserApi
 import com.rowaad.app.data.repository.base.BaseRepository
@@ -14,6 +15,13 @@ class HomeRepositoryImp @Inject constructor(
     private val db: PreferencesGateway,
     private val baseRepository: BaseRepository,
 ): HomeRepository {
+
+    override fun allCategories(): Flow<Response<CategoriesModel>> {
+        return flow {
+            emit(api.categories())
+        }
+    }
+
     override fun newCourses(page: Int?): Flow<Response<CoursesModel>> {
         return flow {
             emit(api.newCourses(page))

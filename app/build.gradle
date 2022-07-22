@@ -30,7 +30,9 @@ android {
     }
     buildTypes {
 
-
+        debug {
+            clean
+        }
         buildTypes {
             release {
                 minifyEnabled false
@@ -38,13 +40,16 @@ android {
 
                 android.applicationVariants.all { variant ->
                     variant.outputs.all {
-                        outputFileName = "taghareed-${variant.versionName}.apk"
+                        outputFileName = "platCourse-${variant.versionName}.apk"
                     }
                 }
 
             }
 
         }
+
+
+
     }
 
     kapt {
@@ -179,7 +184,6 @@ dependencies {
     //location
     implementation Deps.google.servicesLocation
 
-    implementation 'com.rodolfonavalon:ShapeRippleLibrary:1.0.0'
     implementation 'com.github.douglasspgyn:CircularCountdown:0.3.0'
 
     implementation platform('com.google.firebase:firebase-bom:29.1.0')

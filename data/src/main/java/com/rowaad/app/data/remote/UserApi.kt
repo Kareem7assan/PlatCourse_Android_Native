@@ -1,6 +1,7 @@
 package com.rowaad.app.data.remote
 
 import com.rowaad.app.data.model.*
+import com.rowaad.app.data.model.categories_model.CategoriesModel
 
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
@@ -83,30 +84,10 @@ interface UserApi {
    ): Response<CoursesModel>
 
 
-    @POST("comments")
-    suspend fun addComments(
-            @Query("comment") comment:String,
-            @Query("typeId") typeId:String,
-            @Query("type") type:String?="tweet",
-    ): Response<EndPointResponse<Any>>
+   @GET("categories")
+   suspend fun categories(
+   ): Response<CategoriesModel>
 
-    @POST("tweets/{id}/add-likes")
-    suspend fun like(
-            @Path("id") id:String
-    ): Response<EndPointResponse<Any>>
-
-
-    @POST("tweets/{id}/retweet")
-    suspend fun retweet(
-            @Path("id") id:String
-    ): Response<EndPointResponse<Any>>
-
-    @POST("tweets/{id}/reports")
-    suspend fun report(
-            @Path("id") id:String,
-            @Query("reason") reason:String,
-            @Query("description") description:String
-    ): Response<EndPointResponse<Any>>
 
     @GET("contact-us")
     suspend fun contactUs(): Response<EndPointResponse<ContactUsModel>>

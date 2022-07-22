@@ -17,17 +17,19 @@
         android:theme="@style/Theme.PlatCourse"
         android:usesCleartextTraffic="true"
         tools:replace="allowBackup, label,theme">
-        <activity android:name=".menu.change_password.ChangePasswordActivity"/>
-        <activity android:name=".menu.edit_profile.EditProfileActivity" />
-        <activity android:name=".menu.pages.PagesActivity" />
-        <activity android:name=".menu.contact_us.ContactUsActivity" />
-        <activity android:name=".image_details.ImageDetailsActivity"/>
 
         <activity
             android:name=".home.HomeActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            />
 
-        <activity android:name=".auth.splash.SplashActivity">
+        <activity android:name=".auth.splash.SplashActivity"
+            android:exported="true"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,13 +37,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".fcm.MyFirebaseMessagingService"
-            >
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
     </application>
 

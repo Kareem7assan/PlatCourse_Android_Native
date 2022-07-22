@@ -39,6 +39,37 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
 
     private fun setupBottomNavigationChecked() {
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when(destination.id){
+                R.id.coursesMenuFragment -> {
+                    binding.mainBottomNavigation.menu.findItem(R.id.coursesMenuFragment)?.isChecked =true
+                    setupTitle(getString(R.string.courses))
+                }
+                R.id.myCoursesMenuFragment -> {
+                    binding.mainBottomNavigation.menu.findItem(R.id.myCoursesMenuFragment)?.isChecked = true
+                    setupTitle(getString(R.string.my_courses))
+
+                }
+                R.id.homeMenuFragment -> {
+                    binding.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true
+                    setupTitle(getString(R.string.home))
+                }
+
+                R.id.moreMenuFragment -> {
+                    binding.mainBottomNavigation.menu.findItem(R.id.moreMenuFragment)?.isChecked = true
+                    setupTitle(getString(R.string.menu))
+                }
+
+                else -> {
+                    binding?.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true
+                    setupTitle(getString(R.string.home))
+                }
+            }
+        }
+    }
+
+    private fun setupTitle(title: String) {
+        binding.toolbar.tvTitle.text=title
     }
 
     private fun setupToolbar() {
@@ -56,7 +87,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
 
 
-        }
+    }
 
 
 
@@ -73,12 +104,19 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
                 when (menuItem.itemId) {
                   R.id.coursesMenuFragment -> {
-                        navController.navigate(R.id.action_global_myCoursesFragment)
+                        navController.navigate(R.id.action_global_coursesFragment)
                         return@setOnItemSelectedListener true
                 }
                     R.id.myCoursesMenuFragment -> {
-                        navController.navigate(R.id.action_global_coursesFragment)
-
+                        navController.navigate(R.id.action_global_myCoursesFragment)
+                        return@setOnItemSelectedListener true
+                }
+                    R.id.homeMenuFragment -> {
+                        navController.navigate(R.id.action_global_homeFragment)
+                        return@setOnItemSelectedListener true
+                }
+                    R.id.moreMenuFragment -> {
+                        navController.navigate(R.id.action_global_menuFragment)
                         return@setOnItemSelectedListener true
                 }
 

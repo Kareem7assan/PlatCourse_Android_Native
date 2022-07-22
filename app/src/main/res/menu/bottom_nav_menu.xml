@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/coursesMenuFragment"
+        android:id="@+id/homeMenuFragment"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/home" />
 
     <item
-        android:id="@+id/myCoursesMenuFragment"
-        android:icon="@drawable/ic_baseline_bookmark_24"
-        android:title="@string/my_courses" />
+        android:id="@+id/coursesMenuFragment"
+        android:icon="@drawable/books_arranged_vertically"
+        android:title="@string/courses" />
     <item
-        android:id="@+id/categoriesMenuFragment"
-        android:title="@string/categories"
-        android:icon="@drawable/heart"
+        android:id="@+id/myCoursesMenuFragment"
+        android:title="@string/my_courses"
+        android:icon="@drawable/ic_baseline_bookmark_24"
         />
     <item
         android:id="@+id/moreMenuFragment"

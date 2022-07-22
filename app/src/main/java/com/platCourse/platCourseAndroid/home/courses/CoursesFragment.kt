@@ -1,17 +1,17 @@
-package com.platCourse.platCourseAndroid.home.home
+package com.platCourse.platCourseAndroid.home.courses
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
-import com.platCourse.platCourseAndroid.auth.login.LoginViewModel
 import com.platCourse.platCourseAndroid.databinding.FragmentCoursesBinding
-import com.platCourse.platCourseAndroid.databinding.FragmentLoginBinding
-import com.platCourse.platCourseAndroid.home.home.adapter.CoursesAdapter
+import com.platCourse.platCourseAndroid.home.courses.adapter.CoursesAdapter
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.model.courses_model.CoursesModel
+import com.rowaad.utils.extention.hide
+import com.rowaad.utils.extention.show
 
 class CoursesFragment : BaseFragment(R.layout.fragment_courses) {
 
@@ -53,6 +53,10 @@ class CoursesFragment : BaseFragment(R.layout.fragment_courses) {
             it as Pair<CoursesModel,CoursesModel>
             handleNewCourses(it.first)
             handleFeaturedCourses(it.second)
+        },onShowProgress = {
+            showProgress().also { binding.groupTitles.hide() }
+        },onHideProgress = {
+            hideProgress().also { binding.groupTitles.show() }
         })
     }
 
