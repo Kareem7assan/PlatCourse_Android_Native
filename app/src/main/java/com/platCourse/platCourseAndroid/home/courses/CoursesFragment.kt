@@ -2,7 +2,9 @@ package com.platCourse.platCourseAndroid.home.courses
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentCoursesBinding
@@ -17,7 +19,7 @@ class CoursesFragment : BaseFragment(R.layout.fragment_courses) {
 
 
     private val binding by viewBinding<FragmentCoursesBinding>()
-    private val viewModel: CoursesViewModel by viewModels()
+    private val viewModel: CoursesViewModel by activityViewModels()
     private val newAdapter by lazy { CoursesAdapter() }
     private val featuredAdapter by lazy { CoursesAdapter() }
 
@@ -45,7 +47,12 @@ class CoursesFragment : BaseFragment(R.layout.fragment_courses) {
     }
 
     private fun setupActions() {
-
+        binding.tvMoreFeatured.setOnClickListener {
+            findNavController().navigate(R.id.action_global_featuredCoursesFragment)
+        }
+        binding.tvMoreNew.setOnClickListener {
+            findNavController().navigate(R.id.action_global_newCoursesFragment)
+        }
     }
 
     private fun observeNavigation() {

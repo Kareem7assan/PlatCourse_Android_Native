@@ -47,7 +47,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                     binding.mainBottomNavigation.menu.findItem(R.id.myCoursesMenuFragment)?.isChecked = true
                     setupTitle(getString(R.string.my_courses))
                     handleHomeToolbar()
-
                 }
                 R.id.homeFragment -> {
                     binding.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true

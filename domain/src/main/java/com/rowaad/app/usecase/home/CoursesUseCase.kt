@@ -17,12 +17,12 @@ class CoursesUseCase @Inject constructor(private val baseRepository: BaseReposit
                 Pair(newCoursesModel,featuredCoursesModel)
          }
     }
-    private suspend fun newCourses(page:Int?=1): Flow<CoursesModel> {
+     suspend fun newCourses(page:Int?=1): Flow<CoursesModel> {
         return repository.newCourses(page)
                 .transformResponse { emit(it) }
     }
 
-    private suspend fun featuredCourses(page:Int?=1): Flow<CoursesModel> {
+     suspend fun featuredCourses(page:Int?=1): Flow<CoursesModel> {
         return repository.featuredCourses(page)
                 .transformResponse { emit(it) }
     }
