@@ -10,7 +10,7 @@ import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.utils.extention.*
 import java.util.*
 
-class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.CoursesVH>() {
+class CoursesAdapter(val isVertical:Boolean?=false) : RecyclerView.Adapter<CoursesAdapter.CoursesVH>() {
 
     private var data: MutableList<CourseItem> = ArrayList()
 
@@ -24,7 +24,12 @@ class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.CoursesVH>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoursesVH {
-        return CoursesVH(
+        return if (isVertical==true)
+            CoursesVH(
+                    LayoutInflater.from(parent.context)
+                            .inflate(R.layout.item_course_vertical, parent, false)
+            )
+            else CoursesVH(
                 LayoutInflater.from(parent.context)
                         .inflate(R.layout.item_course, parent, false)
         )
@@ -38,12 +43,18 @@ class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.CoursesVH>() {
         this.data = data as MutableList<CourseItem>
         notifyDataSetChanged()
     }
+    fun addData(data: List<CourseItem>) {
+        this.data.addAll(data)
+        notifyDataSetChanged()
+    }
 
     fun removeWithIndex(index: Int) {
         data.removeAt(index)
         notifyItemRemoved(index)
         notifyItemRangeChanged(index, itemCount)
     }
+
+
 
     class CoursesVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item:CourseItem) = with(ItemCourseBinding.bind(itemView)) {

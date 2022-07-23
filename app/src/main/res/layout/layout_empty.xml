@@ -1,18 +1,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/progressLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4f4f4"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/Theme.PlatCourse"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <ImageView
         android:id="@+id/ivEmptyLogo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:indeterminate="true"
         android:layout_marginBottom="30dp"
         android:layout_gravity="center"
-        android:tint="#eae9e9"
-        android:src="@drawable/more_circle"
+        android:src="@drawable/box"
+        android:tint="@color/colorOnMyBackgroundReverse"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,19 +28,17 @@
         app:layout_constraintTop_toBottomOf="@id/ivEmptyLogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="19.5sp"
-        android:textColor="@color/dark"
+        android:textSize="17.5sp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/medium"
         android:textStyle="normal"
-        android:textSize="13sp"
+        android:textSize="15.5sp"
         app:layout_constraintTop_toBottomOf="@id/tvEmpty"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="@color/black"
         android:lineSpacingExtra="-0.5sp"
-        android:text="@string/try_another_pages"/>
+        android:text="@string/no_owned_courses"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

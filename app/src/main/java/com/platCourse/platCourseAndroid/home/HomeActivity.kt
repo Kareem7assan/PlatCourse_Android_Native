@@ -24,10 +24,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navController: NavController
 
-    override fun onResume() {
-        super.onResume()
-        setupToolbar()
-    }
+
     override fun init() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.home_nav_host) as NavHostFragment
@@ -41,28 +38,33 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private fun setupBottomNavigationChecked() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
-                R.id.coursesMenuFragment -> {
+                R.id.coursesFragment -> {
                     binding.mainBottomNavigation.menu.findItem(R.id.coursesMenuFragment)?.isChecked =true
                     setupTitle(getString(R.string.courses))
+                    handleHomeToolbar()
                 }
-                R.id.myCoursesMenuFragment -> {
+                R.id.myCoursesFragment -> {
                     binding.mainBottomNavigation.menu.findItem(R.id.myCoursesMenuFragment)?.isChecked = true
                     setupTitle(getString(R.string.my_courses))
+                    handleHomeToolbar()
 
                 }
-                R.id.homeMenuFragment -> {
+                R.id.homeFragment -> {
                     binding.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true
                     setupTitle(getString(R.string.home))
+                    handleHomeToolbar()
                 }
 
-                R.id.moreMenuFragment -> {
+                R.id.menuFragment -> {
                     binding.mainBottomNavigation.menu.findItem(R.id.moreMenuFragment)?.isChecked = true
                     setupTitle(getString(R.string.menu))
+                    handleHomeToolbar()
                 }
 
                 else -> {
-                    binding?.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true
-                    setupTitle(getString(R.string.home))
+                    //binding?.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true
+                    //setupTitle(getString(R.string.home))
+                    handleNormalToolbar()
                 }
             }
         }
@@ -71,10 +73,10 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private fun setupTitle(title: String) {
         binding.toolbar.tvTitle.text=title
     }
-
-    private fun setupToolbar() {
-
+    fun setupTitleSubCat(title: String) {
+        binding.toolbar.tvTitle.text=title
     }
+
 
     override fun setActions(){
         setupBottomNavigation()
@@ -85,8 +87,21 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
         }
 
+        binding.toolbar.ivBack.setOnClickListener {
+            navController.navigateUp()
+        }
 
 
+    }
+
+    private fun handleHomeToolbar(){
+        binding.toolbar.groupHome.show()
+        binding.toolbar.ivBack.hide()
+    }
+
+    private fun handleNormalToolbar(){
+        binding.toolbar.groupHome.hide()
+        binding.toolbar.ivBack.show()
     }
 
 

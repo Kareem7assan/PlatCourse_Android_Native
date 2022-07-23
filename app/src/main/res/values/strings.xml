@@ -240,6 +240,8 @@
     <string name="by">بواسطة : </string>
     <string name="featured_courses">الكورسات المميزة</string>
     <string name="menu">القائمة</string>
+    <string name="no_sub_cat">لا يوجد اقسام فرعية لهذا القسم</string>
+    <string name="no_owned_courses">لا يوجد لديك كورسات </string>
 
 
 </resources>

@@ -28,6 +28,12 @@ class HomeRepositoryImp @Inject constructor(
         }
     }
 
+    override fun myCourses(page: Int?): Flow<Response<CoursesModel>> {
+        return flow {
+            emit(api.myCourses(page))
+        }
+    }
+
     override fun featuredCourses(page: Int?): Flow<Response<CoursesModel>> {
         return flow {
             emit(api.featuredCourses(page))

@@ -4,18 +4,18 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemSubCatBinding
 import com.rowaad.app.data.model.categories_model.CategoriesItem
+import com.rowaad.app.data.model.categories_model.SubCategory
 import com.rowaad.utils.extention.isNullOrEmptyTrue
 import java.util.*
 
-class CatsAdapter : RecyclerView.Adapter<CatsAdapter.CatsVH>() {
+class SubCatsAdapter : RecyclerView.Adapter<SubCatsAdapter.CatsVH>() {
 
-    private var data: MutableList<CategoriesItem> = ArrayList()
+    private var data: MutableList<SubCategory> = ArrayList()
 
-    var onClickItem: ((CategoriesItem, Int) -> Unit)? = null
+    var onClickItem: ((SubCategory, Int) -> Unit)? = null
 
     var selectedItemPosition = -1
 
@@ -35,8 +35,8 @@ class CatsAdapter : RecyclerView.Adapter<CatsAdapter.CatsVH>() {
 
     override fun onBindViewHolder(holder: CatsVH, position: Int) = holder.bind(data[position])
 
-    fun swapData(data: List<CategoriesItem>) {
-        this.data = data as MutableList<CategoriesItem>
+    fun swapData(data: List<SubCategory>) {
+        this.data = data as MutableList<SubCategory>
         notifyDataSetChanged()
     }
 
@@ -47,13 +47,10 @@ class CatsAdapter : RecyclerView.Adapter<CatsAdapter.CatsVH>() {
     }
 
     inner class CatsVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item:CategoriesItem) = with(ItemSubCatBinding.bind(itemView)) {
-            tvSubCat.text=item.category_name
+        fun bind(item:SubCategory) = with(ItemSubCatBinding.bind(itemView)) {
+            tvSubCat.text=item.sub_category_name
             itemView.setOnClickListener {
-                if (item.sub_category?.isNullOrEmptyTrue()!!.not())
                     onClickItem?.invoke(item,adapterPosition)
-                else
-                    Toast.makeText(itemView.context, itemView.context.getString(R.string.no_sub_cat), Toast.LENGTH_SHORT).show()
             }
         }
     }

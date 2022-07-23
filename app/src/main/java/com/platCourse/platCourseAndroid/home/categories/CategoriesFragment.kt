@@ -2,7 +2,9 @@ package com.platCourse.platCourseAndroid.home.categories
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentCategoriesBinding
@@ -13,6 +15,7 @@ import com.platCourse.platCourseAndroid.home.courses.adapter.CoursesAdapter
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.model.categories_model.CategoriesItem
+import com.rowaad.utils.extention.toJson
 
 class CategoriesFragment : BaseFragment(R.layout.fragment_categories) {
 
@@ -27,6 +30,22 @@ class CategoriesFragment : BaseFragment(R.layout.fragment_categories) {
         handleRec()
         observeCategories()
         sendRequest()
+        setupActions()
+    }
+
+    private fun setupActions() {
+        catsAdapter.onClickItem=::onClickItem
+    }
+
+    private fun onClickItem(categoriesItem: CategoriesItem, pos: Int) {
+        findNavController().navigate(R.id.action_homeFragment_to_subCatFragment,
+                    bundleOf(
+                                    "sub_cat"
+                                    to
+                                    categoriesItem.toJson()
+
+                    )
+                )
     }
 
     private fun observeCategories() {

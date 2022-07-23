@@ -42,4 +42,5 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
 
     }
 
+
 }

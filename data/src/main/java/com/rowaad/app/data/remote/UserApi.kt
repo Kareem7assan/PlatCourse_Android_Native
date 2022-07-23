@@ -83,6 +83,11 @@ interface UserApi {
            @Query("page") page:Int?=1
    ): Response<CoursesModel>
 
+   @GET("courses/owned_courses")
+   suspend fun myCourses(
+           @Query("page") page:Int?=1
+   ): Response<CoursesModel>
+
 
    @GET("categories")
    suspend fun categories(

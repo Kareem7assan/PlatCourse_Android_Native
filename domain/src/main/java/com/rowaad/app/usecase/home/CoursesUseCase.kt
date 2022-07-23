@@ -26,6 +26,10 @@ class CoursesUseCase @Inject constructor(private val baseRepository: BaseReposit
         return repository.featuredCourses(page)
                 .transformResponse { emit(it) }
     }
+    suspend fun myCourses(page:Int?=1): Flow<CoursesModel> {
+        return repository.myCourses(page)
+                .transformResponse { emit(it) }
+    }
 
     fun isUserLogin():Boolean{
         return baseRepository.isLogin()

@@ -10,6 +10,15 @@
         android:name="com.platCourse.platCourseAndroid.home.categories.CategoriesFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_categories">
+        <action
+            android:id="@+id/action_homeFragment_to_subCatFragment"
+            app:destination="@id/subCatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subCatFragment"
+        android:name="com.platCourse.platCourseAndroid.home.categories.sub_categories.SubCategoriesFragment"
+        android:label="subCatFragment"
+        tools:layout="@layout/fragment_categories">
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
@@ -33,6 +42,7 @@
 
     <action android:id="@+id/action_global_coursesFragment" app:destination="@id/coursesFragment"/>
     <action android:id="@+id/action_global_myCoursesFragment" app:destination="@id/myCoursesFragment"/>
-    <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" /><action android:id="@+id/action_global_menuFragment" app:destination="@id/menuFragment"/>
+    <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
+    <action android:id="@+id/action_global_menuFragment" app:destination="@id/menuFragment" />
 
 </navigation>
