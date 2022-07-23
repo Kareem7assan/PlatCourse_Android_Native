@@ -276,7 +276,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
         ) {
             intent.component = (ComponentName(
                 "com.platCourse.platCourseAndroid",
-                "com.platCourse.platCourseAndroid.auth.SplashActivity"
+                "com.platCourse.platCourseAndroid.auth.splash.SplashActivity"
             ))
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

@@ -31,7 +31,7 @@ class MyCoursesFragment : BaseFragment(R.layout.fragment_my_courses) {
         super.onViewCreated(view, savedInstanceState)
         handlePage()
         handleRec()
-        if (viewModel.isLogin.not()) sendRequestMyCourses()
+        if (viewModel.isLogin) sendRequestMyCourses()
         else showAnonymousDialog()
         observeMyCourses()
     }
