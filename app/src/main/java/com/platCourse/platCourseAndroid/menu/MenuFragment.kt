@@ -21,9 +21,7 @@ import com.rowaad.utils.extention.*
 class MenuFragment : BaseFragment(R.layout.fragment_menu) {
     private val viewModel: MenuViewModel by viewModels()
     private val binding by viewBinding<FragmentMenuBinding>()
-    private val menuAdapter by lazy {
-        MenuAdapter()
-    }
+    private val menuAdapter by lazy { MenuAdapter() }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupActions()
@@ -49,19 +47,17 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
     private fun handleMenu() {
         val user=viewModel.getUser()
         with(binding) {
-            ivLogo.loadImage(user?.image)
-            tvUserName.text=if (user?.username.isNullOrEmpty()) user?.username else "@"+user?.username
+
+            tvName.text=if (user?.username.isNullOrEmpty()) user?.username else "@"+user?.username
             if (viewModel.isVisitor)
             {
-                tvName.text = getString(R.string.welcom)
-                tvUserName.hide()
-                logoMenu.show().also { ivLogo.invisible() }
+                tvName.text = getString(R.string.login)
+                ivLogo.setImageResource(R.drawable.response)
 
             }
             else{
                 tvName.text = user?.name
-                tvUserName.show()
-                logoMenu.hide().also { ivLogo.show() }
+                ivLogo.loadImage(user?.image)
             }
         }
     }

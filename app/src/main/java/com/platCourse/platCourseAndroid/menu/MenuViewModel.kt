@@ -61,28 +61,22 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
     fun getListMenu():MutableList<MenuModel>{
         return if (menuUseCase.isLogin){
             mutableListOf(
-                MenuModel(name = R.string.profile,resImg = R.drawable.profile,menuItem = Menu.PROFILE),
-                MenuModel(name = R.string.change_password,resImg = R.drawable.edit,menuItem = Menu.CHANGE_PASSWORD),
-                MenuModel(name = R.string.packages,resImg = R.drawable.chart,menuItem = Menu.PACKAGES),
-                MenuModel(name = R.string.contact_us,resImg = R.drawable.message,menuItem = Menu.CONTACT_US),
-                MenuModel(name = R.string.commission,resImg = R.drawable.wallet,menuItem = Menu.COMMISSION),
-                MenuModel(name = R.string.about_us,resImg = R.drawable.document,menuItem = Menu.ABOUT_US),
-                MenuModel(name = R.string.terms_menu,resImg = R.drawable.folder,menuItem = Menu.TERMS),
-                MenuModel(name = R.string.sales_policy_menu,resImg = R.drawable.graph,menuItem = Menu.PRIVACY_SALES),
-                MenuModel(name = R.string.logout,resImg = R.drawable.logout,menuItem = Menu.LOGOUT),
-
+                MenuModel(name = R.string.orders,resImg = R.drawable.ic_baseline_shopping_bag_24,menuItem = Menu.ORDERS),
+                MenuModel(name = R.string.articles,resImg = R.drawable.ic_baseline_menu_book_24,menuItem = Menu.ARTICLES),
+                MenuModel(name = R.string.terms_menu,resImg = R.drawable.ic_baseline_library_books_24,menuItem = Menu.TERMS),
+                MenuModel(name = R.string.contact_us,resImg = R.drawable.ic_baseline_question_answer_24,menuItem = Menu.CONTACT_US),
+                MenuModel(name = R.string.night_mode,resImg = R.drawable.ic_baseline_nightlight_24,menuItem = Menu.NIGHT),
+                MenuModel(name = R.string.logout,resImg = R.drawable.ic_baseline_person_24,menuItem = Menu.LOGOUT),
                 )
         }
         else{
             mutableListOf(
-                MenuModel(name = R.string.login_register,resImg = R.drawable.profile,menuItem = Menu.LOGIN),
-                MenuModel(name = R.string.contact_us,resImg = R.drawable.message,menuItem = Menu.CONTACT_US),
-                //MenuModel(name = R.string.commission,resImg = R.drawable.wallet,menuItem = Menu.COMMISSION),
-                MenuModel(name = R.string.about_us,resImg = R.drawable.document,menuItem = Menu.ABOUT_US),
-                MenuModel(name = R.string.terms_menu,resImg = R.drawable.folder,menuItem = Menu.TERMS),
-                MenuModel(name = R.string.sales_policy_menu,resImg = R.drawable.graph,menuItem = Menu.PRIVACY_SALES)
+                    MenuModel(name = R.string.articles,resImg = R.drawable.ic_baseline_menu_book_24,menuItem = Menu.ARTICLES),
+                    MenuModel(name = R.string.terms_menu,resImg = R.drawable.ic_baseline_library_books_24,menuItem = Menu.TERMS),
+                    MenuModel(name = R.string.contact_us,resImg = R.drawable.ic_baseline_question_answer_24,menuItem = Menu.CONTACT_US),
+                    MenuModel(name = R.string.night_mode,resImg = R.drawable.ic_baseline_nightlight_24,menuItem = Menu.NIGHT)
 
-                )
+                    )
         }
 
     }

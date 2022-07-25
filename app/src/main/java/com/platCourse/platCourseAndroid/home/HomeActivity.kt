@@ -1,21 +1,14 @@
 package com.platCourse.platCourseAndroid.home
 
-import android.content.Intent
 import android.os.SystemClock
-import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ActivityHomeBinding
-import com.platCourse.platCourseAndroid.menu.MenuFragment
-import com.platCourse.platCourseAndroid.menu.MenuViewModel
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity(R.layout.activity_home) {
@@ -56,7 +49,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
                 R.id.menuFragment -> {
                     binding.mainBottomNavigation.menu.findItem(R.id.moreMenuFragment)?.isChecked = true
-                    setupTitle(getString(R.string.menu))
+                    setupTitle(getString(R.string.more))
                     handleHomeToolbar()
                 }
 

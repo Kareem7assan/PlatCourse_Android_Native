@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.platCourse.platCourseAndroid.home.menu.MenuFragment"
+        android:name="com.platCourse.platCourseAndroid.menu.MenuFragment"
         android:label="menuFragment"
         tools:layout="@layout/fragment_menu">
     </fragment>

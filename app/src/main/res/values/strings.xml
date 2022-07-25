@@ -242,6 +242,9 @@
     <string name="menu">القائمة</string>
     <string name="no_sub_cat">لا يوجد اقسام فرعية لهذا القسم</string>
     <string name="no_owned_courses">لا يوجد لديك كورسات </string>
+    <string name="orders">الطلبات</string>
+    <string name="articles">المقالات</string>
+    <string name="night_mode">الوضع الليلي</string>
 
 
 </resources>
