@@ -17,27 +17,23 @@
         android:theme="@style/Theme.PlatCourse"
         android:usesCleartextTraffic="true"
         tools:replace="allowBackup, label,theme">
-
+        <activity android:name=".menu.articles.ArticlesActivity"/>
+        <activity android:name=".menu.article_details.ArticleDetailsActivity"/>
         <activity
             android:name=".home.HomeActivity"
-            android:windowSoftInputMode="adjustPan"
-            />
-
-        <activity android:name=".auth.splash.SplashActivity"
-            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".auth.splash.SplashActivity"
             android:clearTaskOnLaunch="true"
+            android:exported="true"
             android:launchMode="singleTop"
-            android:noHistory="true"
-
-            >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

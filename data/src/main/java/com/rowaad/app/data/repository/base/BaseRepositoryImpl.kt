@@ -6,6 +6,7 @@ import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.FIREBASE
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.HAS_REGISTER
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.INTERVAL
+import com.rowaad.app.data.utils.Constants_Api.PrefKeys.IS_DARK
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.LANG
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.SESSION
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.TOKEN
@@ -58,6 +59,11 @@ open class BaseRepositoryImpl @Inject constructor(
     override val mobBrand: String
         get() = Build.BRAND
 
+    override var isEnableDark: Boolean
+        get() = preferences.load(IS_DARK,false) ?: false
+        set(value) {
+            preferences.save(IS_DARK,value)
+        }
     override val mobModel: String
         get() = Build.MODEL
     override val mobVersion: String

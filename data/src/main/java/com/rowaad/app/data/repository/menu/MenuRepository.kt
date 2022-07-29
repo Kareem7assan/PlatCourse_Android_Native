@@ -2,6 +2,8 @@ package com.rowaad.app.data.repository.menu
 
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.UserModel
+import com.rowaad.app.data.model.articles.Article
+import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
 import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.register_model.RegisterModel
@@ -24,6 +26,8 @@ interface MenuRepository{
 
      fun profile(userId:Int): Flow<Response<EndPointResponse<RegisterModel>>>
      fun myProfile():Flow<Response<EndPointResponse<RegisterModel>>>
+     fun articles():Flow<Response<List<Article>>>
+     fun article(id: Int):Flow<Response<Article>>
 
      fun editProfile(
          name:String,

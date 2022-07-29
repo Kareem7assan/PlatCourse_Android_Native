@@ -1,8 +1,10 @@
 package com.platCourse.platCourseAndroid.menu
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rowaad.app.base.BaseFragment
@@ -13,10 +15,13 @@ import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.auth.splash.SplashActivity
 import com.platCourse.platCourseAndroid.databinding.FragmentMenuBinding
 import com.platCourse.platCourseAndroid.menu.adapter.MenuAdapter
+import com.platCourse.platCourseAndroid.menu.articles.ArticlesActivity
 import com.platCourse.platCourseAndroid.menu.change_password.ChangePasswordActivity
 import com.platCourse.platCourseAndroid.menu.contact_us.ContactUsActivity
 import com.platCourse.platCourseAndroid.menu.pages.PagesActivity
 import com.rowaad.utils.extention.*
+import org.jetbrains.anko.configuration
+import org.jetbrains.anko.support.v4.toast
 
 class MenuFragment : BaseFragment(R.layout.fragment_menu) {
     private val viewModel: MenuViewModel by viewModels()
@@ -29,7 +34,12 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
         handleSharedFlow(viewModel.userFlow,onSuccess = {
             handleLogout()
         })
+        setupNightMode()
 
+    }
+
+    private fun setupNightMode() {
+        menuAdapter.enableDarkMode(isDark())
     }
 
     private fun setupRec() {
@@ -66,7 +76,25 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
 
     private fun setupActions() {
        menuAdapter.onClickItem=::onClickItem
+       menuAdapter.onClickItemNight=::onClickItemNight
 }
+
+    private fun onClickItemNight(isChecked:Boolean) {
+            if (isChecked)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES).also { viewModel.setDarkMode(true) }
+            else
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO).also { viewModel.setDarkMode(false) }
+
+    }
+
+    private fun isDark():Boolean{
+        var isDark =false
+        when (requireActivity().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {isDark=false} // Night mode is not active, we're using the light theme
+            Configuration.UI_MODE_NIGHT_YES -> {isDark=true} // Night mode is active, we're using dark theme
+        }
+        return isDark
+    }
 
     private fun onClickItem(menu: Menu) {
         when(menu){
@@ -77,6 +105,9 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
             }
             Menu.CHANGE_PASSWORD->{
                 startActivity(Intent(requireContext(),ChangePasswordActivity::class.java))
+            }
+            Menu.ARTICLES->{
+                startActivity(Intent(requireContext(),ArticlesActivity::class.java))
             }
             Menu.COMMISSION->{
                 //startActivity(Intent(requireContext(),CommissionActivity::class.java))

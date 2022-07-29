@@ -27,6 +27,12 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
     private val _contactsFlow= MutableSharedFlow<NetWorkState>()
     val contactsFlow= _contactsFlow.asSharedFlow()
 
+    private val _articlesFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+    val articlesFlow= _articlesFlow.asSharedFlow()
+
+    private val _articleFlow= MutableSharedFlow<NetWorkState>()
+    val articleFlow= _articleFlow.asSharedFlow()
+
     private val _myProfileFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
     val myProfileFlow = _myProfileFlow.asStateFlow()
 
@@ -81,6 +87,31 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
 
     }
 
+     fun setDarkMode(isEnable:Boolean){
+        menuUseCase.enableDark(isEnable)
+    }
+
+
+
+    fun getArticles(){
+        executeSharedApi(_articlesFlow){
+            menuUseCase.articles()
+                    .onStart { _articlesFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _articlesFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _articlesFlow.emit(NetWorkState.Error(it)) }
+                    .collectLatest {  _articlesFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+
+    fun getArticle(id:Int){
+        executeSharedApi(_articleFlow){
+            menuUseCase.article(id)
+                    .onStart { _articleFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _articleFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _articleFlow.emit(NetWorkState.Error(it)) }
+                    .collectLatest {  _articleFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
 
 
     fun contactUsContacts(){
@@ -92,6 +123,8 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
                     .collectLatest {  _contactsFlow.emit(NetWorkState.Success(it)) }
         }
     }
+
+
     fun myProfile(){
         executeSharedApi(_myProfileFlow){
             menuUseCase.myProfile()

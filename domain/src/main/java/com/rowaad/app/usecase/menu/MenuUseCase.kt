@@ -1,6 +1,8 @@
 package com.rowaad.app.usecase.menu
 
 import com.rowaad.app.data.model.UserModel
+import com.rowaad.app.data.model.articles.Article
+import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
@@ -9,10 +11,12 @@ import com.rowaad.app.data.repository.menu.MenuRepository
 import com.rowaad.app.data.repository.user.AuthRepository
 import com.rowaad.app.usecase.Validations
 import com.rowaad.app.usecase.Validations.isValidPhone
+import com.rowaad.app.usecase.transformResponse
 import com.rowaad.app.usecase.transformResponseData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import okhttp3.MultipartBody
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -75,6 +79,18 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
         }
     }
 
+    //articles
+    suspend fun articles(): Flow<List<Article>> {
+        return menuRepository.articles().transformResponse {
+            emit(it)
+        }
+    }
+    //articles
+    suspend fun article(id: Int):Flow<Article> {
+        return menuRepository.article(id).transformResponse {
+            emit(it)
+        }
+    }
     //myProfile
     suspend fun myProfile(): Flow<UserModel> {
         return menuRepository.myProfile().transformResponseData<RegisterModel,UserModel>
@@ -114,6 +130,9 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
     fun isValidBody(body: String): Boolean = Validations.isValidBody(body)
 
 
+    fun enableDark(isEnable:Boolean){
+        baseRepository.isEnableDark=isEnable
+    }
     fun getUser(): UserModel? {
         return baseRepository.loadUser()
     }

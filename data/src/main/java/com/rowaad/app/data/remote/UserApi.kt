@@ -1,6 +1,8 @@
 package com.rowaad.app.data.remote
 
 import com.rowaad.app.data.model.*
+import com.rowaad.app.data.model.articles.Article
+import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.categories_model.CategoriesModel
 
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
@@ -155,6 +157,15 @@ interface UserApi {
 
     @GET("me")
     suspend fun myProfile(): Response<EndPointResponse<RegisterModel>>
+
+    @GET("blogs")
+    suspend fun articles(): Response<List<Article>>
+
+    @GET("blogs/{id}")
+    suspend fun article(
+        @Path("id") id:Int
+    ): Response<Article>
+
     @GET("notifications")
     suspend fun notifications(
             @Query("page") page:Int=1

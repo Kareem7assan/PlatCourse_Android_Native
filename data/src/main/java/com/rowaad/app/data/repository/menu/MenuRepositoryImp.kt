@@ -3,6 +3,8 @@ package com.rowaad.app.data.repository.menu
 import com.rowaad.app.data.cache.PreferencesGateway
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.WalletModel
+import com.rowaad.app.data.model.articles.Article
+import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
 import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.register_model.RegisterModel
@@ -51,6 +53,13 @@ class MenuRepositoryImp @Inject constructor(
 
     override fun myProfile(): Flow<Response<EndPointResponse<RegisterModel>>> {
         return flow { emit(api.myProfile()) }
+    }
+
+    override fun articles(): Flow<Response<List<Article>>> {
+        return flow { emit(api.articles()) }
+    }
+    override fun article(id: Int): Flow<Response<Article>> {
+        return flow { emit(api.article(id)) }
     }
 
     override fun editProfile(

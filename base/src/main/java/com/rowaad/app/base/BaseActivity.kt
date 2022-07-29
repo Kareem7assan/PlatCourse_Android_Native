@@ -96,7 +96,12 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             getCustomizedContext(this, getBaseRepository(this).lang)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        if (getBaseRepository(this).isEnableDark)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         //resources.setLanguage(baseViewModel.getBaseRepository(this).lang)
         //Log.e("lang",baseViewModel.getBaseRepository(this).lang+baseViewModel.getBaseRepository(this).mobBrand+","
         //+baseViewModel.getBaseRepository(this).mobModel+","+baseViewModel.getBaseRepository(this).mobVersion)

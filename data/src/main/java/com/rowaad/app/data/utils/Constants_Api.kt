@@ -35,6 +35,7 @@ object PrefKeys{
     const val STATUS: String = "status"
     const val INTERVAL: String = "interval"
     const val HAS_REGISTER: String = "hasRegister"
+    const val IS_DARK: String = "dark"
     const val SHOW_NOTIFICATION: String = "notification_show"
     const val USER: String = "user"
     const val SESSION: String = "session"
