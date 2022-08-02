@@ -9,6 +9,7 @@
 
         <item name="colorPrimary">@color/red_pink</item> // Activated State
         <item name="colorOnSurface">@color/radio_color</item> // Normal State
+        <item name="backgroundColor">@color/red_pink</item> // Normal State
 
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/white</item>

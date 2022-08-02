@@ -60,6 +60,15 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
                     .collectLatest { _coursesFlow.emit(NetWorkState.Success(it)) }
             }
     }
+    fun sendSearchCourses(key:String,pageNumber:Int){
+            executeApi(_coursesFlow){
+                coursesUseCase.searchCourse(key,pageNumber)
+                    .onStart { _coursesFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _coursesFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _coursesFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collectLatest { _coursesFlow.emit(NetWorkState.Success(it)) }
+            }
+    }
 
 
 }

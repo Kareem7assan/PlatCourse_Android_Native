@@ -33,7 +33,7 @@
     <string name="check_field_pass">كلمة المرور لا تقل عن ٨ حروف</string>
 
     //login and register
-    <string name="phone">رقم جوالك </string>
+    <string name="phone">رقم الهاتف </string>
     <string name="password">كلمة المرور</string>
     <string name="forget_password"><u>نسيت كلمة المرور</u></string>
     <string name="reset"><u>Reset</u></string>
@@ -242,5 +242,6 @@
     <string name="orders">الطلبات</string>
     <string name="articles">المقالات</string>
     <string name="night_mode">الوضع الليلي</string>
+    <string name="address">العنوان</string>
 
 </resources>

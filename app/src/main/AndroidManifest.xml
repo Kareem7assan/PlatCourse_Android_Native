@@ -17,8 +17,11 @@
         android:theme="@style/Theme.PlatCourse"
         android:usesCleartextTraffic="true"
         tools:replace="allowBackup, label,theme">
-        <activity android:name=".menu.articles.ArticlesActivity"/>
-        <activity android:name=".menu.article_details.ArticleDetailsActivity"/>
+        <activity android:name=".menu.terms.TermsActivity"/>
+        <activity android:name=".menu.articles.ArticlesActivity" />
+        <activity android:name=".menu.article_details.ArticleDetailsActivity" />
+        <activity android:name=".menu.pages.PagesActivity" />
+        <activity android:name=".menu.contact_us.ContactUsActivity" />
         <activity
             android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan" />

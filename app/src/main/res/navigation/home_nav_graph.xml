@@ -51,10 +51,18 @@
         android:label="NewCoursesFragment"
         tools:layout="@layout/fragment_my_courses">
     </fragment>
+    <fragment
+        android:id="@+id/searchCoursesFragment"
+        android:name="com.platCourse.platCourseAndroid.search.SearchFragment"
+        android:label="SearchCoursesFragment"
+        tools:layout="@layout/fragment_search">
+    </fragment>
 
     <action android:id="@+id/action_global_coursesFragment" app:destination="@id/coursesFragment"/>
     <action android:id="@+id/action_global_myCoursesFragment" app:destination="@id/myCoursesFragment"/>
     <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
-    <action android:id="@+id/action_global_menuFragment" app:destination="@id/menuFragment" /><action android:id="@+id/action_global_featuredCoursesFragment" app:destination="@id/featuredCoursesFragment"/><action android:id="@+id/action_global_newCoursesFragment" app:destination="@id/newCoursesFragment"/>
+    <action android:id="@+id/action_global_menuFragment" app:destination="@id/menuFragment" />
+    <action android:id="@+id/action_global_featuredCoursesFragment" app:destination="@id/featuredCoursesFragment"/>
+    <action android:id="@+id/action_global_newCoursesFragment" app:destination="@id/newCoursesFragment"/><action android:id="@+id/action_global_searchCoursesFragment" app:destination="@id/searchCoursesFragment"/>
 
 </navigation>

@@ -25,6 +25,20 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         binding = ActivityHomeBinding.bind(findViewById(R.id.drawerContent))
         setActions()
         setupBottomNavigationChecked()
+        setupToolbarAction()
+    }
+
+    private fun setupToolbarAction() {
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when (destination.id) {
+                R.id.searchCoursesFragment -> {
+                    hideToolbar()
+                }
+                else -> {
+                    showToolbar()
+                }
+            }
+        }
     }
 
 
@@ -52,7 +66,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                     setupTitle(getString(R.string.more))
                     handleHomeToolbar()
                 }
-
                 else -> {
                     //binding?.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true
                     //setupTitle(getString(R.string.home))
@@ -60,6 +73,15 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                 }
             }
         }
+    }
+
+    private fun hideToolbar() {
+        binding.mainBottomNavigation.hide()
+        binding.toolbar.root.hide()
+    }
+    private fun showToolbar() {
+        binding.mainBottomNavigation.show()
+        binding.toolbar.root.show()
     }
 
     private fun setupTitle(title: String) {
@@ -73,7 +95,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     override fun setActions(){
         setupBottomNavigation()
         binding.toolbar.ivSearchEnd.setOnClickListener {
-
+            navController.navigate(R.id.action_global_searchCoursesFragment)
         }
         binding.toolbar.ivNotif.setOnClickListener {
 
@@ -82,6 +104,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         binding.toolbar.ivBack.setOnClickListener {
             navController.navigateUp()
         }
+
 
 
     }

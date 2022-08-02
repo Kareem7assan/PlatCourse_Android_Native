@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:fillViewport="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#f4f4f4"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -20,190 +16,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/searchBar"
-                app:tabSelectedTextColor="@color/water_blue"
-                app:tabTextColor="@color/brown_grey"
-                app:tabMode="scrollable"
-                app:tabTextAppearance="@style/tab_text"
-                app:tabIndicatorColor="@color/soft_green"
-                />
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintTop_toBottomOf="@id/tabLay"
-                android:background="@drawable/sep_color"
-                />
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSubCat"
+                android:id="@+id/rvCourses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/view"
-                tools:listitem="@layout/item_sub_cat"
-                android:orientation="horizontal"
-                android:background="@color/white"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="4"
-
-
-                />
-            <LinearLayout
-                android:id="@+id/nearByLay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/rvSubCat"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:padding="@dimen/margin_small"
-                android:minHeight="31dp"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:background="@drawable/stroke_bg_solid_white"
-                >
-                <TextView
-                    android:id="@+id/tvNearBy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/near_me"
-                    android:fontFamily="@font/regular"
-                    android:textSize="10.5sp"
-                    android:textColor="@color/water_blue"
-
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/regionsLay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/rvSubCat"
-                app:layout_constraintStart_toEndOf="@id/nearByLay"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:padding="@dimen/margin_small"
-                android:gravity="center"
-                android:minHeight="31dp"
-                android:background="@drawable/stroke_bg_solid_white"
-                >
-                <ImageView
-                    android:layout_width="12.5dp"
-                    android:layout_height="14.5dp"
-                    android:src="@drawable/location"
-                    android:tint="@color/warm_grey99"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="2dp"
-                    />
-                <TextView
-                    android:id="@+id/tvAllRegions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/all_regions"
-                    android:fontFamily="@font/regular"
-                    android:layout_gravity="center"
-                    android:textSize="10.5sp"
-                    android:textColor="@color/water_blue"
-                    />
-                <ImageView
-                    android:id="@+id/ivAllRegions"
-                    android:layout_width="12.5dp"
-                    android:layout_height="14.5dp"
-                    android:src="@drawable/arrow_right"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginTop="1dp"
-                    android:tint="@color/warm_grey99"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="2dp"
-                    />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/citiesLay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tabLay"
-                app:layout_constraintStart_toEndOf="@id/regionsLay"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:padding="@dimen/margin_small"
-                android:gravity="center"
-                android:visibility="gone"
-                android:minHeight="31dp"
-                android:background="@drawable/stroke_bg_solid_white"
-                >
-                <ImageView
-                    android:layout_width="12.5dp"
-                    android:layout_height="14.5dp"
-                    android:src="@drawable/location"
-                    android:tint="@color/warm_grey99"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="2dp"
-                    />
-                <TextView
-                    android:id="@+id/tvAllCities"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/all_cities"
-                    android:fontFamily="@font/regular"
-                    android:layout_gravity="center"
-                    android:textSize="10.5sp"
-                    android:textColor="@color/water_blue"
-                    />
-                <ImageView
-                    android:id="@+id/ivAllCities"
-                    android:layout_width="12.5dp"
-                    android:layout_height="14.5dp"
-                    android:src="@drawable/arrow_right"
-                    android:rotation="180"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginTop="1dp"
-                    android:tint="@color/warm_grey99"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="2dp"
-                    />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/searchBriefLay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/nearByLay"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/margin_normal"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_results"
-                    android:textSize="15.5sp"
-                    android:fontFamily="@font/bold"
-                    android:layout_marginStart="19dp"
-                    android:textColor="@color/dark"
-                    />
-                <TextView
-                    android:id="@+id/tvCountSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="19dp"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:textSize="13.8sp"
-                    android:textColor="@color/dark"
-                    android:fontFamily="@font/regular"
-                    />
-            </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTweets"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/searchBriefLay"
-                tools:listitem="@layout/item_tweet"
+                tools:listitem="@layout/item_course_vertical"
                 tools:itemCount="3"
-                app:layout_constraintBottom_toTopOf="@id/progressMore"
+                app:layout_constraintTop_toBottomOf="@id/searchBar"
+                android:layout_marginTop="@dimen/margin_normal"
                 />
             <ProgressBar
                 android:id="@+id/progressMore"
@@ -212,24 +33,13 @@
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:indeterminate="true"
                 android:visibility="invisible"
-                android:indeterminateTint="@color/soft_green"
+                android:indeterminateTint="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
-            <include
-                layout="@layout/layout_progress"
-                android:id="@+id/progressLay"
-                app:layout_constraintTop_toBottomOf="@+id/nearByLay"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constrainedHeight="true"
-                android:visibility="gone"
-                android:elevation="@dimen/margin_normal"
                 />
             <include
                 layout="@layout/layout_empty"
                 android:id="@+id/emptyLay"
-                app:layout_constraintTop_toBottomOf="@+id/searchBriefLay"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -238,39 +48,4 @@
 
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:id="@+id/showFollowersTweets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="35dp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="36dp"
-        android:padding="@dimen/margin_normal"
-        android:elevation="3dp"
-        android:background="@drawable/people_background_white_btn"
-        >
-        <ImageView
-            android:id="@+id/ivFlag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/report"
-            android:layout_gravity="center"
-            android:tint="@color/water_blue"
-            />
-        <TextView
-            android:id="@+id/tvShowTweets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/show_tweets_followers"
-            android:textColor="@color/water_blue"
-            android:layout_gravity="center"
-
-            />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

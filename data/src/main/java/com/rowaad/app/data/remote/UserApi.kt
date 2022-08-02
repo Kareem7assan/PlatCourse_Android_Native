@@ -90,6 +90,12 @@ interface UserApi {
            @Query("page") page:Int?=1
    ): Response<CoursesModel>
 
+   @GET("courses")
+   suspend fun searchCourses(
+           @Query("title") title:String?=null,
+           @Query("page") page:Int?=1,
+   ): Response<CoursesModel>
+
 
    @GET("categories")
    suspend fun categories(

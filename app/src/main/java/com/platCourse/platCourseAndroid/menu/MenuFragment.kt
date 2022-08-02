@@ -19,6 +19,7 @@ import com.platCourse.platCourseAndroid.menu.articles.ArticlesActivity
 import com.platCourse.platCourseAndroid.menu.change_password.ChangePasswordActivity
 import com.platCourse.platCourseAndroid.menu.contact_us.ContactUsActivity
 import com.platCourse.platCourseAndroid.menu.pages.PagesActivity
+import com.platCourse.platCourseAndroid.menu.terms.TermsActivity
 import com.rowaad.utils.extention.*
 import org.jetbrains.anko.configuration
 import org.jetbrains.anko.support.v4.toast
@@ -124,9 +125,7 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
                 })
             }
             Menu.TERMS->{
-                startActivity(Intent(requireContext(),PagesActivity::class.java).also {
-                    it.putExtra("page","terms")
-                })
+                startActivity(Intent(requireContext(),TermsActivity::class.java))
             }
             Menu.PRIVACY_SALES->{
                 startActivity(Intent(requireContext(),PagesActivity::class.java).also {

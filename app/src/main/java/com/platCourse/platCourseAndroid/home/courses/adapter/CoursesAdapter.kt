@@ -35,6 +35,10 @@ class CoursesAdapter(val isVertical:Boolean?=false) : RecyclerView.Adapter<Cours
         )
     }
 
+    fun clear(){
+        data.clear()
+        notifyDataSetChanged()
+    }
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: CoursesVH, position: Int) = holder.bind(data[position])

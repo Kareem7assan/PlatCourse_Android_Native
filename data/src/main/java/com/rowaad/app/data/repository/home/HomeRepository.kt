@@ -10,6 +10,7 @@ interface HomeRepository{
     fun allCategories(): Flow<Response<CategoriesModel>>
     fun newCourses(page:Int?): Flow<Response<CoursesModel>>
     fun myCourses(page:Int?): Flow<Response<CoursesModel>>
+    fun searchCourse(title:String?,page:Int?): Flow<Response<CoursesModel>>
     fun featuredCourses(page:Int?): Flow<Response<CoursesModel>>
 
 }

@@ -34,6 +34,12 @@ class HomeRepositoryImp @Inject constructor(
         }
     }
 
+    override fun searchCourse(title: String?, page: Int?): Flow<Response<CoursesModel>> {
+        return flow {
+            emit(api.searchCourses(title, page))
+        }
+    }
+
     override fun featuredCourses(page: Int?): Flow<Response<CoursesModel>> {
         return flow {
             emit(api.featuredCourses(page))
