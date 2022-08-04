@@ -8,20 +8,17 @@ data class NotificationModel(
         val records:List<NotificationItem>,
         val deliveryMen:UserModel?=null
 )
+
 data class NotificationItem(
         val id:Int,
-        val title:String?=null,
-        val body:String?=null,
-        val type:String?=null,
-        val extra:Extra?=null,
-        val seen:Boolean=false,
-        val createdAt: CreatedAt?=null
+        val user_id:Int,
+        val notification:Extra?=null,
+        var read:Boolean=false,
+        @SerializedName("created_at")
+        val createdAt: String?=null
 )
 data class Extra(
-        val orderId:String?=null,
-        val type:String?=null,
-        val status:String?=null,
-        val statusColor:String?=null,
-        val iconColor:String?=null,
-        val statusIcon:String?=null
+        val name:String?=null,
+        val body:String?=null,
+        val notification_type:Int?=null
 )

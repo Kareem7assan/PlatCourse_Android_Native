@@ -21,14 +21,14 @@ class ProfileUseCase @Inject constructor(private val baseRepository: BaseReposit
     }
 
 
-
-    //follow */* unFollow
-    suspend fun follow(userId:Int): Flow<Any> {
-        return menuRepository.follow(customerId = userId.toString())
-            .transformResponseData {
-                emit(it)
-            }
-    }
+//
+//    //follow */* unFollow
+//    suspend fun follow(userId:Int): Flow<Any> {
+//        return menuRepository.follow(customerId = userId.toString())
+//            .transformResponseData {
+//                emit(it)
+//            }
+//    }
 
     fun isGuestUser():Boolean{
         return baseRepository.isLogin().not()

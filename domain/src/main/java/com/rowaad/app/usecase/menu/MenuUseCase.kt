@@ -54,23 +54,32 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
     }
 
     //notifications
-    suspend fun notifications(page: Int): Flow<List<NotificationItem>> {
-        return menuRepository.notifications(page = page)
-                .transformResponseData { emit(it.records) }
+    suspend fun notifications(page:Int): Flow<List<NotificationItem>> {
+        return menuRepository.getNotifications(page)
+                .transformResponse { emit(it) }
+    }
+
+
+    //read Notifications
+    suspend fun readAllNotifications(): Flow<Any> {
+        return menuRepository.readAllNotifications()
+                .transformResponse { emit(it) }
+    }
+
+    //read Notifications
+    suspend fun readNotification(id: Int): Flow<Any> {
+        return menuRepository.readNotification(listOf(id))
+                .transformResponse { emit(it) }
     }
 
 
 
-    //notifications
+  /*  //notifications
     suspend fun deleteNotification(id:Int): Flow<Any> {
         return menuRepository.deleteNotification(id)
                 .transformResponseData { emit(it) }
-    }
-    //post contact-us
-    suspend fun contactUsPost(name:String,email:String,subject:String,msg:String): Flow<Any> {
-        return menuRepository.postContactUs(name = name,email = email,subject = subject,message = msg)
-                .transformResponseData { emit(it) }
-    }
+    }*/
+
 
     //contact-us
     suspend fun contactUsContacts(): Flow<SettingsModel> {

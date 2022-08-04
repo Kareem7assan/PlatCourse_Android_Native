@@ -2,7 +2,6 @@
 <androidx.core.widget.NestedScrollView android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
 
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,15 +12,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/searchBriefLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/nearByLay"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/white"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
             android:paddingTop="19dp"
             android:paddingBottom="19dp"
             >
@@ -29,15 +28,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/the_notifications"
-                android:textSize="15.5sp"
-                android:fontFamily="@font/bold"
+                android:layout_gravity="center_horizontal"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="19dp"
-                android:textColor="@color/dark"
                 />
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tvAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/see_all"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:fontFamily="@font/regular"
+                android:layout_marginEnd="@dimen/margin_normal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
 
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMessages"
+            android:id="@+id/rvNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/searchBriefLay"

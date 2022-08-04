@@ -149,15 +149,8 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
     }
 
 
-    fun contactUsPost(name: String,email: String,subject:String,msg:String){
-        executeSharedApi(_contactsPostFlow){
-            menuUseCase.contactUsPost(name = name, email = email, subject = subject, msg = msg)
-                    .onStart { _contactsPostFlow.emit(NetWorkState.Loading) }
-                    .onCompletion { _contactsPostFlow.emit(NetWorkState.StopLoading) }
-                    .catch { _contactsPostFlow.emit(NetWorkState.Error(it)) }
-                    .collectLatest {  _contactsPostFlow.emit(NetWorkState.Success(it))  }
-        }
-    }
+
+
 
     fun logout(){
         executeSharedApi(_userFlow){
@@ -176,7 +169,7 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
     val notificationRemoveFlow= _notificationRemoveFlow.asStateFlow()
 
 
-    fun showNotifications(page:Int){
+    fun showNotifications(page:Int=1){
         executeApi(_notificationFlow){
             menuUseCase.notifications(page)
                     .onStart { _notificationFlow.emit(NetWorkState.Loading) }
@@ -186,9 +179,16 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
         }
     }
 
-    fun deleteNotification(notificationId:Int){
+    fun seeNotification(notificationId:Int){
         executeApi(_notificationRemoveFlow){
-            menuUseCase.deleteNotification(notificationId)
+            menuUseCase.readNotification(notificationId)
+                    .catch { _notificationRemoveFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collect()
+        }
+    }
+    fun seeAllNotifications(){
+        executeApi(_notificationRemoveFlow){
+            menuUseCase.readAllNotifications()
                     .catch { _notificationRemoveFlow.emit(NetWorkState.Error(it.handleException())) }
                     .collect()
         }

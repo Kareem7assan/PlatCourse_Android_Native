@@ -76,7 +76,8 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
                     intent.putExtra(Constants_Api.INTENT.LOGOUT,true)
                     startActivity(intent)
                 }
-                .setActionTextColor(ContextCompat.getColor(this, android.R.color.holo_red_light))
+                .setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .setActionTextColor(ContextCompat.getColor(this, R.color.booger))
 
         val view = snack.view
         val textView = view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)

@@ -6,6 +6,7 @@ import com.rowaad.app.data.model.WalletModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
+import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
@@ -26,25 +27,15 @@ class MenuRepositoryImp @Inject constructor(
 ): MenuRepository {
 
 
-    override fun notifications(page: Int): Flow<Response<EndPointResponse<NotificationModel>>> {
-        return flow { emit(api.notifications(page)) }
-    }
 
+/*
     override fun deleteNotification(id: Int): Flow<Response<EndPointResponse<Any>>> {
         return flow { emit(api.removeNotification(id.toString())) }
     }
+*/
 
     override fun contactUs(): Flow<Response<EndPointResponse<ContactUsModel>>> {
         return flow { emit(api.contactUs()) }
-    }
-
-    override fun postContactUs(
-        name: String,
-        email: String,
-        subject: String,
-        message: String
-    ): Flow<Response<EndPointResponse<Any>>> {
-        return flow { emit(api.postContactUs(name, email, subject, message)) }
     }
 
     override fun profile(userId: Int): Flow<Response<EndPointResponse<RegisterModel>>> {
@@ -78,13 +69,24 @@ class MenuRepositoryImp @Inject constructor(
         }
     }
 
-    override fun follow(customerId: String): Flow<Response<EndPointResponse<Any>>> {
-        return flow { emit(api.follow(customerId)) }
+    override fun getNotifications(page: Int): Flow<Response<List<NotificationItem>>> {
+        return flow {
+            emit(api.notifications())
+        }
     }
 
-    override fun getNotifications(page: Int): Flow<Response<EndPointResponse<NotificationModel>>> {
-        return flow { emit(api.notifications(page)) }
+    override fun readAllNotifications(): Flow<Response<Any>> {
+        return flow {
+            emit(api.readAllNotification())
+        }
     }
+
+    override fun readNotification(ids: List<Int>): Flow<Response<Any>> {
+        return flow {
+            emit(api.readNotification(ids))
+        }
+    }
+
 
     override var isNotification: Boolean
         get() = db.load(SHOW_NOTIFICATION,true)!!

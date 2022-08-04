@@ -34,6 +34,9 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                 R.id.searchCoursesFragment -> {
                     hideToolbar()
                 }
+                R.id.notificationsFragment->{
+                    hideToolbar()
+                }
                 else -> {
                     showToolbar()
                 }
@@ -66,6 +69,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                     setupTitle(getString(R.string.more))
                     handleHomeToolbar()
                 }
+
                 else -> {
                     //binding?.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true
                     //setupTitle(getString(R.string.home))
@@ -98,7 +102,14 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             navController.navigate(R.id.action_global_searchCoursesFragment)
         }
         binding.toolbar.ivNotif.setOnClickListener {
+            navController.navigate(R.id.action_global_notificationsFragment)
 
+            /* if (getBaseRepository(this).isLogin())
+                 navController.navigate(R.id.action_global_notificationsFragment)
+             else
+                 showVisitorDialog(binding.root){
+
+                 }*/
         }
 
         binding.toolbar.ivBack.setOnClickListener {

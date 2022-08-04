@@ -7,6 +7,7 @@ import com.rowaad.app.data.model.categories_model.CategoriesModel
 
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
+import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
@@ -96,6 +97,22 @@ interface UserApi {
            @Query("page") page:Int?=1,
    ): Response<CoursesModel>
 
+    @GET("auth/notifications")
+    suspend fun notifications(
+            @Query("page") page:Int=1
+    ): Response<List<NotificationItem>>
+
+
+    @GET("auth/notifications/read_all")
+    suspend fun readAllNotification(): Response<Any>
+
+
+    @POST("auth/notifications/read")
+    suspend fun readNotification(
+            @Query("notification_ids")  notificationIds:List<Int>
+    ): Response<Any>
+
+
 
    @GET("categories")
    suspend fun categories(
@@ -172,16 +189,7 @@ interface UserApi {
         @Path("id") id:Int
     ): Response<Article>
 
-    @GET("notifications")
-    suspend fun notifications(
-            @Query("page") page:Int=1
-    ): Response<EndPointResponse<NotificationModel>>
 
-    @DELETE("notifications/{id}")
-    suspend fun removeNotification(
-        @Path("id") id:String
-
-    ): Response<EndPointResponse<Any>>
 
 
 

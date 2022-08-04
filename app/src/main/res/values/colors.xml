@@ -60,4 +60,5 @@
     <color name="warm_grey99">#fd949292</color>
     <color name="dark_sky_blue">#48a9cd</color>
     <color name="very_grey_color_text">#b7b6b6</color>
+    <color name="color_not_selected">#12BAA2A2</color>
 </resources>
