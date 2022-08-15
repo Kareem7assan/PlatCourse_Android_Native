@@ -2,7 +2,9 @@ package com.platCourse.platCourseAndroid.home.categories.sub_categories
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentCategoriesBinding
@@ -17,6 +19,7 @@ import com.rowaad.app.data.model.categories_model.SubCategory
 import com.rowaad.utils.extention.fromJson
 
 class SubCategoriesFragment : BaseFragment(R.layout.fragment_categories) {
+    private var cat: CategoriesItem?=null
     private val binding by viewBinding<FragmentCategoriesBinding>()
     private val catsAdapter by lazy { SubCatsAdapter() }
 
@@ -25,9 +28,35 @@ class SubCategoriesFragment : BaseFragment(R.layout.fragment_categories) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleRec()
-        val cat=arguments?.getString("sub_cat")?.fromJson<CategoriesItem>()
+        cat=arguments?.getString("sub_cat")?.fromJson<CategoriesItem>()
         setupTitle(cat?.category_name)
         setData(cat?.sub_category)
+        setupActions()
+    }
+
+    private fun setupActions() {
+        catsAdapter.onClickItem=::onClickCat
+    }
+
+    private fun onClickCat(subCategory: SubCategory, i: Int) {
+        findNavController().navigate(R.id.action_global_CoursesBaseCategoriesFragment,
+            bundleOf(
+                "cat"
+                to
+                  cat?.id  ,
+                "cat_name"
+                to
+                  cat?.category_name  ,
+                "sub_cat"
+                to
+                  subCategory?.id  ,
+                "sub_cat_name"
+                to
+                  subCategory?.sub_category_name
+
+            )
+            )
+
     }
 
     private fun setupTitle(categoryName: String?) {

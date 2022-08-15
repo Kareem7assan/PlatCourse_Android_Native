@@ -47,4 +47,15 @@ class HomeRepositoryImp @Inject constructor(
     }
 
 
+    override fun coursesBasedCat(
+        categoryId: Int?,
+        subCategoryId: Int?,
+        page: Int?
+    ): Flow<Response<CoursesModel>> {
+        return flow {
+            emit(api.coursesBasedCat(categoryId = categoryId,subCategoryId = subCategoryId,page = page))
+        }
+    }
+
+
 }

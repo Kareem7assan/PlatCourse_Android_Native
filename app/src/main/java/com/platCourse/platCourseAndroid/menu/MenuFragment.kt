@@ -3,6 +3,7 @@ package com.platCourse.platCourseAndroid.menu
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
@@ -81,6 +82,7 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
 }
 
     private fun onClickItemNight(isChecked:Boolean) {
+        Log.e("night",isChecked.toString())
             if (isChecked)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES).also { viewModel.setDarkMode(true) }
             else

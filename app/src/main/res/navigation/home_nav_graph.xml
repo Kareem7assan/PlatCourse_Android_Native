@@ -21,6 +21,12 @@
         tools:layout="@layout/fragment_categories">
     </fragment>
     <fragment
+        android:id="@+id/coursesBaseCategoriesFragment"
+        android:name="com.platCourse.platCourseAndroid.home.categories.courses.CoursesBaseCategoriesFragment"
+        android:label="courseBaseCat"
+        tools:layout="@layout/fragment_courses_based_categories">
+    </fragment>
+    <fragment
         android:id="@+id/menuFragment"
         android:name="com.platCourse.platCourseAndroid.menu.MenuFragment"
         android:label="menuFragment"
@@ -38,6 +44,12 @@
         android:name="com.platCourse.platCourseAndroid.home.courses.CoursesFragment"
         android:label="CoursesFragment"
         tools:layout="@layout/fragment_courses">
+    </fragment>
+    <fragment
+        android:id="@+id/courseDetailsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_details.CourseDetailsFragment"
+        android:label="CourseDetailsFragment"
+        tools:layout="@layout/fragment_details_course">
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -69,6 +81,9 @@
     <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
     <action android:id="@+id/action_global_menuFragment" app:destination="@id/menuFragment" />
     <action android:id="@+id/action_global_featuredCoursesFragment" app:destination="@id/featuredCoursesFragment"/>
-    <action android:id="@+id/action_global_newCoursesFragment" app:destination="@id/newCoursesFragment"/><action android:id="@+id/action_global_searchCoursesFragment" app:destination="@id/searchCoursesFragment"/><action android:id="@+id/action_global_notificationsFragment" app:destination="@id/notificationsFragment"/>
+    <action android:id="@+id/action_global_newCoursesFragment" app:destination="@id/newCoursesFragment"/>
+    <action android:id="@+id/action_global_searchCoursesFragment" app:destination="@id/searchCoursesFragment"/>
+    <action android:id="@+id/action_global_notificationsFragment" app:destination="@id/notificationsFragment"/>
+    <action android:id="@+id/action_global_CoursesBaseCategoriesFragment" app:destination="@id/coursesBaseCategoriesFragment"/><action android:id="@+id/action_global_courseDetailsFragment" app:destination="@id/courseDetailsFragment"/>
 
 </navigation>

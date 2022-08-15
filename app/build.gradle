@@ -214,6 +214,7 @@ dependencies {
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-material:4.0.0'
 
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
 
     //pix (support android 30)
     implementation  'com.fxn769:pix:1.5.6'

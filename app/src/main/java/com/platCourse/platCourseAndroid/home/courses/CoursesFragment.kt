@@ -2,6 +2,7 @@ package com.platCourse.platCourseAndroid.home.courses
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,9 +12,11 @@ import com.platCourse.platCourseAndroid.databinding.FragmentCoursesBinding
 import com.platCourse.platCourseAndroid.home.courses.adapter.CoursesAdapter
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
+import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.courses_model.CoursesModel
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.toJson
 
 class CoursesFragment : BaseFragment(R.layout.fragment_courses) {
 
@@ -53,6 +56,18 @@ class CoursesFragment : BaseFragment(R.layout.fragment_courses) {
         binding.tvMoreNew.setOnClickListener {
             findNavController().navigate(R.id.action_global_newCoursesFragment)
         }
+        newAdapter.onClickItem=::onClickCourse
+        featuredAdapter.onClickItem=::onClickCourse
+    }
+
+    private fun onClickCourse(courseItem: CourseItem, pos: Int) {
+        findNavController().navigate(R.id.action_global_courseDetailsFragment,
+                bundleOf(
+                    "details"
+                        to
+                    courseItem.toJson()
+                )
+            )
     }
 
     private fun observeNavigation() {

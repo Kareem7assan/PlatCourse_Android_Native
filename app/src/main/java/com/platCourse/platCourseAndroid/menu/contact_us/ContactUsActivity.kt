@@ -28,9 +28,13 @@ class ContactUsActivity : BaseActivity(R.layout.activity_contact_us) {
             IntentUtils.openEmailIntent(context = this,emai = binding.tvMail.text.toString())
         }
         binding.tvPhone.setOnClickListener {
-            IntentUtils.callNumberIntent(this,binding.tvPhone.text.toString())
+            IntentUtils.openWhatsappIntent(context = this,number = binding.tvPhone.text.toString())
         }
 
+
+        binding.tvFace.setOnClickListener {
+            IntentUtils.openFacebookIntent(context = this,binding.tvFace.text.toString())
+        }
     }
 
 

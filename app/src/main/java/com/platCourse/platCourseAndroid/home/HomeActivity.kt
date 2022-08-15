@@ -102,14 +102,12 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             navController.navigate(R.id.action_global_searchCoursesFragment)
         }
         binding.toolbar.ivNotif.setOnClickListener {
-            navController.navigate(R.id.action_global_notificationsFragment)
-
-            /* if (getBaseRepository(this).isLogin())
+            if (getBaseRepository(this).isLogin())
                  navController.navigate(R.id.action_global_notificationsFragment)
              else
                  showVisitorDialog(binding.root){
 
-                 }*/
+                 }
         }
 
         binding.toolbar.ivBack.setOnClickListener {

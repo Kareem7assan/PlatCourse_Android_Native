@@ -36,4 +36,16 @@ open class MyCoursesViewModel @Inject constructor(private val coursesUseCase: Co
 
     }
 
+    fun getCoursesBaseCategories(category:Int?=null,subCategory:Int?=null,page:Int){
+            executeApi(_myCoursesFlow){
+                coursesUseCase.coursesBasedCategories(category, subCategory, page)
+                    .onStart { _myCoursesFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _myCoursesFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _myCoursesFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collectLatest { _myCoursesFlow.emit(NetWorkState.Success(it)) }
+
+        }
+
+    }
+
 }

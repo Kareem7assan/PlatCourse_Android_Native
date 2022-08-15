@@ -60,7 +60,7 @@ class CoursesAdapter(val isVertical:Boolean?=false) : RecyclerView.Adapter<Cours
 
 
 
-    class CoursesVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CoursesVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item:CourseItem) = with(ItemCourseBinding.bind(itemView)) {
             tvTitleCourse.text=item.title
             tvDescCourse.text=item.overview
@@ -77,6 +77,11 @@ class CoursesAdapter(val isVertical:Boolean?=false) : RecyclerView.Adapter<Cours
                 tvPriceBefore.show()
 
             }
+
+            itemView.setOnClickListener {
+                onClickItem?.invoke(item,bindingAdapterPosition)
+            }
+
 
 
             ivImgCourse.loadImage(item.cover)

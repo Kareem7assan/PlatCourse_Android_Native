@@ -63,7 +63,7 @@
     <string name="profile">ملفي الشخصي</string>
     <string name="change_password">تغيير كلمة المرور</string>
     <string name="packages">الباقات</string>
-    <string name="contact_us">اتصل بنا</string>
+    <string name="contact_us">التواصل/الدعم الفني</string>
     <string name="commission">العمولة</string>
     <string name="about_us">من نحن</string>
     <string name="login_register">تسجيل دخول / حساب</string>
@@ -244,5 +244,6 @@
     <string name="night_mode">الوضع الليلي</string>
     <string name="address">العنوان</string>
     <string name="see_all">قراءة الكل</string>
+    <string name="face">فيسبوك</string>
 
 </resources>

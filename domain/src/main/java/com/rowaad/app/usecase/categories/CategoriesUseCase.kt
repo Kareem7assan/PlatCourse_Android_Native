@@ -13,10 +13,11 @@ import javax.inject.Inject
 class CategoriesUseCase @Inject constructor(private val baseRepository: BaseRepository,
                                          private val repository: HomeRepository) {
 
-
-     suspend fun categories(): Flow<CategoriesModel> {
+    suspend fun categories(): Flow<CategoriesModel> {
         return repository.allCategories()
                 .transformResponse { emit(it) }
     }
+
+
 
 }

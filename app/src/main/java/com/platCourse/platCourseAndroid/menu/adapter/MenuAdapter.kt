@@ -66,10 +66,9 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.MenuVH>() {
             else
                 rbCheck.hide().also { ivAction.show() }
 
-            rbCheck.setOnClickListener {
+            rbCheck.setOnCheckedChangeListener { compoundButton, b ->
                 isDark=isDark.not()
-                if (isDark)
-                    onClickItemNight?.invoke(isDark)
+                onClickItemNight?.invoke(isDark)
             }
 
              itemView.setOnClickListener { onClickItem?.invoke(item.menuItem) }

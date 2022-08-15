@@ -38,7 +38,22 @@ class CategoriesFragment : BaseFragment(R.layout.fragment_categories) {
     }
 
     private fun onClickItem(categoriesItem: CategoriesItem, pos: Int) {
-        findNavController().navigate(R.id.action_homeFragment_to_subCatFragment,
+        if (categoriesItem.sub_category!!.isEmpty())
+            findNavController().navigate(R.id.action_global_CoursesBaseCategoriesFragment,
+                bundleOf(
+                    "cat"
+                            to
+                            categoriesItem.id
+                    ,
+
+                    "cat_name"
+                            to
+                            categoriesItem.category_name
+
+                )
+            )
+        else
+            findNavController().navigate(R.id.action_homeFragment_to_subCatFragment,
                     bundleOf(
                                     "sub_cat"
                                     to

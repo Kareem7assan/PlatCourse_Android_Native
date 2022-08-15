@@ -81,6 +81,13 @@ interface UserApi {
            @Query("page") page:Int?=1
    ): Response<CoursesModel>
 
+   @GET("courses")
+   suspend fun coursesBasedCat(
+           @Query("category_id") categoryId:Int?=null,
+           @Query("sub_category_id") subCategoryId:Int?=null,
+           @Query("page") page:Int?=1
+   ): Response<CoursesModel>
+
    @GET("courses/featured_courses")
    suspend fun featuredCourses(
            @Query("page") page:Int?=1
