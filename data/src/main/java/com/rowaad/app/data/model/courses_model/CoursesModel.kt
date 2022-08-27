@@ -24,6 +24,7 @@ data class CourseItem(
 	val createdAt: String? = null,
 	val title: String? = null,
 	val platform: List<String>? = null,
+	val isOwner:Boolean?=false,
 	val cover: String? = null,
 	val rate: Float? = null,
 	val price: Float? = null,

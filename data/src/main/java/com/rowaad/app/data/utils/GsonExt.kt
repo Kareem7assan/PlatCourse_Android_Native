@@ -19,9 +19,9 @@ fun ResponseBody.handleError():String {
         val key = errors.getString("key")
         errorMessage
     }
-    else if (json.has("error")){
-        val jsonError = json.getString("error")
-        //val errorMessage = jsonError.getString("error")
+    else if (json.has("details")){
+        val jsonError = json.getString("details")
+        Log.e("error",jsonError)
         jsonError
     }
     else if (json.has("message")){

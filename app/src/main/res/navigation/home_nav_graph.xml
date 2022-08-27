@@ -45,12 +45,7 @@
         android:label="CoursesFragment"
         tools:layout="@layout/fragment_courses">
     </fragment>
-    <fragment
-        android:id="@+id/courseDetailsFragment"
-        android:name="com.platCourse.platCourseAndroid.home.course_details.CourseDetailsFragment"
-        android:label="CourseDetailsFragment"
-        tools:layout="@layout/fragment_details_course">
-    </fragment>
+
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.platCourse.platCourseAndroid.menu.notifications.NotificationsFragment"
@@ -84,6 +79,73 @@
     <action android:id="@+id/action_global_newCoursesFragment" app:destination="@id/newCoursesFragment"/>
     <action android:id="@+id/action_global_searchCoursesFragment" app:destination="@id/searchCoursesFragment"/>
     <action android:id="@+id/action_global_notificationsFragment" app:destination="@id/notificationsFragment"/>
-    <action android:id="@+id/action_global_CoursesBaseCategoriesFragment" app:destination="@id/coursesBaseCategoriesFragment"/><action android:id="@+id/action_global_courseDetailsFragment" app:destination="@id/courseDetailsFragment"/>
+    <action android:id="@+id/action_global_CoursesBaseCategoriesFragment" app:destination="@id/coursesBaseCategoriesFragment"/>
+    <fragment
+        android:id="@+id/courseDetailsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_details.CourseDetailsFragment"
+        android:label="CourseDetailsFragment"
+        tools:layout="@layout/fragment_details_course">
+    </fragment>
+
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_sections.quiz.QuizFragment"
+        android:label="QuizFragment"
+        tools:layout="@layout/fragment_quiz">
+    </fragment>
+    <fragment
+
+        android:id="@+id/quizWebViewFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_sections.quiz.QuizWebViewFragment"
+        android:label="QuizDetailsFragment"
+        tools:layout="@layout/fragment_ads">
+    </fragment>
+
+    <fragment
+        android:id="@+id/courseLessonsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_sections.lessons.CourseLessonsFragment"
+        android:label="CourseLessonsFragment"
+        tools:layout="@layout/fragment_lessons_course"/>
+    <fragment
+        android:id="@+id/rateCourseFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_sections.rates.RateCourseFragment"
+        android:label="rate"
+        tools:layout="@layout/fragment_rate"/>
+
+    <fragment
+        android:id="@+id/announcementsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_sections.announcements.AnnouncementsFragment"
+        android:label="ads"
+        tools:layout="@layout/fragment_ads"/>
+
+    <action android:id="@+id/action_global_courseDetailsFragment" app:destination="@id/courseDetailsFragment"/>
+    <action android:id="@+id/action_global_courseLessonsFragment" app:destination="@id/courseLessonsFragment" /><action android:id="@+id/action_global_rateCourseFragment" app:destination="@id/rateCourseFragment"/><action android:id="@+id/action_global_quizFragment" app:destination="@id/quizFragment"/><action android:id="@+id/action_global_announcementsFragment" app:destination="@id/announcementsFragment"/><action android:id="@+id/action_global_quizWebViewFragment" app:destination="@id/quizWebViewFragment"/>
+
+
+<!--
+    <navigation android:id="@+id/navigation"
+        app:startDestination="@id/courseDetailsFragment">
+        <fragment
+            android:id="@+id/courseDetailsFragment"
+            android:name="com.platCourse.platCourseAndroid.home.course_details.CourseDetailsFragment"
+            android:label="CourseDetailsFragment"
+            tools:layout="@layout/fragment_details_course">
+        </fragment>
+
+        <fragment
+            android:id="@+id/courseLessonsFragment"
+            android:name="com.platCourse.platCourseAndroid.home.course_sections.lessons.CourseLessonsFragment"
+            android:label="CourseLessonsFragment"
+            tools:layout="@layout/fragment_lessons_course"/>
+        <fragment
+            android:id="@+id/rateCourseFragment"
+            android:name="com.platCourse.platCourseAndroid.home.course_sections.rates.RateCourseFragment"
+            android:label="rate"
+            tools:layout="@layout/fragment_rate"/>
+
+        <action android:id="@+id/action_global_courseDetailsFragment" app:destination="@id/courseDetailsFragment"/>
+        <action android:id="@+id/action_global_courseLessonsFragment" app:destination="@id/courseLessonsFragment" /><action android:id="@+id/action_global_rateCourseFragment" app:destination="@id/rateCourseFragment"/>
+    </navigation>
+-->
 
 </navigation>

@@ -30,8 +30,8 @@ class LoginUseCase @Inject constructor(private val baseRepository: BaseRepositor
                         .map {resp-> baseRepository.saveLogin(true)
                             resp
                          }
-                        .onEach { resp->baseRepository.saveUser(resp.userModel.copy(accessToken = resp.authorization?.accessToken))
-                            .also { baseRepository.saveToken( resp.authorization?.accessToken!!) } }
+                        .onEach { resp->baseRepository.saveUser(resp.student)
+                            .also { baseRepository.saveToken( resp.access_token!!) } }
 
 
     }

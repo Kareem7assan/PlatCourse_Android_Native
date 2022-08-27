@@ -24,7 +24,7 @@ class ForgetUseCase @Inject constructor(private val baseRepository: BaseReposito
         return repository.verify(email = email,verificationCode = code,type = type)
             .transformResponseData<RegisterModel, RegisterModel> { emit(it) }
             .onEach { user-> if (type=="register" || type=="updatePhone") {
-                baseRepository.saveUser(user.userModel).also {if (type=="register") baseRepository.saveToken(user.authorization?.accessToken!!) }
+                baseRepository.saveUser(user.student).also {if (type=="register") baseRepository.saveToken(user.access_token!!) }
             }
             }
 
@@ -48,7 +48,7 @@ class ForgetUseCase @Inject constructor(private val baseRepository: BaseReposito
     //update-password
     suspend fun updatePassword(password:String,newPass: String): Flow<UserModel> {
         return repository.updatePassword(oldPassword = password,password=newPass)
-            .transformResponseData<RegisterModel, UserModel> { emit(it.userModel) }
+            .transformResponseData<RegisterModel, UserModel> { emit(it.student) }
             .map {user-> baseRepository.saveLogin(true)
                 user
             }

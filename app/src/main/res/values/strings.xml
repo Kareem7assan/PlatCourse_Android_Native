@@ -248,6 +248,19 @@
     <string name="address">العنوان</string>
     <string name="see_all">قراءة الكل</string>
     <string name="face">فيسبوك</string>
+    <string name="desc">الوصف</string>
+    <string name="rates">التقييمات</string>
+    <string name="discussions">المناقشات</string>
+    <string name="quizes">"الاختبارات "</string>
+    <string name="files">الملفات</string>
+    <string name="anouneces">الاعلانات</string>
+    <string name="added_lessons">لم يتم اضافة دروس لهذا الدرس بعد</string>
+    <string name="lessons">الدروس</string>
+    <string name="rate_course">تقييم الكورس</string>
+    <string name="add_review">اضافة تقييم</string>
+    <string name="review_required">يجب اضافة تعليق</string>
+    <string name="no_quizzes">لم يتم اضافة كويزز حتى الآن</string>
+    <string name="press_to_go"><u>اضغط هنا لبدء الكويز</u></string>
 
 
 </resources>

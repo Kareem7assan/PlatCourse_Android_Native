@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+include
+    layout="@layout/toolbar_normal"
+    />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/regular"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+
+            android:lineSpacingExtra="12sp"
+            android:text="@string/rate_course"
+            />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="21dp"
+            android:rating="1"
+            android:isIndicator="false"
+            android:progressTint="@color/sunflower_yellow"
+           />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginEnd="21dp"
+            android:layout_marginTop="24dp"
+            android:minHeight="60dp"
+            android:padding="@dimen/margin_small"
+            app:boxBackgroundColor="@android:color/transparent"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@null"
+            app:boxBackgroundMode="filled"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:hintTextAppearance="@style/TextLabel"
+            android:hint="@string/write_comment"
+            android:textAlignment="viewEnd"
+            app:suffixTextAppearance="@style/TextInputLayoutPrefixText"
+            android:textColorHint="#111212"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rect_shape"
+                android:backgroundTint="#C5D3D3D3"
+                android:fontFamily="@font/regular"
+                android:gravity="start"
+
+                android:inputType="text|textNoSuggestions"
+                android:paddingStart="@dimen/margin_normal"
+                android:paddingEnd="@dimen/margin_normal"
+                android:textAlignment="viewStart"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rateBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@null"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:textSize="14.5sp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/medium"
+            app:backgroundTint="@color/colorPrimary"
+            android:text="@string/add_review"
+            android:background="@drawable/button_background"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="@dimen/margin_normal"
+            />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_review"
+        />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

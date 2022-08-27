@@ -52,7 +52,7 @@ open class LoginViewModel @Inject constructor(private val loginUseCase: LoginUse
                     .onStart { _userFlow.emit(NetWorkState.Loading) }
                     .onCompletion { _userFlow.emit(NetWorkState.StopLoading) }
                     .catch { _userFlow.emit(NetWorkState.Error(it.handleException())) }
-                    .collectLatest { _userFlow.emit(NetWorkState.Success(it.userModel)) }
+                    .collectLatest { _userFlow.emit(NetWorkState.Success(it.student)) }
             }
 
         }

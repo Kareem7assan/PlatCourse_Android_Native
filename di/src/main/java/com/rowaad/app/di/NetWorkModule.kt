@@ -58,7 +58,7 @@ object NetWorkModule {
             requestBuilder.addHeader("Content-Type", "application/x-www-form-urlencoded")
             requestBuilder.addHeader("LOCALE-CODE", lang)
             requestBuilder.addHeader("DEVICE-ID", devId!!)
-            requestBuilder.addHeader("Authorization", token/*"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZW1haWwiOiJzaGVyaWZlbHRlbHRAeWFob28uY29tIiwiZXhwIjoxNjg0NDQwNTgzLCJpYXQiOjE2NTg1MjA1ODN9.YD3-N5haBNtE8EO4Jao2trNg7R4koCZ6KZps3UgWy-s"*/)
+            requestBuilder.addHeader("Authorization", /*token*/ "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZW1haWwiOiJzaGVyaWZlbHRlbHRAeWFob28uY29tIiwiZXhwIjoxNjg3NTM0MjgxLCJpYXQiOjE2NjE2MTQyODF9.zVuZtz4mOD3RJe37fqmMyNp7zn50mEcaeIUU4V8IrRw")
             requestBuilder.addHeader("os", "android")
 
             val request = requestBuilder

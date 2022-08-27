@@ -6,8 +6,8 @@ import com.rowaad.app.data.model.UserModel
 
 data class RegisterModel(
     @SerializedName("record")
-    val userModel: UserModel,
-    val authorization: Authorization?=null,
+    val student: UserModel,
+    val access_token: String?=null,
     val resetCode:String?=null,
     val verificationCode:String?=null,
     val code:String?=null,

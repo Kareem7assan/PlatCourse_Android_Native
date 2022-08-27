@@ -177,9 +177,9 @@ class EditProfileActivity : BaseActivity(R.layout.activity_edit_profile) {
             etFname.setText(user.name)
             etBio.setText(user.bio)
             etEmail.setText(user.email)
-            etPhone.setText(user.phoneNumber)
-            if (user.image.isNullOrEmpty().not()) ivAvatar.loadImage(user.image)
-            if (user.header.isNullOrEmpty().not())ivCover.loadImage(user.header)
+            etPhone.setText(user.phone_number)
+            //if (user.image.isNullOrEmpty().not()) ivAvatar.loadImage(user.image)
+            //if (user.header.isNullOrEmpty().not())ivCover.loadImage(user.header)
         }
     }
 

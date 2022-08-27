@@ -2,6 +2,7 @@ package com.platCourse.platCourseAndroid.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,11 +16,9 @@ import com.platCourse.platCourseAndroid.home.my_courses.MyCoursesViewModel
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
+import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.courses_model.CoursesModel
-import com.rowaad.utils.extention.clearTxt
-import com.rowaad.utils.extention.handlePagination
-import com.rowaad.utils.extention.hide
-import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -40,6 +39,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         handleSearch()
         observeMyCourses()
         setupAction()
+
     }
 
     private fun setupAction() {
@@ -54,6 +54,17 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
             binding?.searchBar?.etSearch?.clearTxt()
         }
 
+        coursesAdapter.onClickItem=::onClickItem
+    }
+
+    private fun onClickItem(courseItem: CourseItem, pos: Int) {
+        findNavController().navigate(R.id.action_global_courseDetailsFragment,
+            bundleOf(
+                "details"
+                        to
+                        courseItem.toJson()
+            )
+        )
     }
 
     private fun handleSearch() {

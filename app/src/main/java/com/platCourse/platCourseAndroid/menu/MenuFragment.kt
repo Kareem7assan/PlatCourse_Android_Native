@@ -69,7 +69,7 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
             }
             else{
                 tvName.text = user?.name
-                ivLogo.loadImage(user?.image)
+                ivLogo.loadImage(user?.profile_image)
             }
         }
     }

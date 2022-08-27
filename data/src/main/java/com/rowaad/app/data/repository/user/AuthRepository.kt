@@ -13,7 +13,7 @@ import retrofit2.http.Query
 
 
 interface AuthRepository{
-    fun getUser(): Flow<Response<EndPointResponse<RegisterModel>>>
+    //fun getUser(): Flow<Response<EndPointResponse<RegisterModel>>>
     fun guestToken():Flow<Response<EndPointResponse<BaseResponse>>>
     fun privacy(): Flow<Response<EndPointResponse<SettingsModel>>>
     fun salesPolicy(): Flow<Response<EndPointResponse<SettingsModel>>>

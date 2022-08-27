@@ -5,9 +5,11 @@ import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
+import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.register_model.RegisterModel
+import com.rowaad.app.data.model.reviews.Review
 import com.rowaad.app.data.model.settings.SettingsModel
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -25,11 +27,10 @@ interface MenuRepository{
 
      //fun postContactUs(name:String, email:String, subject:String, message:String): Flow<Response<EndPointResponse<Any>>>
 
-     fun profile(userId:Int): Flow<Response<EndPointResponse<RegisterModel>>>
-     fun myProfile():Flow<Response<EndPointResponse<RegisterModel>>>
-     fun articles():Flow<Response<List<Article>>>
-     fun article(id: Int):Flow<Response<Article>>
-
+     fun profile(userId:Int): Flow<Response<UserModel>>
+     fun myProfile():Flow<Response<UserModel>>
+     //fun articles():Flow<Response<List<Article>>>
+     //fun article(id: Int):Flow<Response<Article>>
      fun editProfile(
          name:String,
          phoneNumber:String,
@@ -40,6 +41,10 @@ interface MenuRepository{
          header: MultipartBody.Part?=null,
          ):Flow<Response<EndPointResponse<RegisterModel>>>
 
+   /* fun lessons(courseId:Int):Flow<Response<List<LessonsModel>>>
+    fun reviews(courseId:Int):Flow<Response<List<Review>>>
+    fun addReview(courseId:Int,review:Float,description:String?=null):Flow<Response<Any>>
+*/
      fun getNotifications(page: Int) : Flow<Response<List<NotificationItem>>>
      fun readAllNotifications() : Flow<Response<Any>>
      fun readNotification(ids:List<Int>) : Flow<Response<Any>>

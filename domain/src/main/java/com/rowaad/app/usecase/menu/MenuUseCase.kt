@@ -7,6 +7,7 @@ import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
 import com.rowaad.app.data.repository.base.BaseRepository
+import com.rowaad.app.data.repository.course_details.CourseDetailsRepository
 import com.rowaad.app.data.repository.menu.MenuRepository
 import com.rowaad.app.data.repository.user.AuthRepository
 import com.rowaad.app.usecase.Validations
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository,
                                       private val repository: AuthRepository,
                                       private val menuRepository: MenuRepository,
+                                      private val detailsRepository: CourseDetailsRepository
                                       ) {
 
 
@@ -31,7 +33,7 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
     //logout
     suspend fun logout(token: String? = null): Flow<UserModel> {
         return repository.logout(fireBaseToken = baseRepository.deviceId)
-                .transformResponseData<RegisterModel,UserModel>  { emit(it.userModel) }
+                .transformResponseData<RegisterModel,UserModel>  { emit(it.student) }
     }
 
 
@@ -90,25 +92,25 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
 
     //articles
     suspend fun articles(): Flow<List<Article>> {
-        return menuRepository.articles().transformResponse {
+        return detailsRepository.articles().transformResponse {
             emit(it)
         }
     }
     //articles
     suspend fun article(id: Int):Flow<Article> {
-        return menuRepository.article(id).transformResponse {
+        return detailsRepository.article(id).transformResponse {
             emit(it)
         }
     }
-    //myProfile
+  //myProfile
     suspend fun myProfile(): Flow<UserModel> {
-        return menuRepository.myProfile().transformResponseData<RegisterModel,UserModel>
-        {
-            emit(it.userModel)
+        return menuRepository.myProfile().transformResponse<UserModel,UserModel> {
+            emit(it)
         }.onEach {
                 resp -> baseRepository.saveUser(resp)
         }
     }
+
     //editProfile
     suspend fun editProfile(
         name:String,phone:String,email: String,bio:String?=null,userName:String?=null,
@@ -117,7 +119,7 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
         return menuRepository.editProfile(name = name,phoneNumber = phone,email = email,
             username = userName, bio = bio,image = avatar,header = cover).transformResponseData<RegisterModel,UserModel>
         {
-            emit(it.userModel)
+            emit(it.student)
         }.onEach {
                 resp -> baseRepository.saveUser(resp)
         }

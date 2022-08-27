@@ -2,8 +2,10 @@ package com.platCourse.platCourseAndroid.home.recent
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentCoursesBinding
@@ -15,10 +17,12 @@ import com.platCourse.platCourseAndroid.home.my_courses.MyCoursesViewModel
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
+import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.courses_model.CoursesModel
 import com.rowaad.utils.extention.handlePagination
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.toJson
 
 class RecentCoursesFragment : BaseFragment(R.layout.fragment_my_courses) {
     private var pageNumber: Int = 1
@@ -34,8 +38,22 @@ class RecentCoursesFragment : BaseFragment(R.layout.fragment_my_courses) {
         sendRequestNewCourses()
         observeMyCourses()
         setupTitle()
+        setupActions()
     }
 
+    private fun setupActions() {
+        coursesAdapter.onClickItem=::onClickItem
+    }
+
+    private fun onClickItem(courseItem: CourseItem, pos: Int) {
+        findNavController().navigate(R.id.action_global_courseDetailsFragment,
+            bundleOf(
+                "details"
+                        to
+                        courseItem.toJson()
+            )
+        )
+    }
     private fun setupTitle() {
         (requireActivity() as HomeActivity).setupTitleSubCat(getString(R.string.new_courses))
     }

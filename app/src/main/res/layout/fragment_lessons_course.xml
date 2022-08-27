@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_normal"
+        />
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/rvLessonsTitles"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:listitem="@layout/item_lesson"
+    />
+ <TextView
+    android:id="@+id/tvEmpty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textColor="@color/colorPrimary"
+     android:textSize="16sp"
+     android:textAlignment="center"
+     android:gravity="center"
+     android:text="@string/added_lessons"
+    />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

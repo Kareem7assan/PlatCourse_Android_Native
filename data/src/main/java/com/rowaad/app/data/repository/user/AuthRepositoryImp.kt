@@ -20,10 +20,10 @@ class AuthRepositoryImp @Inject constructor(
     private val baseRepository: BaseRepository,
 ): AuthRepository {
 
-    override fun getUser(): Flow<Response<EndPointResponse<RegisterModel>>> {
+    /*override fun getUser(): Flow<Response<EndPointResponse<RegisterModel>>> {
         return flow { emit(api.myProfile()) }
     }
-
+*/
     override fun guestToken(): Flow<Response<EndPointResponse<BaseResponse>>> {
         return flow { emit(api.guestToken()) }
     }

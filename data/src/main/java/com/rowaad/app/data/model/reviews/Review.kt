@@ -1,25 +1,15 @@
 package com.rowaad.app.data.model.reviews
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-import com.rowaad.app.data.model.reviews.AuthorDetails
+import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "review")
+
 data class Review(
-        var author: String? = null,
-        @Ignore
-    var author_details: AuthorDetails? = null,
-        var content: String? = null,
-        @Ignore
+    @SerializedName("review")
+    var rate: Float? = null,
+    var description: String? = null,
     var created_at: String? = null,
+    var course_title: String? = null,
+    var reviewer_name: String? = null,
+    var id: Int
 
-        @PrimaryKey(autoGenerate = false)
-    var id: String="0",
-        @ColumnInfo(name = "created_at")
-    var updated_at: String? = null,
-        @ColumnInfo(name = "movie_id")
-    var movie_id: Int? = 0,
-        var url: String? = null
 )

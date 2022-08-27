@@ -33,15 +33,18 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
+                    android:id="@+id/tvOwner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sherief eltelt"
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tvPhone"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123456789"
+                    android:text="01010539493"
                     android:textColor="@color/black" />
             </LinearLayout>
 

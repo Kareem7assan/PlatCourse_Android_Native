@@ -1,5 +1,6 @@
 package com.rowaad.app.usecase.home
 
+import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.repository.base.BaseRepository
@@ -10,7 +11,8 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class CoursesUseCase @Inject constructor(private val baseRepository: BaseRepository,
-                                         private val repository: HomeRepository) {
+                                         private val repository: HomeRepository
+                                         ) {
 
     suspend fun allCourses(page:Int?=1): Flow<Pair<CoursesModel,CoursesModel>> {
          return newCourses(1).zip(featuredCourses(1)) {newCoursesModel, featuredCoursesModel ->
@@ -39,7 +41,7 @@ class CoursesUseCase @Inject constructor(private val baseRepository: BaseReposit
                 .transformResponse { emit(it) }
     }
 
-    fun isUserLogin():Boolean{
-        return baseRepository.isLogin()
-    }
+
+
+
 }

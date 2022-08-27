@@ -1,15 +1,20 @@
 package com.rowaad.app.data.remote
 
 import com.rowaad.app.data.model.*
+import com.rowaad.app.data.model.announcement.AnnouncementModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.categories_model.CategoriesModel
 
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
+import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
+import com.rowaad.app.data.model.quiz_model.QuizModel
 import com.rowaad.app.data.model.register_model.RegisterModel
+import com.rowaad.app.data.model.reviews.Review
+import com.rowaad.app.data.model.reviews.ReviewsModel
 import com.rowaad.app.data.model.settings.SettingsModel
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -137,9 +142,9 @@ interface UserApi {
         @Query("message") message:String
     ): Response<EndPointResponse<Any>>
 
-    @GET("customers/{id}")
+    @GET("auth/student-profile/{id}")
     suspend fun profile(
-        @Path("id") id:String ): Response<EndPointResponse<RegisterModel>>
+        @Path("id") id:Int ): Response<UserModel>
 
 
     @POST("follow")
@@ -185,8 +190,10 @@ interface UserApi {
         @Query("_method") _method:String?="PATCH"
         ): Response<EndPointResponse<RegisterModel>>
 
-    @GET("me")
-    suspend fun myProfile(): Response<EndPointResponse<RegisterModel>>
+    @GET("auth/student-profile/{id}")
+    suspend fun myProfile(
+            @Path("id") id:Int
+            ): Response<UserModel>
 
     @GET("blogs")
     suspend fun articles(): Response<List<Article>>
@@ -195,6 +202,52 @@ interface UserApi {
     suspend fun article(
         @Path("id") id:Int
     ): Response<Article>
+
+
+
+    @GET("lessons")
+    suspend fun lessons(
+        @Query("course_id") courseId:Int
+    ): Response<List<LessonsModel>>
+
+    @GET("reviews")
+    suspend fun reviews(
+        @Query("course_id") courseId:Int
+    ): Response<List<Review>>
+
+
+    @FormUrlEncoded
+    @POST("reviews")
+    suspend fun rate(
+            @Field("course_id") courseId:Int,
+            @Field("review") review:Float,
+            @Field("description") description:String?=null
+    ): Response<Any>
+
+
+ @POST("courses/{course_id}/contact_teacher")
+    suspend fun contactTeacher(
+     @Path("course_id") courseId:Int,
+     @Query("message") message:String
+    ): Response<Any>
+
+ @GET("quizzes")
+    suspend fun quizzes(
+     @Query("course_id") courseId:Int
+ ): Response<List<QuizModel>>
+
+
+    @POST("discussions/{discussion_id}/add_comment")
+    suspend fun addComment(
+         @Path("discussion_id") discussion_id:Int,
+         @Query("comment") comment:String
+    ): Response<Any>
+
+
+    @POST("announcements")
+    suspend fun announcements(
+         @Query("course_id") courseId: Int
+    ): Response<List<AnnouncementModel>>
 
 
 

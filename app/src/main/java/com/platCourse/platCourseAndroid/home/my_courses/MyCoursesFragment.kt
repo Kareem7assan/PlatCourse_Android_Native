@@ -3,7 +3,9 @@ package com.platCourse.platCourseAndroid.home.my_courses
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentCoursesBinding
@@ -13,11 +15,9 @@ import com.platCourse.platCourseAndroid.home.courses.adapter.CoursesAdapter
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
+import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.courses_model.CoursesModel
-import com.rowaad.utils.extention.handlePagination
-import com.rowaad.utils.extention.hide
-import com.rowaad.utils.extention.invisible
-import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.*
 
 class MyCoursesFragment : BaseFragment(R.layout.fragment_my_courses) {
 
@@ -34,6 +34,22 @@ class MyCoursesFragment : BaseFragment(R.layout.fragment_my_courses) {
         if (viewModel.isLogin) sendRequestMyCourses()
         else showAnonymousDialog()
         observeMyCourses()
+        setupActions()
+
+    }
+
+    private fun setupActions() {
+        coursesAdapter.onClickItem=::onClickItem
+    }
+
+    private fun onClickItem(courseItem: CourseItem, pos: Int) {
+        findNavController().navigate(R.id.action_global_courseDetailsFragment,
+            bundleOf(
+                "details"
+                        to
+                        courseItem.toJson()
+            )
+        )
     }
 
     private fun handleRec() {

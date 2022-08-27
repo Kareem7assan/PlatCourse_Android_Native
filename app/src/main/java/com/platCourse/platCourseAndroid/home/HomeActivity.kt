@@ -37,6 +37,9 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                 R.id.notificationsFragment->{
                     hideToolbar()
                 }
+                R.id.courseLessonsFragment->{
+                    hideToolbar()
+                }
                 else -> {
                     showToolbar()
                 }

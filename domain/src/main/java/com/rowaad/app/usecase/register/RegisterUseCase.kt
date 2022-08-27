@@ -77,7 +77,7 @@ class RegisterUseCase @Inject constructor(private val baseRepository: BaseReposi
             .transformResponseData<RegisterModel, RegisterModel> {
             emit(it)
         }.onEach {resp->
-                baseRepository.saveUser(resp.userModel).also { baseRepository.saveToken(resp.authorization?.accessToken!!) }.also { baseRepository.saveLogin(true) }
+                baseRepository.saveUser(resp.student).also { baseRepository.saveToken(resp.access_token!!) }.also { baseRepository.saveLogin(true) }
             }
     }
 

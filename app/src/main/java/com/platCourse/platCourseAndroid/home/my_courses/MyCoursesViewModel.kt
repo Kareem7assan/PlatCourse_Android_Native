@@ -6,6 +6,7 @@ import com.rowaad.app.base.BaseViewModel
 import com.rowaad.app.data.remote.NetWorkState
 import com.rowaad.app.usecase.categories.CategoriesUseCase
 import com.rowaad.app.usecase.handleException
+import com.rowaad.app.usecase.home.CourseDetailsUseCase
 import com.rowaad.app.usecase.home.CoursesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -13,10 +14,12 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-open class MyCoursesViewModel @Inject constructor(private val coursesUseCase: CoursesUseCase) : BaseViewModel(){
+open class MyCoursesViewModel @Inject constructor(private val coursesUseCase: CoursesUseCase,
+                                                  private val courseDetailsUseCase: CourseDetailsUseCase
+                                                  ) : BaseViewModel(){
 
 
-    val isLogin:Boolean=coursesUseCase.isUserLogin()
+    val isLogin:Boolean=courseDetailsUseCase.isUserLogin()
 
 
 
