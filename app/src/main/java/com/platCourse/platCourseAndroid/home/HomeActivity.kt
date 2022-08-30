@@ -40,6 +40,10 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                 R.id.courseLessonsFragment->{
                     hideToolbar()
                 }
+                R.id.quizWebViewFragment->{
+                    binding.mainBottomNavigation.hide()
+                    hideToolbar()
+                }
                 else -> {
                     showToolbar()
                 }

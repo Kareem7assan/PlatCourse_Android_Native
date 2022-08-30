@@ -39,6 +39,9 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
     private val _lessonsFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val lessonsFlow= _lessonsFlow.asSharedFlow()
 
+    private val _filesFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val filesFlow= _filesFlow.asSharedFlow()
+
     private val _reviewsFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val reviewsFlow= _reviewsFlow.asSharedFlow()
 
@@ -147,6 +150,15 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
                         _quizzesFlow.emit(NetWorkState.Idle)
                     } }
                     .collectLatest { _quizzesFlow.emit(NetWorkState.Success(it)) }
+            }
+    }
+    fun sendRequestFiles(courseId:Int,pageNumber: Int){
+            executeSharedApi(_filesFlow){
+                courseDetailsUseCase.files(courseId,pageNumber)
+                    .onStart { _filesFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _filesFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _filesFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collectLatest { _filesFlow.emit(NetWorkState.Success(it)) }
             }
     }
 

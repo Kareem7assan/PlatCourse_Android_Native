@@ -29,7 +29,7 @@ open class BaseRepositoryImpl @Inject constructor(
     }
 
     override fun loadToken(): String {
-        return preferences.load(TOKEN, "") ?: ""
+        return preferences.load(TOKEN,"") ?: ""
     }
 
     override fun logout() {

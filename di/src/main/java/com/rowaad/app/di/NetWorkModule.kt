@@ -11,6 +11,7 @@ import com.rowaad.app.data.utils.Constants_Api.BASE_TOKEN
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.DEVICE_ID
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.LANG
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.TOKEN
+import com.rowaad.app.data.utils.Constants_Api.PrefKeys.TOKENS
 import com.rowaad.app.data.utils.Constants_Api.VARIANT_URL
 import dagger.Module
 import dagger.Provides
@@ -58,7 +59,7 @@ object NetWorkModule {
             requestBuilder.addHeader("Content-Type", "application/x-www-form-urlencoded")
             requestBuilder.addHeader("LOCALE-CODE", lang)
             requestBuilder.addHeader("DEVICE-ID", devId!!)
-            requestBuilder.addHeader("Authorization", /*token*/ "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZW1haWwiOiJzaGVyaWZlbHRlbHRAeWFob28uY29tIiwiZXhwIjoxNjg3NTM0MjgxLCJpYXQiOjE2NjE2MTQyODF9.zVuZtz4mOD3RJe37fqmMyNp7zn50mEcaeIUU4V8IrRw")
+            requestBuilder.addHeader("Authorization", TOKENS/*token*/)
             requestBuilder.addHeader("os", "android")
 
             val request = requestBuilder

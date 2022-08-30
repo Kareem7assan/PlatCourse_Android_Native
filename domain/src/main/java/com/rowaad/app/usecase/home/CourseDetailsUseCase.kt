@@ -2,6 +2,7 @@ package com.rowaad.app.usecase.home
 
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
+import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.quiz_model.QuizModel
 import com.rowaad.app.data.model.register_model.RegisterModel
@@ -41,6 +42,11 @@ class CourseDetailsUseCase @Inject constructor(private val baseRepository: BaseR
 
     suspend fun quizzes(courseId:Int): Flow<List<QuizModel>> {
         return detailsRepository.quizzes(courseId)
+                .transformResponse { emit(it) }
+    }
+
+    suspend fun files(courseId:Int,page:Int): Flow<FilesModel> {
+        return detailsRepository.files(courseId,page)
                 .transformResponse { emit(it) }
     }
 

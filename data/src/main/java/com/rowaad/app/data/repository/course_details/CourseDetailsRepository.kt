@@ -5,6 +5,7 @@ import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
+import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
@@ -19,12 +20,13 @@ import retrofit2.http.*
 
 
 interface CourseDetailsRepository{
-     fun articles():Flow<Response<List<Article>>>
+
+    fun articles():Flow<Response<List<Article>>>
      fun article(id: Int):Flow<Response<Article>>
     fun lessons(courseId:Int):Flow<Response<List<LessonsModel>>>
     fun reviews(courseId:Int):Flow<Response<List<Review>>>
     fun addReview(courseId:Int,review:Float,description:String?=null):Flow<Response<Any>>
     fun quizzes(courseId:Int): Flow<Response<List<QuizModel>>>
-
+    fun files(courseId:Int,page:Int): Flow<Response<FilesModel>>
 
 }

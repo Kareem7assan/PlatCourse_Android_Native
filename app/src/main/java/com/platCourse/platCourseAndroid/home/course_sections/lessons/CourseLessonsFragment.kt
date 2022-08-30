@@ -7,7 +7,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
-import com.platCourse.platCourseAndroid.databinding.FragmentDetailsCourseBinding
 import com.platCourse.platCourseAndroid.databinding.FragmentLessonsCourseBinding
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
@@ -21,7 +20,6 @@ import com.rowaad.utils.IntentUtils
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.support.v4.toast
 
 class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
@@ -31,6 +29,7 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     private val adapter by lazy {
         LessonTitleAdapter()
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

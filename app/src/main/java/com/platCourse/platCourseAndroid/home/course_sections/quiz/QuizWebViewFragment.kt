@@ -29,6 +29,7 @@ import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.cache.fromJson
 import com.rowaad.app.data.model.courses_model.CourseItem
+import com.rowaad.app.data.utils.Constants_Api.PrefKeys.TOKENS
 import org.jetbrains.anko.configuration
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import java.io.File
@@ -69,13 +70,21 @@ class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
         webSetting.setAppCacheEnabled(true)
         webSetting.loadWithOverviewMode = true
         webSetting.loadsImagesAutomatically = true
-        webSetting.useWideViewPort = true
         webSetting.builtInZoomControls = true
+        webSetting.loadWithOverviewMode = true
+        webSetting.loadsImagesAutomatically = true
+        webSetting.useWideViewPort = true
         webSetting.displayZoomControls = false
         webSetting.setSupportMultipleWindows(true)
         webSetting.setSupportZoom(true)
+
+        webSetting.setSupportMultipleWindows(true)
+        webSetting.setSupportZoom(true)
         webSetting.defaultTextEncodingName = "utf-8"
-        webSetting.builtInZoomControls = true
+        webSetting.setLightTouchEnabled(true);
+        webSetting.setDomStorageEnabled(true);
+        webSetting.setLoadWithOverviewMode(true);
+
         webSetting.setSupportZoom(true)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             when (requireActivity().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
@@ -94,8 +103,9 @@ class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
         }, 3000)
         webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH)
         webSetting.javaScriptCanOpenWindowsAutomatically = true
-        mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id}/Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZW1haWwiOiJzaGVyaWZlbHRlbHRAeWFob28uY29tIiwiZXhwIjoxNjg3NTM0MjgxLCJpYXQiOjE2NjE2MTQyODF9.zVuZtz4mOD3RJe37fqmMyNp7zn50mEcaeIUU4V8IrRw"/*$quizId/${viewModel.getToken()*/)
-        // mWebView.addJavascriptInterface(WebAppInterface(requireContext()), "androidInterface")
+        mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id}/$quizId/$TOKENS")
+        //mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id}/$quizId/${viewModel.getToken()}")
+       // mWebView.addJavascriptInterface(WebAppInterface(requireContext()), "androidInterface")
         mWebView.webViewClient = object : WebViewClient(), ValueCallback<String> {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 val browserIntent = Intent(Intent.ACTION_VIEW)
@@ -112,4 +122,44 @@ class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
 
 
     }
-}
+
+    inner class WebAppInterface(private val mContext: Context) {
+
+
+        /** Show a toast from the web page  */
+
+        @JavascriptInterface
+        fun accessFromJS(window: Window?) {
+
+        }
+
+        @JavascriptInterface
+        fun download_pdf_file(url: String, name: String, phone: String) {
+            Log.e("url", url)
+
+
+        }
+
+        internal fun getBase64StringFromBlobUrl(blobUrl: String): String? {
+            return if (blobUrl.startsWith("blob")) {
+                "javascript: var xhr = new XMLHttpRequest();" +
+                        "xhr.open('GET', '" + blobUrl + "', true);" +
+                        "xhr.setRequestHeader('Content-type','application/pdf');" +
+                        "xhr.responseType = 'blob';" +
+                        "xhr.onload = function(e) {" +
+                        "    if (this.status == 200) {" +
+                        "        var blobPdf = this.response;" +
+                        "        var reader = new FileReader();" +
+                        "        reader.readAsDataURL(blobPdf);" +
+                        "        reader.onloadend = function() {" +
+                        "            base64data = reader.result;" +
+                        "            androidInterface.getBase64FromBlobData(base64data);" +
+                        "        }" +
+                        "    }" +
+                        "};" +
+                        "xhr.send();"
+            } else "javascript: console.log('It is not a Blob URL');"
+        }
+
+    }
+    }

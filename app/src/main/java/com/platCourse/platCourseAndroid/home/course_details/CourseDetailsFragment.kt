@@ -81,13 +81,16 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         items.add(ItemCourseDetails(title = getString(R.string.desc),desc = details?.overview))
         items.add(ItemCourseDetails(title = getString(R.string.quizes), showForward = true, type = Action.QUIZES))
         items.add(ItemCourseDetails(title = getString(R.string.rates),showForward = true,type = Action.RATES))
-        if (viewModel.isUserLogin() && viewModel.isCourseOwner(details?.id ?: 0)) { items.add(ItemCourseDetails(title = getString(R.string.lessons), showForward = true, type = Action.LESSONS)) }
+        items.add(ItemCourseDetails(title = getString(R.string.files), showForward = true, type = Action.FILES))
+        if (viewModel.isUserLogin() && viewModel.isCourseOwner(details?.id ?: 0)) {
+            items.add(ItemCourseDetails(title = getString(R.string.lessons), showForward = true, type = Action.LESSONS))
+        }
             //items.add(ItemCourseDetails(title = getString(R.string.rates),showForward = true,type = Action.RATES))
         if (viewModel.isUserLogin() && viewModel.isCourseOwner(details?.id ?: 0)) {
             items.add(ItemCourseDetails(title = getString(R.string.lessons), showForward = true, type = Action.LESSONS))
             items.add(ItemCourseDetails(title = getString(R.string.discussions), showForward = true, type = Action.DISCUSSIONS))
             //items.add(ItemCourseDetails(title = getString(R.string.quizes), showForward = true, type = Action.QUIZES))
-            items.add(ItemCourseDetails(title = getString(R.string.files), showForward = true, type = Action.FILES))
+            //items.add(ItemCourseDetails(title = getString(R.string.files), showForward = true, type = Action.FILES))
             items.add(ItemCourseDetails(title = getString(R.string.anouneces), showForward = true, type = Action.ADS))
         }
         adapter.swapData(items)
@@ -190,7 +193,11 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     }
 
     override fun onClickFiles() {
-
+        findNavController().navigate(R.id.action_global_courseFilesFragment, bundleOf(
+                "course"
+                        to
+                        details.toJson()
+        ))
     }
 
     override fun onClickAds() {

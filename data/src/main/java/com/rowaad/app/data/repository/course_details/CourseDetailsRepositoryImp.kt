@@ -7,6 +7,7 @@ import com.rowaad.app.data.model.WalletModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
+import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
@@ -54,6 +55,12 @@ class CourseDetailsRepositoryImp @Inject constructor(
     override fun quizzes(courseId: Int): Flow<Response<List<QuizModel>>> {
         return flow {
             emit(api.quizzes(courseId))
+        }
+    }
+
+    override fun files(courseId: Int,page:Int): Flow<Response<FilesModel>> {
+        return flow {
+            emit(api.files(courseId,page))
         }
     }
 

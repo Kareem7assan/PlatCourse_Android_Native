@@ -107,6 +107,11 @@
         android:label="CourseLessonsFragment"
         tools:layout="@layout/fragment_lessons_course"/>
     <fragment
+        android:id="@+id/courseFilesFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_sections.files.CourseFilesFragment"
+        android:label="CourseFilesFragment"
+        tools:layout="@layout/fragment_files_course"/>
+    <fragment
         android:id="@+id/rateCourseFragment"
         android:name="com.platCourse.platCourseAndroid.home.course_sections.rates.RateCourseFragment"
         android:label="rate"
@@ -119,7 +124,7 @@
         tools:layout="@layout/fragment_ads"/>
 
     <action android:id="@+id/action_global_courseDetailsFragment" app:destination="@id/courseDetailsFragment"/>
-    <action android:id="@+id/action_global_courseLessonsFragment" app:destination="@id/courseLessonsFragment" /><action android:id="@+id/action_global_rateCourseFragment" app:destination="@id/rateCourseFragment"/><action android:id="@+id/action_global_quizFragment" app:destination="@id/quizFragment"/><action android:id="@+id/action_global_announcementsFragment" app:destination="@id/announcementsFragment"/><action android:id="@+id/action_global_quizWebViewFragment" app:destination="@id/quizWebViewFragment"/>
+    <action android:id="@+id/action_global_courseLessonsFragment" app:destination="@id/courseLessonsFragment" /><action android:id="@+id/action_global_rateCourseFragment" app:destination="@id/rateCourseFragment"/><action android:id="@+id/action_global_quizFragment" app:destination="@id/quizFragment"/><action android:id="@+id/action_global_announcementsFragment" app:destination="@id/announcementsFragment"/><action android:id="@+id/action_global_quizWebViewFragment" app:destination="@id/quizWebViewFragment"/><action android:id="@+id/action_global_courseFilesFragment" app:destination="@id/courseFilesFragment"/>
 
 
 <!--

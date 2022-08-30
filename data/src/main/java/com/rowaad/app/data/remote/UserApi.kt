@@ -8,6 +8,7 @@ import com.rowaad.app.data.model.categories_model.CategoriesModel
 
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
+import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
@@ -16,6 +17,7 @@ import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.reviews.Review
 import com.rowaad.app.data.model.reviews.ReviewsModel
 import com.rowaad.app.data.model.settings.SettingsModel
+import com.rowaad.app.data.utils.Constants_Api.PrefKeys.TOKEN
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -236,6 +238,12 @@ interface UserApi {
      @Query("course_id") courseId:Int
  ): Response<List<QuizModel>>
 
+ @GET("courses/{course_id}/files")
+    suspend fun files(
+         @Path("course_id") courseId:Int,
+         @Query("page") page:Int?=1
+ ): Response<FilesModel>
+
 
     @POST("discussions/{discussion_id}/add_comment")
     suspend fun addComment(
@@ -248,9 +256,6 @@ interface UserApi {
     suspend fun announcements(
          @Query("course_id") courseId: Int
     ): Response<List<AnnouncementModel>>
-
-
-
 
 
 
