@@ -8,6 +8,8 @@ import com.rowaad.app.data.model.categories_model.CategoriesModel
 
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
+import com.rowaad.app.data.model.discussions_model.Comment
+import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
@@ -227,11 +229,6 @@ interface UserApi {
     ): Response<Any>
 
 
- @POST("courses/{course_id}/contact_teacher")
-    suspend fun contactTeacher(
-     @Path("course_id") courseId:Int,
-     @Query("message") message:String
-    ): Response<Any>
 
  @GET("quizzes")
     suspend fun quizzes(
@@ -244,11 +241,40 @@ interface UserApi {
          @Query("page") page:Int?=1
  ): Response<FilesModel>
 
-
+    @FormUrlEncoded
     @POST("discussions/{discussion_id}/add_comment")
     suspend fun addComment(
          @Path("discussion_id") discussion_id:Int,
-         @Query("comment") comment:String
+         @Field("comment") comment:String
+    ): Response<Comment>
+
+    @GET("discussions")
+    suspend fun discussions(
+         @Query("course_id") course_id:String
+    ): Response<List<DiscussionModel>>
+
+    @FormUrlEncoded
+    @POST("discussions")
+    suspend fun discussions(
+            @Field("course_id") course_id:String,
+            @Field("title") discTitle:String,
+            @Field("post") discDesc:String,
+    ): Response<DiscussionModel>
+
+
+
+    @FormUrlEncoded
+    @POST("courses/{course_id}/contact_teacher")
+    suspend fun contactTeacher(
+            @Path("course_id") courseId:Int,
+            @Field("message") message:String
+    ): Response<Any>
+
+
+
+    @POST("courses/{course_id}/buy_course")
+    suspend fun buyCourse(
+            @Path("course_id") courseId:Int
     ): Response<Any>
 
 

@@ -40,6 +40,14 @@ class CoursesUseCase @Inject constructor(private val baseRepository: BaseReposit
         return repository.coursesBasedCat(category,subCategory,page)
                 .transformResponse { emit(it) }
     }
+    suspend fun buyCourse(courseId:Int): Flow<Any> {
+        return repository.buyCourse(courseId)
+                .transformResponse { emit(it) }
+    }
+    suspend fun contactTeacher(courseId:Int,msg:String): Flow<Any> {
+        return repository.contactTeacher(courseId,msg)
+                .transformResponse { emit(it) }
+    }
 
 
 

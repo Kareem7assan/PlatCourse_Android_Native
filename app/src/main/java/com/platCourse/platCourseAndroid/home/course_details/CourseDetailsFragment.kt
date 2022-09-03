@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentDetailsCourseBinding
+import com.platCourse.platCourseAndroid.home.course_details.dialog.ContactBottomDialog
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
@@ -53,6 +54,33 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         setupAdapter()
         sendRequestUser()
         handleCourses()
+        setupActions()
+        handleBuyObservable()
+        handleContactObservable()
+    }
+
+    private fun handleContactObservable() {
+        handleSharedFlow(viewModel.contactFlow,onSuccess = { it
+            showSuccessMsg(getString(R.string.contact_msg_success))
+        })
+    }
+
+    private fun handleBuyObservable() {
+        handleSharedFlow(viewModel.buyCourseFlow,onSuccess = { it
+            showSuccessMsg(getString(R.string.request_sent))
+        })
+    }
+
+    private fun setupActions() {
+        binding.buyBtn.setOnClickListener {
+            viewModel.sendRequestBuyCourse(courseId = details?.id ?: 0)
+        }
+        binding.contactBtn.setOnClickListener {
+            ContactBottomDialog{msg->
+                viewModel.sendRequestContactTeacher(courseId = details?.id ?: 0,msg)
+            }.show(requireActivity().supportFragmentManager,"teacher")
+
+        }
     }
 
     private fun sendRequestUser() {
@@ -79,21 +107,30 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     private fun setupAdapter() {
         val items=mutableListOf<ItemCourseDetails>()
         items.add(ItemCourseDetails(title = getString(R.string.desc),desc = details?.overview))
-        items.add(ItemCourseDetails(title = getString(R.string.quizes), showForward = true, type = Action.QUIZES))
-        items.add(ItemCourseDetails(title = getString(R.string.rates),showForward = true,type = Action.RATES))
-        items.add(ItemCourseDetails(title = getString(R.string.files), showForward = true, type = Action.FILES))
+        showBuyButton()
         if (viewModel.isUserLogin() && viewModel.isCourseOwner(details?.id ?: 0)) {
             items.add(ItemCourseDetails(title = getString(R.string.lessons), showForward = true, type = Action.LESSONS))
+            showContactButton()
         }
-            //items.add(ItemCourseDetails(title = getString(R.string.rates),showForward = true,type = Action.RATES))
+            items.add(ItemCourseDetails(title = getString(R.string.rates),showForward = true,type = Action.RATES))
         if (viewModel.isUserLogin() && viewModel.isCourseOwner(details?.id ?: 0)) {
             items.add(ItemCourseDetails(title = getString(R.string.lessons), showForward = true, type = Action.LESSONS))
             items.add(ItemCourseDetails(title = getString(R.string.discussions), showForward = true, type = Action.DISCUSSIONS))
-            //items.add(ItemCourseDetails(title = getString(R.string.quizes), showForward = true, type = Action.QUIZES))
-            //items.add(ItemCourseDetails(title = getString(R.string.files), showForward = true, type = Action.FILES))
+            items.add(ItemCourseDetails(title = getString(R.string.quizes), showForward = true, type = Action.QUIZES))
+            items.add(ItemCourseDetails(title = getString(R.string.files), showForward = true, type = Action.FILES))
             items.add(ItemCourseDetails(title = getString(R.string.anouneces), showForward = true, type = Action.ADS))
         }
         adapter.swapData(items)
+    }
+
+    private fun showContactButton() {
+        binding.contactBtn.show()
+        binding.buyBtn.hide()
+    }
+
+    private fun showBuyButton() {
+        binding.contactBtn.hide()
+        binding.buyBtn.show()
     }
 
     private fun setupRec() {
@@ -181,7 +218,11 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     }
 
     override fun onClickDisc() {
-
+        findNavController().navigate(R.id.action_global_discussionsFragment, bundleOf(
+                "course"
+                        to
+                        details.toJson()
+        ))
     }
 
     override fun onClickRates() {
@@ -201,6 +242,11 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     }
 
     override fun onClickAds() {
+        findNavController().navigate(R.id.action_global_announcementsFragment, bundleOf(
+                "course"
+                        to
+                        details.toJson()
+        ))
 
     }
 }

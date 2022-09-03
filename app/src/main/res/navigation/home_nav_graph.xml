@@ -122,9 +122,20 @@
         android:name="com.platCourse.platCourseAndroid.home.course_sections.announcements.AnnouncementsFragment"
         android:label="ads"
         tools:layout="@layout/fragment_ads"/>
+    <fragment
+        android:id="@+id/discussionsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_sections.discussions.DiscussionsFragment"
+        android:label="DiscussionsFragment"
+        tools:layout="@layout/fragment_discussions"/>
 
     <action android:id="@+id/action_global_courseDetailsFragment" app:destination="@id/courseDetailsFragment"/>
-    <action android:id="@+id/action_global_courseLessonsFragment" app:destination="@id/courseLessonsFragment" /><action android:id="@+id/action_global_rateCourseFragment" app:destination="@id/rateCourseFragment"/><action android:id="@+id/action_global_quizFragment" app:destination="@id/quizFragment"/><action android:id="@+id/action_global_announcementsFragment" app:destination="@id/announcementsFragment"/><action android:id="@+id/action_global_quizWebViewFragment" app:destination="@id/quizWebViewFragment"/><action android:id="@+id/action_global_courseFilesFragment" app:destination="@id/courseFilesFragment"/>
+    <action android:id="@+id/action_global_courseLessonsFragment" app:destination="@id/courseLessonsFragment" />
+    <action android:id="@+id/action_global_rateCourseFragment" app:destination="@id/rateCourseFragment"/>
+    <action android:id="@+id/action_global_quizFragment" app:destination="@id/quizFragment"/>
+    <action android:id="@+id/action_global_announcementsFragment" app:destination="@id/announcementsFragment"/>
+    <action android:id="@+id/action_global_quizWebViewFragment" app:destination="@id/quizWebViewFragment"/>
+    <action android:id="@+id/action_global_courseFilesFragment" app:destination="@id/courseFilesFragment"/>
+    <action android:id="@+id/action_global_discussionsFragment" app:destination="@id/discussionsFragment"/>
 
 
 <!--

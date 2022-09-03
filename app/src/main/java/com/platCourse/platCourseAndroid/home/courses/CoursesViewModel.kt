@@ -42,6 +42,15 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
     private val _filesFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val filesFlow= _filesFlow.asSharedFlow()
 
+    private val _discFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val discFlow= _discFlow.asSharedFlow()
+
+    private val _addDiscFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val addDiscFlow= _addDiscFlow.asSharedFlow()
+
+    private val _addCommentFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val addCommentFlow= _addCommentFlow.asSharedFlow()
+
     private val _reviewsFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val reviewsFlow= _reviewsFlow.asSharedFlow()
 
@@ -50,6 +59,13 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
 
     private val _quizzesFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val quizzesFlow= _quizzesFlow.asSharedFlow()
+
+
+    private val _buyCourseFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val buyCourseFlow= _buyCourseFlow.asSharedFlow()
+
+    private val _contactFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val contactFlow= _contactFlow.asSharedFlow()
 
 
     private val _userFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
@@ -152,6 +168,30 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
                     .collectLatest { _quizzesFlow.emit(NetWorkState.Success(it)) }
             }
     }
+
+    fun sendRequestBuyCourse(courseId:Int){
+        executeSharedApi(_buyCourseFlow){
+            coursesUseCase.buyCourse(courseId)
+                    .onStart { _buyCourseFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _buyCourseFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _buyCourseFlow.emit(NetWorkState.Error(it.handleException())).also {
+                        _buyCourseFlow.emit(NetWorkState.Idle)
+                    } }
+                    .collectLatest { _buyCourseFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+    fun sendRequestContactTeacher(courseId:Int,msg:String){
+        executeSharedApi(_contactFlow){
+            coursesUseCase.contactTeacher(courseId,msg)
+                    .onStart { _contactFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _contactFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _contactFlow.emit(NetWorkState.Error(it.handleException())).also {
+                        _contactFlow.emit(NetWorkState.Idle)
+                    } }
+                    .collectLatest { _contactFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+
     fun sendRequestFiles(courseId:Int,pageNumber: Int){
             executeSharedApi(_filesFlow){
                 courseDetailsUseCase.files(courseId,pageNumber)
@@ -159,6 +199,34 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
                     .onCompletion { _filesFlow.emit(NetWorkState.StopLoading) }
                     .catch { _filesFlow.emit(NetWorkState.Error(it.handleException())) }
                     .collectLatest { _filesFlow.emit(NetWorkState.Success(it)) }
+            }
+    }
+
+    fun sendRequestDiscussions(courseId:Int){
+            executeSharedApi(_discFlow){
+                courseDetailsUseCase.discussions(courseId.toString())
+                    .onStart { _discFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _discFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _discFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collectLatest { _discFlow.emit(NetWorkState.Success(it)) }
+            }
+    }
+    fun sendRequestAddDiscussions(courseId:Int,discTitle:String,discContent:String){
+            executeSharedApi(_addDiscFlow){
+                courseDetailsUseCase.addDiscussions(courseId.toString(),discTitle,discContent)
+                    .onStart { _addDiscFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _addDiscFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _addDiscFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collectLatest { _addDiscFlow.emit(NetWorkState.Success(it)) }
+            }
+    }
+    fun sendRequestAddComment(discId:Int,comment:String){
+            executeSharedApi(_addCommentFlow){
+                courseDetailsUseCase.addComment(discId,comment)
+                    .onStart { _addCommentFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _addCommentFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _addCommentFlow.emit(NetWorkState.Error(it.handleException())) }
+                    .collectLatest { _addCommentFlow.emit(NetWorkState.Success(it)) }
             }
     }
 

@@ -262,6 +262,19 @@
     <string name="no_quizzes">لم يتم اضافة كويزز حتى الآن</string>
     <string name="press_to_go"><u>اضغط هنا لبدء الكويز</u></string>
     <string name="download">تحميل</string>
+    <string name="add_disc">مناقشة جديدة</string>
+    <string name="add_comment">Add comment</string>
+    <string name="new_comment">New comment</string>
+    <string name="title">عنوان المناقشة</string>
+    <string name="title_required">مطلوب عنوان المناقشة</string>
+    <string name="desc_required">الوصف مطلوب</string>
+    <string name="comment_required">يجب اضافة تعليق</string>
+    <string name="contact_teacher">تواصل مع المدرس</string>
+    <string name="paurchase_course">شراء الكورس</string>
+    <string name="msg">اكتب رسالتك</string>
+    <string name="msg_required">اضف رسالتك</string>
+    <string name="request_sent">تم ارسال طلب الشراء الخاص بك للمدرس</string>
+    <string name="contact_msg_success">تم ارسال رسالتك للمدرس</string>
 
 
 </resources>

@@ -2,6 +2,8 @@ package com.rowaad.app.usecase.home
 
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
+import com.rowaad.app.data.model.discussions_model.Comment
+import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.quiz_model.QuizModel
@@ -14,6 +16,7 @@ import com.rowaad.app.data.repository.menu.MenuRepository
 import com.rowaad.app.usecase.transformResponse
 import com.rowaad.app.usecase.transformResponseData
 import kotlinx.coroutines.flow.*
+import retrofit2.Response
 import javax.inject.Inject
 
 class CourseDetailsUseCase @Inject constructor(private val baseRepository: BaseRepository,
@@ -47,6 +50,22 @@ class CourseDetailsUseCase @Inject constructor(private val baseRepository: BaseR
 
     suspend fun files(courseId:Int,page:Int): Flow<FilesModel> {
         return detailsRepository.files(courseId,page)
+                .transformResponse { emit(it) }
+    }
+
+
+    suspend fun addComment(discussion_id: Int, comment: String): Flow<Comment> {
+        return detailsRepository.addComment(discussion_id, comment)
+                .transformResponse { emit(it) }
+    }
+
+    suspend fun discussions(course_id: String): Flow<List<DiscussionModel>> {
+        return detailsRepository.discussions(course_id)
+                .transformResponse { emit(it) }
+    }
+
+     suspend fun addDiscussions(course_id: String, discTitle: String, discDesc: String): Flow<DiscussionModel> {
+        return detailsRepository.addDiscussions(course_id, discTitle, discDesc)
                 .transformResponse { emit(it) }
     }
 

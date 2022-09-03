@@ -7,6 +7,8 @@ import com.rowaad.app.data.model.WalletModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
+import com.rowaad.app.data.model.discussions_model.Comment
+import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
@@ -61,6 +63,24 @@ class CourseDetailsRepositoryImp @Inject constructor(
     override fun files(courseId: Int,page:Int): Flow<Response<FilesModel>> {
         return flow {
             emit(api.files(courseId,page))
+        }
+    }
+
+    override fun addComment(discussion_id: Int, comment: String): Flow<Response<Comment>> {
+        return flow {
+            emit(api.addComment(discussion_id, comment))
+        }
+    }
+
+    override fun discussions(course_id: String): Flow<Response<List<DiscussionModel>>> {
+        return flow {
+            emit(api.discussions(course_id))
+        }
+    }
+
+    override suspend fun addDiscussions(course_id: String, discTitle: String, discDesc: String): Flow<Response<DiscussionModel>> {
+        return flow {
+            emit(api.discussions(course_id,discTitle, discDesc))
         }
     }
 

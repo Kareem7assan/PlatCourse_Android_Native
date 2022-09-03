@@ -57,5 +57,17 @@ class HomeRepositoryImp @Inject constructor(
         }
     }
 
+    override fun contactTeacher(courseId: Int, message: String): Flow<Response<Any>> {
+        return flow {
+            emit(api.contactTeacher(courseId, message))
+        }
+    }
+
+    override fun buyCourse(courseId: Int): Flow<Response<Any>> {
+        return flow {
+            emit(api.buyCourse(courseId))
+        }
+    }
+
 
 }

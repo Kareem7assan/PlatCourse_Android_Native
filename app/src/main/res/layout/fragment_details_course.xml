@@ -64,6 +64,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_course_details"
+        tools:itemCount="3"
         />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buyBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@null"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:textSize="14.5sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inpComment"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/medium"
+        app:backgroundTint="@color/colorPrimary"
+        android:text="@string/paurchase_course"
+        android:background="@drawable/button_background"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/contactBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@null"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:textSize="14.5sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inpComment"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/medium"
+        app:backgroundTint="@color/colorPrimary"
+        android:text="@string/contact_teacher"
+        android:background="@drawable/button_background"
+        />
+
 </LinearLayout>
 </androidx.core.widget.NestedScrollView>
