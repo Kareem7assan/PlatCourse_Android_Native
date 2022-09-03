@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentDiscussionsBinding
 import com.platCourse.platCourseAndroid.home.course_details.dialog.ContactBottomDialog
+import com.platCourse.platCourseAndroid.home.course_sections.discussions.dialog.ForumBottomDialog
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
@@ -36,7 +37,7 @@ class DiscussionsFragment  : BaseFragment(R.layout.fragment_discussions) {
 
     private fun setupActions() {
         binding.addDiscBtn.setOnClickListener {
-            ContactBottomDialog{ title: String, desc: String ->
+            ForumBottomDialog{ title: String, desc: String ->
                 sendRequestAddDiscussions(title,desc)
             }.show(requireActivity().supportFragmentManager,"dialog")
         }

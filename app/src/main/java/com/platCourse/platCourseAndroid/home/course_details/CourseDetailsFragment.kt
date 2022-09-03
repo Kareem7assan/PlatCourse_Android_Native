@@ -109,10 +109,10 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         items.add(ItemCourseDetails(title = getString(R.string.desc),desc = details?.overview))
         showBuyButton()
         if (viewModel.isUserLogin() && viewModel.isCourseOwner(details?.id ?: 0)) {
-            items.add(ItemCourseDetails(title = getString(R.string.lessons), showForward = true, type = Action.LESSONS))
+            items.add(ItemCourseDetails(title = getString(R.string.rates),showForward = true,type = Action.RATES))
             showContactButton()
         }
-            items.add(ItemCourseDetails(title = getString(R.string.rates),showForward = true,type = Action.RATES))
+
         if (viewModel.isUserLogin() && viewModel.isCourseOwner(details?.id ?: 0)) {
             items.add(ItemCourseDetails(title = getString(R.string.lessons), showForward = true, type = Action.LESSONS))
             items.add(ItemCourseDetails(title = getString(R.string.discussions), showForward = true, type = Action.DISCUSSIONS))
