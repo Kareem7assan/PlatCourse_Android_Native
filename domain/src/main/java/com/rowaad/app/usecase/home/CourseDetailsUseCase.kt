@@ -54,6 +54,18 @@ class CourseDetailsUseCase @Inject constructor(private val baseRepository: BaseR
     }
 
 
+    suspend fun setCoupon(courseId:Int,coupon:String): Flow<String> {
+        return detailsRepository.coupon(courseId,coupon)
+                .transformResponse { emit(it.details ?: "") }
+    }
+
+
+    suspend fun setCouponPurchase(courseId:Int,coupon:String): Flow<Any> {
+        return detailsRepository.buyCoupon(courseId,coupon)
+                .transformResponse { emit(it) }
+    }
+
+
     suspend fun addComment(discussion_id: Int, comment: String): Flow<Comment> {
         return detailsRepository.addComment(discussion_id, comment)
                 .transformResponse { emit(it) }

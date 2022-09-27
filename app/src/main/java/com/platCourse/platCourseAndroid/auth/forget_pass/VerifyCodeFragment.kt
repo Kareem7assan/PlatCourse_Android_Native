@@ -7,15 +7,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import com.rowaad.app.base.BaseFragment
-import com.rowaad.app.base.viewBinding
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.auth.forget_pass.viewmodel.ForgetViewModel
 import com.platCourse.platCourseAndroid.databinding.FragmentVerifyCodeBinding
+import com.rowaad.app.base.BaseFragment
+import com.rowaad.app.base.viewBinding
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
-import kotlinx.coroutines.flow.collect
-import org.jetbrains.anko.support.v4.toast
 
 class VerifyCodeFragment : BaseFragment(R.layout.fragment_verify_code) {
 
@@ -33,8 +31,6 @@ class VerifyCodeFragment : BaseFragment(R.layout.fragment_verify_code) {
         observeResendCode()
         setupTimer()
         setupActions()
-
-
     }
 
     private fun observeValidation() {
@@ -46,12 +42,12 @@ class VerifyCodeFragment : BaseFragment(R.layout.fragment_verify_code) {
     }
 
     private fun setupTimer() {
-        startResendTimer()
+       // startResendTimer()
     }
 
 
     private fun startResendTimer() {
-        timer = object : CountDownTimer(120000L, 1000) {
+        timer = object : CountDownTimer(60000L, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 binding.tvResetPassTimer.show()
                 binding.tvResetPass.hide()
@@ -92,9 +88,9 @@ class VerifyCodeFragment : BaseFragment(R.layout.fragment_verify_code) {
 
     private fun observeResendCode() {
         handleSharedFlow(viewModel.resendFlow,onSuccess = {
-            showSuccessMsg(String.format(getString(R.string.success_code),it as String))
+            //showSuccessMsg(String.format(getString(R.string.success_code),it as String))
             setupTimer()
-            viewModel.code=it
+            //viewModel.code=it
             //toast(it as String)
         })
 
@@ -105,17 +101,15 @@ class VerifyCodeFragment : BaseFragment(R.layout.fragment_verify_code) {
         binding.completeBtn.setOnClickListener {
             viewModel.sendRequestCode(binding.otpView.text.toString())
         }
-        binding?.tvResetPass.setOnClickListener {
+        binding.tvResetPass.setOnClickListener {
             viewModel.sendRequestResendCode()
         }
-        binding.ivBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        timer.cancel()
+        //timer.cancel()
     }
 
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="colorOnMyBackground">#ffffff</color>
+    <color name="steel">#767f97</color>
     <color name="white">#fff</color>
     <color name="red">#bc1515</color>
     <color name="transparent">#00000000</color>

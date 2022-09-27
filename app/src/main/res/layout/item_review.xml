@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:fontFamily="@font/light"
+        android:textStyle="bold"
         android:layout_marginEnd="@dimen/margin_small"
         android:text="12/3/2022"
         android:textSize="14sp"

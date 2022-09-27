@@ -8,6 +8,9 @@ import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemFileBinding
 import com.rowaad.app.data.model.files.File
 import com.rowaad.app.data.model.files.FilesModel
+import com.rowaad.utils.extention.convertDate
+import com.rowaad.utils.extention.isArabic
+import com.rowaad.utils.extention.isEnglish
 import java.util.*
 
 class FileAdapter : RecyclerView.Adapter<FileAdapter.FileVH>() {
@@ -39,6 +42,16 @@ class FileAdapter : RecyclerView.Adapter<FileAdapter.FileVH>() {
         notifyDataSetChanged()
     }
 
+    fun addData(data: List<File>) {
+        this.data.addAll(data)
+        notifyDataSetChanged()
+    }
+
+    fun clear(){
+        data.clear()
+        notifyDataSetChanged()
+    }
+
     fun removeWithIndex(index: Int) {
         data.removeAt(index)
         notifyItemRemoved(index)
@@ -47,8 +60,14 @@ class FileAdapter : RecyclerView.Adapter<FileAdapter.FileVH>() {
 
     inner class FileVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item:File) = with(ItemFileBinding.bind(itemView)) {
-            tvTitle.text=item.file_name
-            tvDate.text=item.created_at
+            if (item.file_name?.isEnglish()==true) tvTitle.append(bindingAdapterPosition.plus(1).toString()+"-"+item.file_name)
+            else tvTitle.append(item.file_name+"-"+bindingAdapterPosition.plus(1).toString())
+            tvDate.text=item.created_at?.convertDate()
+            if (item.downloadable==true)
+                downloadBtn.text=itemView.context.getString(R.string.download)
+            else
+                downloadBtn.text=itemView.context.getString(R.string.preview)
+
             downloadBtn.setOnClickListener {
                 onClickItem?.invoke(item,bindingAdapterPosition)
             }

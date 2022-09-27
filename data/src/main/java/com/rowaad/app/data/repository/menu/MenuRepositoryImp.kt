@@ -1,6 +1,8 @@
 package com.rowaad.app.data.repository.menu
 
+import android.util.Log
 import com.rowaad.app.data.cache.PreferencesGateway
+import com.rowaad.app.data.cache.toJson
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.WalletModel
@@ -20,6 +22,7 @@ import com.rowaad.app.data.utils.Constants_Api.PrefKeys.SHOW_NOTIFICATION
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -59,19 +62,24 @@ class MenuRepositoryImp @Inject constructor(
 */
 
     override fun editProfile(
-        name: String,
-        phoneNumber: String,
-        email: String,
-        username: String?,
-        bio: String?,
+        id: String,
         image: MultipartBody.Part?,
-        header: MultipartBody.Part?
-    ): Flow<Response<EndPointResponse<RegisterModel>>> {
-        return if (image==null && header==null) {
-            flow {  emit(api.updateProfile(name, phoneNumber, email, username, bio)) }
-        } else{
-            flow {  emit(api.updateProfile(name, phoneNumber, email, username, bio, image, header)) }
-        }
+    ): Flow<Response<UserModel>> {
+        Log.e("image",image?.body.toString())
+        return flow {  emit(api.updateProfile(id = id,image = image!!)) }
+    }
+
+    override fun editProfileBody(
+            id: String,
+            image: RequestBody,
+    ): Flow<Response<UserModel>> {
+        return flow {  emit(api.updateProfile(id = id,image = image)) }
+    }
+ override fun editProfilePart(
+            id: String,
+            body: HashMap<String,RequestBody>,
+    ): Flow<Response<UserModel>> {
+        return flow {  emit(api.updateProfile(id = id,body = body)) }
     }
 
    /* override fun lessons(courseId: Int): Flow<Response<List<LessonsModel>>> {
@@ -100,6 +108,7 @@ class MenuRepositoryImp @Inject constructor(
 
     override fun readNotification(ids: List<Int>): Flow<Response<Any>> {
         return flow {
+            Log.e("notifications",ids.toJson())
             emit(api.readNotification(ids))
         }
     }

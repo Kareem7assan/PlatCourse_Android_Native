@@ -6,7 +6,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentDiscussionsBinding
-import com.platCourse.platCourseAndroid.home.course_details.dialog.ContactBottomDialog
 import com.platCourse.platCourseAndroid.home.course_sections.discussions.dialog.ForumBottomDialog
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
@@ -54,7 +53,9 @@ class DiscussionsFragment  : BaseFragment(R.layout.fragment_discussions) {
             adapter.swapData(it)
         })
         handleSharedFlow(viewModel.addDiscFlow,onSuccess = {it as DiscussionModel
-            adapter.insertItem(if (size>0) size else 0,it)
+            adapter.insertItem(size,it).also {
+                size++
+            }
         })
     }
 

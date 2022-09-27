@@ -59,6 +59,25 @@ fun TextInputEditText.validateTextPass(hintTxt: String){
 }
 
 fun TextInputEditText.validateHintPhone(hintTxt: String
+) {
+    hint = hintTxt
+    textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+
+
+    doOnTextChanged { text, start, before, count ->
+
+        hint = if (text?.length ?: 0 > 0) {
+
+            textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+            ""
+        } else {
+            textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+            hintTxt
+        }
+    }
+}
+
+fun TextInputEditText.validateHint(hintTxt: String
 ){
     hint=hintTxt
     textAlignment=View.TEXT_ALIGNMENT_VIEW_START
@@ -75,9 +94,6 @@ fun TextInputEditText.validateHintPhone(hintTxt: String
             hintTxt
         }
     }
-
-
-
 }
 
 class MyPasswordTransformationMethod : PasswordTransformationMethod() {

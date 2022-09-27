@@ -1,6 +1,8 @@
 package com.platCourse.platCourseAndroid.auth.login
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
@@ -18,6 +20,7 @@ import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.remote.NetWorkState
+import com.rowaad.app.data.utils.Constants_Api
 import com.rowaad.utils.extention.getContent
 import com.rowaad.utils.extention.startActivityWithAnimationFinishAllStack
 import com.rowaad.utils.extention.validateText
@@ -33,16 +36,19 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (arguments?.getBoolean(Constants_Api.INTENT.LOGOUT,false)==true)
+            preventBack()
+
         observeNavigation()
         setupInputsValidations()
         setupActions()
-        setupHint()
+
+
     }
 
     private fun setupInputsValidations() {
         observeEmailValidation()
         observePassValidation()
-
     }
 
 
@@ -51,7 +57,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isValidMailFlow.collect { isMail->
                     if (isMail is LoginViewModel.Validation.IsValid){
-                        binding.etEmail.validateText(isMail.isValid, binding.ivMarkEmail, binding.tvErrorMail)
+                        binding.etEmail.validateText(isMail.isValid, null, binding.tvErrorMail)
                     }
                 }
             }
@@ -63,7 +69,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isValidPassFlow.collect { isCorrect->
                     if (isCorrect is LoginViewModel.Validation.IsValid){
-                        binding.etPass.validateText(isCorrect.isValid, binding.ivMarkEmail, binding.tvErrorPass)
+                        binding.etPass.validateText(isCorrect.isValid, null, binding.tvErrorPass)
                     }
                 }
             }
@@ -90,11 +96,14 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         binding.tvForget.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_forgetFragment)
         }
+        binding.tvCreateAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
     }
 
     private fun preventBack() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
-            requireActivity().finishAffinity()
+            requireActivity().onBackPressed()
         }
     }
 
@@ -125,8 +134,14 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     private fun handleNavigation(userModel: UserModel) {
+        showSuccessMsg(String.format(getString(R.string.attemps_times),userModel.login_times)).also {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
+                },1000)
+        }
 
-         requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
+
+
 
     }
 

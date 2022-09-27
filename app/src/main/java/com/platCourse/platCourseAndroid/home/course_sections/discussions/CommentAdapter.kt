@@ -8,6 +8,7 @@ import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemCommentBinding
 import com.rowaad.app.data.model.discussions_model.Comment
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
+import com.rowaad.utils.extention.convertDate
 import java.util.*
 
 class CommentAdapter : RecyclerView.Adapter<CommentAdapter.CommentVH>() {
@@ -55,7 +56,7 @@ class CommentAdapter : RecyclerView.Adapter<CommentAdapter.CommentVH>() {
         fun bind(item:Comment) = with(ItemCommentBinding.bind(itemView)) {
             tvName.text=item.owner_name
             tvComment.text=item.comment
-            tvSince.text=item.created_at
+            tvSince.text=item.created_at?.convertDate()
 
         }
     }

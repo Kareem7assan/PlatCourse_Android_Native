@@ -8,6 +8,7 @@ import com.platCourse.platCourseAndroid.databinding.ActivityHomeBinding
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,6 +45,9 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                     binding.mainBottomNavigation.hide()
                     hideToolbar()
                 }
+                R.id.profileTeacherFragment->{
+                    hideToolbar()
+                }
                 else -> {
                     showToolbar()
                 }
@@ -76,10 +80,15 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                     setupTitle(getString(R.string.more))
                     handleHomeToolbar()
                 }
-
+                R.id.pendingCoursesFragment -> {
+                    binding.mainBottomNavigation.menu.findItem(R.id.moreMenuFragment)?.isChecked = true
+                    setupTitle(getString(R.string.orders))
+                    handleHomeToolbar()
+                }
                 else -> {
                     //binding?.mainBottomNavigation.menu.findItem(R.id.homeMenuFragment)?.isChecked = true
                     //setupTitle(getString(R.string.home))
+
                     handleNormalToolbar()
                 }
             }

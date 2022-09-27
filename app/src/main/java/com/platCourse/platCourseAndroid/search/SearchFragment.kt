@@ -55,6 +55,17 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         }
 
         coursesAdapter.onClickItem=::onClickItem
+        coursesAdapter.onClickItemProfile=::onClickItemProfile
+    }
+
+    private fun onClickItemProfile(courseItem: CourseItem, pos: Int) {
+        findNavController().navigate(R.id.action_global_profileTeacherFragment,
+                bundleOf(
+                        "details"
+                                to
+                                courseItem.toJson()
+                )
+        )
     }
 
     private fun onClickItem(courseItem: CourseItem, pos: Int) {
@@ -157,5 +168,6 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         super.onDestroyView()
         binding=null
         pageNumber=1
+        coursesAdapter.clear()
     }
 }

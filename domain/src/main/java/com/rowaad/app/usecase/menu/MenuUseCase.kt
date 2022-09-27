@@ -1,5 +1,6 @@
 package com.rowaad.app.usecase.menu
 
+import android.util.Log
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
@@ -17,6 +18,7 @@ import com.rowaad.app.usecase.transformResponseData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -33,7 +35,7 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
     //logout
     suspend fun logout(token: String? = null): Flow<UserModel> {
         return repository.logout(fireBaseToken = baseRepository.deviceId)
-                .transformResponseData<RegisterModel,UserModel>  { emit(it.student) }
+                .transformResponse <RegisterModel,UserModel>  { emit(it.student) }
     }
 
 
@@ -113,15 +115,35 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
 
     //editProfile
     suspend fun editProfile(
-        name:String,phone:String,email: String,bio:String?=null,userName:String?=null,
-        cover:MultipartBody.Part?=null,avatar:MultipartBody.Part?=null,
+        avatar:MultipartBody.Part?=null,
     ): Flow<UserModel> {
-        return menuRepository.editProfile(name = name,phoneNumber = phone,email = email,
-            username = userName, bio = bio,image = avatar,header = cover).transformResponseData<RegisterModel,UserModel>
-        {
-            emit(it.student)
+        Log.e("image_avatar",avatar?.body.toString())
+        return menuRepository.editProfile(ids = baseRepository?.loadUser()?.id.toString(),image = avatar).transformResponse<UserModel,UserModel>{
+            emit(it)
         }.onEach {
-                resp -> baseRepository.saveUser(resp)
+              //  resp -> baseRepository.saveUser(resp)
+        }
+    }
+
+    //editProfile
+    suspend fun editProfileBody(
+             body: HashMap<String,RequestBody>,
+    ): Flow<UserModel> {
+        return menuRepository.editProfilePart(id = baseRepository?.loadUser()?.id.toString(),body = body).transformResponse<UserModel,UserModel>{
+            emit(it)
+        }.onEach {
+              //  resp -> baseRepository.saveUser(resp)
+        }
+    }
+
+    //editProfile body
+    suspend fun editProfileBody(
+             body: RequestBody,
+    ): Flow<UserModel> {
+        return menuRepository.editProfileBody(id = baseRepository.loadUser()?.id.toString(),image = body).transformResponse<UserModel,UserModel>{
+            emit(it)
+        }.onEach {
+              //  resp -> baseRepository.saveUser(resp)
         }
     }
 

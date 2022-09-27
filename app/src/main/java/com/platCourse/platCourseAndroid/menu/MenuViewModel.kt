@@ -1,5 +1,6 @@
 package com.platCourse.platCourseAndroid.menu
 
+import android.util.Log
 import com.rowaad.app.base.BaseViewModel
 import com.rowaad.app.data.model.Menu
 import com.rowaad.app.data.model.MenuModel
@@ -12,6 +13,7 @@ import com.platCourse.platCourseAndroid.auth.register.RegisterViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 
@@ -34,9 +36,9 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
     val articleFlow= _articleFlow.asSharedFlow()
 
     private val _myProfileFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
-    val myProfileFlow = _myProfileFlow.asStateFlow()
+    val myProfileFlow = _myProfileFlow.asSharedFlow()
 
-    private val _editProfileFlow= MutableSharedFlow<NetWorkState>()
+    private val _editProfileFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
     val editProfileFlow= _editProfileFlow.asSharedFlow()
 
 
@@ -129,22 +131,57 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
         executeSharedApi(_myProfileFlow){
             menuUseCase.myProfile()
                     .onStart { _myProfileFlow.emit(NetWorkState.Loading) }
-                    .onCompletion { _myProfileFlow.emit(NetWorkState.StopLoading) }
-                    .catch { _myProfileFlow.emit(NetWorkState.Error(it)) }
-                    .collectLatest {  _myProfileFlow.emit(NetWorkState.Success(it)) }
+                    .onCompletion { _myProfileFlow.emit(NetWorkState.StopLoading).also {
+                        _myProfileFlow.emit(NetWorkState.Idle)
+                    } }
+                    .catch { _myProfileFlow.emit(NetWorkState.Error(it)).also {
+                        _myProfileFlow.emit(NetWorkState.Idle)
+                    } }
+                    .collectLatest {  _myProfileFlow.emit(NetWorkState.Success(it))
+                    }
         }
     }
 
-    fun editProfile(name:String, phone:String, email: String, bio:String?=null, userName:String?=null,
-                    cover: MultipartBody.Part?=null, avatar: MultipartBody.Part?=null,){
-        if (menuUseCase.validateEditProfile(name,phone,email)) {
+    fun editProfile(avatar: MultipartBody.Part?=null){
+        Log.e("image","multi"+","+avatar?.headers.toString())
             executeSharedApi(_editProfileFlow) {
-                menuUseCase.editProfile(name, phone, email, bio, userName, cover, avatar)
+                menuUseCase.editProfile(avatar = avatar)
+                        .onStart { _editProfileFlow.emit(NetWorkState.Loading) }
+                        .onCompletion { _editProfileFlow.emit(NetWorkState.StopLoading).also {
+                            _editProfileFlow.emit(NetWorkState.Idle)
+                            myProfile()
+                        } }
+                        .catch { _editProfileFlow.emit(NetWorkState.Error(it)).also {
+                            _editProfileFlow.emit(NetWorkState.Idle)
+                        } }
+                        .collectLatest { _editProfileFlow.emit(NetWorkState.Success(it))
+                        }
+
+        }
+    }
+    fun editProfileBody(avatar: RequestBody){
+            executeSharedApi(_editProfileFlow) {
+                menuUseCase.editProfileBody( avatar)
                         .onStart { _editProfileFlow.emit(NetWorkState.Loading) }
                         .onCompletion { _editProfileFlow.emit(NetWorkState.StopLoading) }
-                        .catch { _editProfileFlow.emit(NetWorkState.Error(it)) }
+                        .catch { _editProfileFlow.emit(NetWorkState.Error(it)).also {
+                            _editProfileFlow.emit(NetWorkState.Idle)
+                        } }
                         .collectLatest { _editProfileFlow.emit(NetWorkState.Success(it)) }
-            }
+
+        }
+    }
+
+    fun editProfile(body: HashMap<String,RequestBody>){
+            executeSharedApi(_editProfileFlow) {
+                menuUseCase.editProfileBody(body)
+                        .onStart { _editProfileFlow.emit(NetWorkState.Loading) }
+                        .onCompletion { _editProfileFlow.emit(NetWorkState.StopLoading) }
+                        .catch { _editProfileFlow.emit(NetWorkState.Error(it)).also {
+                            _editProfileFlow.emit(NetWorkState.Idle)
+                        } }
+                        .collectLatest { _editProfileFlow.emit(NetWorkState.Success(it)) }
+
         }
     }
 
@@ -153,13 +190,14 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
 
 
     fun logout(){
-        executeSharedApi(_userFlow){
+        menuUseCase.clearPrefs()
+        /*executeSharedApi(_userFlow){
             menuUseCase.logout()
                     .onStart { _userFlow.emit(NetWorkState.Loading) }
                     .onCompletion { _userFlow.emit(NetWorkState.StopLoading) }
                     .catch { _userFlow.emit(NetWorkState.Error(it)) }
                     .collectLatest { menuUseCase.clearPrefs().also { _userFlow.emit(NetWorkState.Success(it)) } }
-        }
+        }*/
     }
 
     private val _notificationFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)

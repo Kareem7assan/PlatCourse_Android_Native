@@ -36,7 +36,7 @@ class ResetPassFragment : BaseFragment(R.layout.fragment_reset_pass) {
         observeValidationPass()
         observeConfirmValidationPass()
         setupActions()
-        setupHint()
+       // setupHint()
 
     }
 
@@ -131,9 +131,7 @@ class ResetPassFragment : BaseFragment(R.layout.fragment_reset_pass) {
                 }
         }
 
-        binding.ivBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
 
 
     }

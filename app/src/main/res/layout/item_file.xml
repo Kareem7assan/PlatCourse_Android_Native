@@ -20,17 +20,17 @@
     android:id="@+id/tvTitle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="title"
+    android:layout_marginStart="@dimen/margin_normal"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    android:padding="@dimen/margin_normal"
     />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,22 +53,22 @@
             android:textColor="@color/colorPrimary"
             app:strokeColor="@color/colorPrimary"
 
-            app:backgroundTint="@android:color/transparent"
+            app:backgroundTint="@android:color/white"
             android:text="@string/download"
-            />
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="23/2/2022 adz"
-            android:gravity="end"
-            android:textAlignment="viewEnd"
-            android:layout_marginStart="@dimen/margin_large"
-            app:layout_constraintTop_toTopOf="parent"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="@dimen/margin_normal"
             />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="23/2/2022 adz"
+        android:gravity="start"
+        android:textAlignment="viewStart"
+        android:layout_marginStart="@dimen/margin_normal"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
 </LinearLayout>

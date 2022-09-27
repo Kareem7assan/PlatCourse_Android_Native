@@ -30,7 +30,7 @@
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:hintTextAppearance="@style/TextLabel"
-            android:hint="@string/msg"
+            android:hint="@string/coupon_code"
             android:textAlignment="viewEnd"
             app:suffixTextAppearance="@style/TextInputLayoutPrefixText"
             android:textColorHint="@color/brown_grey"

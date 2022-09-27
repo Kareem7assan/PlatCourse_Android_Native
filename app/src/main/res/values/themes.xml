@@ -43,6 +43,12 @@
         <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">@font/regular</item>
     </style>
+
+    <style name="TextInputLayoutHelperText">
+        <item name="hintTextColor">#b0aeae</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/light</item>
+    </style>
     <style name="EditTextHintText">
         <item name="hintTextColor">@color/pinkish_grey</item>
         <item name="android:textSize">13.5sp</item>
@@ -77,5 +83,19 @@
     <style name="MYBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="AppFullScreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:enforceNavigationBarContrast">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">never</item>
+
+    </style>
+
 
 </resources>

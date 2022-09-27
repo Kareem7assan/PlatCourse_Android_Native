@@ -5,6 +5,7 @@ import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
+import com.rowaad.app.data.model.courses_model.CouponModel
 import com.rowaad.app.data.model.discussions_model.Comment
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
@@ -30,6 +31,8 @@ interface CourseDetailsRepository{
     fun addReview(courseId:Int,review:Float,description:String?=null):Flow<Response<Any>>
     fun quizzes(courseId:Int): Flow<Response<List<QuizModel>>>
     fun files(courseId:Int,page:Int): Flow<Response<FilesModel>>
+    fun coupon(courseId:Int,coupon:String): Flow<Response<CouponModel>>
+    fun buyCoupon(courseId:Int,coupon:String): Flow<Response<Any>>
     fun addComment(
              discussion_id:Int,
              comment:String

@@ -56,13 +56,6 @@ class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
 
     private fun setupWebView() {
         val mWebView = binding.webView
-        mWebView.isVerticalScrollBarEnabled=true
-
-        mWebView.onTouch { v, event ->
-            mWebView.requestDisallowInterceptTouchEvent(true)
-
-        }
-        mWebView.isNestedScrollingEnabled=true
         val webSetting = mWebView.settings
         webSetting.javaScriptEnabled = true
         webSetting.javaScriptCanOpenWindowsAutomatically = true
@@ -103,7 +96,7 @@ class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
         }, 3000)
         webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH)
         webSetting.javaScriptCanOpenWindowsAutomatically = true
-        mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id}/$quizId/$TOKENS")
+        mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id}/$quizId/${viewModel.getToken()}")
         //mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id}/$quizId/${viewModel.getToken()}")
        // mWebView.addJavascriptInterface(WebAppInterface(requireContext()), "androidInterface")
         mWebView.webViewClient = object : WebViewClient(), ValueCallback<String> {

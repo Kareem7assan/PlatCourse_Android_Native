@@ -57,7 +57,18 @@ class CoursesFragment : BaseFragment(R.layout.fragment_courses) {
             findNavController().navigate(R.id.action_global_newCoursesFragment)
         }
         newAdapter.onClickItem=::onClickCourse
+        newAdapter.onClickItemProfile=::onClickItemProfile
         featuredAdapter.onClickItem=::onClickCourse
+        featuredAdapter.onClickItemProfile=::onClickItemProfile
+    }
+    private fun onClickItemProfile(courseItem: CourseItem, pos: Int) {
+        findNavController().navigate(R.id.action_global_profileTeacherFragment,
+                bundleOf(
+                        "details"
+                                to
+                                courseItem.toJson()
+                )
+        )
     }
 
     private fun onClickCourse(courseItem: CourseItem, pos: Int) {

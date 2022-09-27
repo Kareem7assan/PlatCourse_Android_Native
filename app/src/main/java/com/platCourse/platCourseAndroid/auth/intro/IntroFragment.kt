@@ -20,16 +20,8 @@ class IntroFragment : BaseFragment(R.layout.fragment_intro) {
     }
 
     private fun setupActions() {
-        binding?.registerBtn?.setOnClickListener {
-            findNavController().navigate(R.id.action_introFragment_to_registerFragment,
 
-            )
-        }
-        binding?.loginBtn?.setOnClickListener {
-            findNavController().navigate(R.id.action_introFragment_to_loginFragment,
 
-                    )
-        }
     }
 
 

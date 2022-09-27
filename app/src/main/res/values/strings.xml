@@ -49,8 +49,8 @@
     <string name="sales_policy_menu">سياسة البيع</string>
 
     <string name="check_match_pass">Passwords not matched</string>
-    <string name="welcome_in_taghareed">Welcome in taghareed</string>
-    <string name="create_account_tweet">Create new account to tweet</string>
+    <string name="welcome_in_platcourse">Welcome in platcourse</string>
+    <string name="create_account"><u>Create account</u></string>
     <string name="enter_phone_hint">Enter phone here</string>
     <string name="accept_terms">Accept terms and policies first</string>
     <string name="privacy_terms">Privacy and terms</string>
@@ -70,7 +70,7 @@
     <string name="login_register">Login/Register</string>
     <string name="welcom">Welcome</string>
     <string name="recovery_password">Recover password</string>
-    <string name="add_email_hint">Add your mail to recover your password</string>
+    <string name="add_email_hint">Add your mail to receive code</string>
     <string name="complete">Complete</string>
     <string name="verify">Verify your email</string>
 
@@ -275,6 +275,38 @@
     <string name="msg_required">اضف رسالتك</string>
     <string name="request_sent">تم ارسال طلب الشراء الخاص بك للمدرس</string>
     <string name="contact_msg_success">تم ارسال رسالتك للمدرس</string>
+    <string name="new_user">مستخدم جديد</string>
+    <string name="attemps_times">عدد مرات الدخول %1$s من ٦</string>
+    <string name="register_hint">احصل على حساب جديد وأبد في التعلم</string>
+    <string name="invalid_user_name">اسم المستخدم غير صحيح</string>
+    <string name="full_name">الاسم بالكامل (يحب ان يكون حقيقي )</string>
+    <string name="invalid_name">الاسم غير صحيح</string>
+    <string name="invalid_email">البريد الالكتروني غير صحيح</string>
+    <string name="invalid_phone">رقم الهاتف غير صحيح</string>
+    <string name="invalid_country">اسم الدولة غير صحيح</string>
+    <string name="country">الدولة</string>
+    <string name="town">البلد</string>
+    <string name="city">المدينة</string>
+    <string name="invalid_password">كلمة المرور غير صحيحة</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="not_matched">كلمتي المرور غير متطابقتين</string>
+    <string name="have_account">لديك حساب بالفعل ؟</string>
+    <string name="enter">ادخال</string>
+    <string name="edit">تعديل</string>
+    <string name="user_hint">اسم المستخدم (يكون مشتق من الاسم الحقيقي)</string>
+    <string name="phone_hint">رقم الهاتف (مهم لتفعيل الحساب)</string>
+    <string name="full_name_hint">الاسم بالكامل (يجب أن يكون حقيقياً )</string>
+    <string name="verify_code">ادخل كود التحقق</string>
+    <string name="code_sent">تم ارسال كود التحقق بنجاح</string>
+    <string name="teacher_profile">ملف المدرس الشخصي</string>
+    <string name="coupon_code">اكتب كود التفعيل الخاص بك</string>
+    <string name="code_required">"لم يتم ادخال الكود "</string>
+    <string name="have_code">لدي كود تفعيل</string>
+    <string name="preview">عرض</string>
+    <string name="invalid_city">اسم المدينة غير صحيح</string>
+    <string name="have_code_purchase">امتلك كود شراء</string>
+    <string name="coupon_purchase">أدخل كود الشراء الخاص بك</string>
+    <string name="purchase_successfully">تم شراء الكورس بنجاح</string>
 
 
 </resources>

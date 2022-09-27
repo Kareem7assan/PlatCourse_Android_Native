@@ -39,7 +39,7 @@ object PrefKeys{
     const val SHOW_NOTIFICATION: String = "notification_show"
     const val USER: String = "user"
     const val SESSION: String = "session"
-    const val TOKENS=""
+    const val TOKENS="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZW1haWwiOiJzaGVyaWZlbHRlbHRAeWFob28uY29tIiwiZXhwIjoxNjg3ODIwNTE3LCJpYXQiOjE2NjE5MDA1MTd9.1m0dWkTzD_P4V7_xE-T7PTXVhUUJdkNFfAo0H6i_aXs"
 }
 
 

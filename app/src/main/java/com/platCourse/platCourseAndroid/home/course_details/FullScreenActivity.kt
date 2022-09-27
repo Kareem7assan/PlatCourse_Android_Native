@@ -1,11 +1,26 @@
 package com.platCourse.platCourseAndroid.home.course_details
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.graphics.Color
+import android.os.Build
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.Window
+import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.fragment.app.activityViewModels
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ActivityFullScreenBinding
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
@@ -13,21 +28,75 @@ import com.rowaad.app.base.BaseActivity
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 
-class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.Listener, MotionLayout.TransitionListener {
+
+class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.Listener, MotionLayout.TransitionListener, WindowInsetsControllerCompat.OnControllableInsetsChangedListener {
 
     private var simplePlayer: ExoPlayer? = null
     private var binding: ActivityFullScreenBinding? = null
     private var isPlay: Boolean = false
     private val viewModel: CoursesViewModel by viewModels()
 
+
+
+
     override fun init() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         binding=ActivityFullScreenBinding.bind(findViewById(R.id.rootFullScreen))
+        hideBottomNavigation()
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowInsetsControllerCompat(window, binding?.root!!).show(WindowInsetsCompat.Type.systemBars())
         val url=intent.getStringExtra("url")!!
-        val pos=intent.getLongExtra("pos",0L)
+        val pos=intent.getLongExtra("pos", 0L)
         val name=intent.getStringExtra("name")
         handleWaterMark(name)
-        val isPlay=intent.getBooleanExtra("isPlay",false)
-        setupVideo(url,pos,isPlay)
+        val isPlay=intent.getBooleanExtra("isPlay", false)
+        setupVideo(url, pos, isPlay)
+
+
+    }
+
+    @SuppressLint("NewApi")
+    private fun hideBottomNavigation() {
+
+
+            // Code below is to handle presses of Volume up or Volume down.
+            // Without this, after pressing volume buttons, the navigation bar will
+            // show up and won't hide
+            val windowInsetsController =
+                    ViewCompat.getWindowInsetsController(window.decorView) ?: return
+            // Configure the behavior of the hidden system bars
+            windowInsetsController.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            // Hide both the status bar and the navigation bar
+/*
+            windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+            windowInsetsController.removeOnControllableInsetsChangedListener(this)
+*/
+        windowInsetsController.isAppearanceLightNavigationBars=false
+        window.navigationBarColor=Color.TRANSPARENT
+        window.navigationBarDividerColor=Color.TRANSPARENT
+       // windowInsetsController.isAppearanceLightNavigationBars=true
+        /*WindowInsetsControllerCompat(window, window.decorView).apply {
+            // Hide the status bar
+            hide(WindowInsetsCompat.Type.systemBars())
+            // Allow showing the status bar with swiping from top to bottom
+            systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(
+                binding!!.root
+        ) { view: View, windowInsets: WindowInsetsCompat ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                // draw on top of the bottom navigation bar
+                bottomMargin = 0
+            }
+
+            // Return CONSUMED if you don't want the window insets to keep being
+            // passed down to descendant views.
+            WindowInsetsCompat.toWindowInsetsCompat(insets)
+        }
+*/
 
     }
 
@@ -52,8 +121,16 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
         simplePlayer!!.prepare()
         simplePlayer!!.addListener(this)
 
+
+        val params: ConstraintLayout.LayoutParams = binding?.styledVideo?.layoutParams as ConstraintLayout.LayoutParams
+        params.width = MATCH_PARENT
+        params.height = MATCH_PARENT
+        binding?.styledVideo?.layoutParams = params
+        binding?.styledVideo?.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+
+
         if (isPlay)
-            setCurrentPosition(simplePlayer!!,pos).also { simplePlayer!!.play() }
+            setCurrentPosition(simplePlayer!!, pos).also { simplePlayer!!.play() }
 
         binding?.styledVideo?.setFullscreenButtonClickListener {
             onBackPressed()
@@ -77,7 +154,6 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
     override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
 
         if (isPlay && viewModel.isUserLogin()) playingWaterMark()
-
 
 
     }
@@ -105,4 +181,32 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
     override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
 
     }
+
+    override fun onControllableInsetsChanged(controller: WindowInsetsControllerCompat, typeMask: Int) {
+
+    }
 }
+
+/*
+fun Activity.makeStatusBarTransparent() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            } else {
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            }
+
+            navigationBarColor = Color.TRANSPARENT
+        }
+    }
+}
+
+fun View.setMarginTop(marginTop: Int) {
+    val menuLayoutParams = this.layoutParams as ViewGroup.MarginLayoutParams
+    menuLayoutParams.setMargins(0, marginTop, 0, 0)
+    this.layoutParams = menuLayoutParams
+}
+*/

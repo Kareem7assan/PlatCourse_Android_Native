@@ -50,8 +50,8 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
 
     private val baseViewModel: BaseViewModel by viewModels()
 
-    fun setFullScreen(){
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    open fun setFullScreen(){
+        //window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
     abstract fun init()
@@ -77,7 +77,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
                     startActivity(intent)
                 }
                 .setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                .setActionTextColor(ContextCompat.getColor(this, R.color.booger))
+                .setActionTextColor(ContextCompat.getColor(this, R.color.off_white_four))
 
         val view = snack.view
         val textView = view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
@@ -119,6 +119,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
         else {
             setContentView(layoutResource)
         }*/
+        setFullScreen()
         viewBase = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(viewBase?.root)
         val activityView = LayoutInflater.from(this)
@@ -132,7 +133,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
         observeUnAuthorized()
         observeMaintenance()
        // observeConnection()
-        //setFullScreen()
+
     }
 
     override fun onDestroy() {
@@ -251,7 +252,6 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
             }
             Constants_Api.ERROR_API.UNAUTHRIZED -> {
                 baseViewModel.getBaseRepository(this).logout().also { handleUnAuthorized() }
-
             }
             Constants_Api.ERROR_API.MAINTENANCE -> {
                 handleMaintenance()

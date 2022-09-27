@@ -48,8 +48,8 @@
     <string name="exchange">Exchange</string>
     <string name="confirm_replace">Confirm replace my points</string>
     <string name="logout">Logout</string>
-    <string name="logout_msg_address">Are you sure , your cached data will be clear ?</string>
-    <string name="cant_detect_location">لم نستطيع تحديد موقعك</string>
+    <string name="logout_msg_address">Are you sure , your cached data will be clear ? this exposed your account to suspend</string>
+    <string name="cant_detect_location">Cannot detect location</string>
     <string name="active_location_service">activate location</string>
 
 </resources>

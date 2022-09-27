@@ -45,6 +45,12 @@
         android:label="CoursesFragment"
         tools:layout="@layout/fragment_courses">
     </fragment>
+    <fragment
+        android:id="@+id/pendingCoursesFragment"
+        android:name="com.platCourse.platCourseAndroid.menu.pending_courses.PendingCoursesFragment"
+        android:label="pendingCoursesFragment"
+        tools:layout="@layout/fragment_courses">
+    </fragment>
 
     <fragment
         android:id="@+id/notificationsFragment"
@@ -85,6 +91,12 @@
         android:name="com.platCourse.platCourseAndroid.home.course_details.CourseDetailsFragment"
         android:label="CourseDetailsFragment"
         tools:layout="@layout/fragment_details_course">
+    </fragment>
+    <fragment
+        android:id="@+id/profileTeacherFragment"
+        android:name="com.platCourse.platCourseAndroid.home.profile_teacher.ProfileTeacherFragment"
+        android:label="profileTeacher"
+        tools:layout="@layout/fragment_profile">
     </fragment>
 
     <fragment
@@ -136,6 +148,7 @@
     <action android:id="@+id/action_global_quizWebViewFragment" app:destination="@id/quizWebViewFragment"/>
     <action android:id="@+id/action_global_courseFilesFragment" app:destination="@id/courseFilesFragment"/>
     <action android:id="@+id/action_global_discussionsFragment" app:destination="@id/discussionsFragment"/>
+    <action android:id="@+id/action_global_pendingCoursesFragment" app:destination="@id/pendingCoursesFragment"/><action android:id="@+id/action_global_profileTeacherFragment" app:destination="@id/profileTeacherFragment"/>
 
 
 <!--

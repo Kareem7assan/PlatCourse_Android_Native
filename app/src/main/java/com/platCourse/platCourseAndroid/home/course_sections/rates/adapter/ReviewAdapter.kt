@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemReviewBinding
 import com.rowaad.app.data.model.reviews.Review
+import com.rowaad.utils.extention.convertDate
 import com.rowaad.utils.extention.formatRate
 import java.util.*
 
@@ -55,7 +56,7 @@ class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewVH>() {
             tvComment.text=item.description
             rateView.rating=item.rate ?: 1f
             tvRate.formatRate(item.rate ?: 1f)
-            tvCreated.text=item.created_at
+            tvCreated.text=item.created_at?.convertDate()
         }
     }
 }

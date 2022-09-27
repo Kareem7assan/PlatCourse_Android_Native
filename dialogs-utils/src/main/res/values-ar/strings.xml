@@ -46,7 +46,7 @@
     <string name="exchange">استبدال</string>
     <string name="confirm_replace">تأكيد استبدال نقاطي </string>
     <string name="logout">تسجيل الخروج</string>
-    <string name="logout_msg_address">هل تريد تأكيد تسجيل الخروج ؟</string>
+    <string name="logout_msg_address">هل تريد تأكيد تسجيل الخروج ؟ تكرار تسجيل الخروج و الدخول يعرض الحساب للحظر</string>
     <string name="cant_detect_location">لم نستطيع تحديد موقعك</string>
     <string name="active_location_service">تفعيل الموقع</string>
 

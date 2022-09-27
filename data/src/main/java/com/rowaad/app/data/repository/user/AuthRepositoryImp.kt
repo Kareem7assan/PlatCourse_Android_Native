@@ -20,10 +20,6 @@ class AuthRepositoryImp @Inject constructor(
     private val baseRepository: BaseRepository,
 ): AuthRepository {
 
-    /*override fun getUser(): Flow<Response<EndPointResponse<RegisterModel>>> {
-        return flow { emit(api.myProfile()) }
-    }
-*/
     override fun guestToken(): Flow<Response<EndPointResponse<BaseResponse>>> {
         return flow { emit(api.guestToken()) }
     }
@@ -45,30 +41,32 @@ class AuthRepositoryImp @Inject constructor(
         email: String,
         password: String,
         fireBaseToken: String?
-    ): Flow<Response<EndPointResponse<RegisterModel>>> {
+    ): Flow<Response<RegisterModel>> {
         return flow { emit(api.login(email = email,password = password,fireBaseToken = fireBaseToken)) }
     }
 
-    override fun logout(fireBaseToken: String?): Flow<Response<EndPointResponse<RegisterModel>>> {
+    override fun logout(fireBaseToken: String?): Flow<Response<RegisterModel>> {
         return flow { emit(api.logout(fireBaseToken)) }
     }
 
-    override fun forgetPhone(email: String): Flow<Response<EndPointResponse<RegisterModel>>> {
-        return flow { emit(api.forgetPassword(email = email)) }
+    override fun forgetPhone(email: String): Flow<Response<RegisterModel>> {
+        return flow {
+            emit(api.forgetPassword(email = email))
+        }
     }
 
     override fun verify(
         verificationCode: String,
         email: String,
         type: String?
-    ): Flow<Response<EndPointResponse<RegisterModel>>> {
+    ): Flow<Response<RegisterModel>> {
         return flow { emit(api.verify(verificationCode = verificationCode,email =  email, type)) }
     }
 
     override fun resend(
         email: String,
         type: String?
-    ): Flow<Response<EndPointResponse<RegisterModel>>> {
+    ): Flow<Response<RegisterModel>> {
         return flow { emit(api.resend(email = email, type)) }
     }
 
@@ -76,17 +74,24 @@ class AuthRepositoryImp @Inject constructor(
         password: String,
         email: String,
         code: String?
-    ): Flow<Response<EndPointResponse<RegisterModel>>> {
-        return flow { emit(api.resetPassword(password = password,password_confirmation = password,email = email,code = code)) }
+    ): Flow<Response<RegisterModel>> {
+        return flow { emit(api.resetPassword(newPassword = password,confirmPassword = password)) }
     }
 
 
     override fun register(
-        name:String, email:String, phoneNumber:String,
-        password:String, password_confirmation:String,
-        fireBaseToken:String
-    ): Flow<Response<EndPointResponse<RegisterModel>>> {
-        return flow { emit(api.register(name, email, phoneNumber, password, password_confirmation, fireBaseToken)) }
+            username:String,
+            email:String,
+            password:String,
+            name:String,
+            phoneNumber:String,
+            country:String,
+            city:String,
+            fireBaseToken:String,
+            role:String?
+    ): Flow<Response<RegisterModel>> {
+        return flow { emit(api.register(username = username,email = email,password = password,
+                name = name,phoneNumber = phoneNumber,country = country,city = city,fireBaseToken = fireBaseToken)) }
     }
 
 

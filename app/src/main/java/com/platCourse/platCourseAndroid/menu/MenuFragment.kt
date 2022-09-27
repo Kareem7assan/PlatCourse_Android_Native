@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
@@ -19,6 +20,7 @@ import com.platCourse.platCourseAndroid.menu.adapter.MenuAdapter
 import com.platCourse.platCourseAndroid.menu.articles.ArticlesActivity
 import com.platCourse.platCourseAndroid.menu.change_password.ChangePasswordActivity
 import com.platCourse.platCourseAndroid.menu.contact_us.ContactUsActivity
+import com.platCourse.platCourseAndroid.menu.edit_profile.EditProfileActivity
 import com.platCourse.platCourseAndroid.menu.pages.PagesActivity
 import com.platCourse.platCourseAndroid.menu.terms.TermsActivity
 import com.rowaad.utils.extention.*
@@ -37,7 +39,6 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
             handleLogout()
         })
         setupNightMode()
-
     }
 
     private fun setupNightMode() {
@@ -69,7 +70,7 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
             }
             else{
                 tvName.text = user?.name
-                ivLogo.loadImage(user?.profile_image)
+                if (user?.profile_image.isNullOrBlank().not()) ivLogo.loadImage(user?.profile_image)
             }
         }
     }
@@ -79,6 +80,14 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
     private fun setupActions() {
        menuAdapter.onClickItem=::onClickItem
        menuAdapter.onClickItemNight=::onClickItemNight
+       binding.ivLogin.setOnClickListener {
+           if (viewModel.isVisitor) {
+               handleLogin()
+           }
+           else{
+               navigateProfile()
+           }
+        }
 }
 
     private fun onClickItemNight(isChecked:Boolean) {
@@ -102,21 +111,13 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
     private fun onClickItem(menu: Menu) {
         when(menu){
             Menu.PROFILE->{
-               /* startActivity(Intent(requireContext(),ProfileActivity::class.java).also {
-                    it.putExtra("userId",viewModel.getUser()?.id)
-                })*/
+                navigateProfile()
             }
             Menu.CHANGE_PASSWORD->{
                 startActivity(Intent(requireContext(),ChangePasswordActivity::class.java))
             }
             Menu.ARTICLES->{
                 startActivity(Intent(requireContext(),ArticlesActivity::class.java))
-            }
-            Menu.COMMISSION->{
-                //startActivity(Intent(requireContext(),CommissionActivity::class.java))
-            }
-            Menu.PACKAGES->{
-             //   startActivity(Intent(requireContext(),AdvertisePackageActivity::class.java))
             }
             Menu.CONTACT_US->{
                 startActivity(Intent(requireContext(),ContactUsActivity::class.java))
@@ -129,6 +130,9 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
             Menu.TERMS->{
                 startActivity(Intent(requireContext(),TermsActivity::class.java))
             }
+            Menu.ORDERS->{
+                findNavController().navigate(R.id.action_global_pendingCoursesFragment)
+            }
             Menu.PRIVACY_SALES->{
                 startActivity(Intent(requireContext(),PagesActivity::class.java).also {
                     it.putExtra("page","sales")
@@ -139,10 +143,20 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
             }
             Menu.LOGOUT->{
                 LogoutDialog.show(requireActivity()){
-                    viewModel.logout()
+                    viewModel.logout().also {
+                        handleLogout()
+                    }
                 }
             }
         }
+    }
+
+    private fun navigateProfile() {
+        startActivity(Intent(
+                requireContext(),
+                EditProfileActivity::class.java
+            )
+        )
     }
 
     private fun handleLogin() { requireActivity().startActivityWithAnimation<SplashActivity>(formLogout = true) }

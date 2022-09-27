@@ -7,6 +7,7 @@ import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.repository.base.BaseRepository
 import com.rowaad.app.data.repository.user.AuthRepository
 import com.rowaad.app.usecase.Validations
+import com.rowaad.app.usecase.transformResponse
 import com.rowaad.app.usecase.transformResponseData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,6 +24,7 @@ class RegisterUseCase @Inject constructor(private val baseRepository: BaseReposi
     }
 
     fun isValidFName(name: String): Boolean = Validations.isValidName(name)
+    fun isValidUserName(name: String): Boolean = Validations.isValidUserName(name)
     fun isValidLName(name: String): Boolean = Validations.isValidName(name)
     fun isValidPhone(phone: String): Boolean = Validations.isValidPhone(phone)
     fun isValidMail(mail: String): Boolean = Validations.isValidMail(mail)
@@ -33,16 +35,21 @@ class RegisterUseCase @Inject constructor(private val baseRepository: BaseReposi
     fun isValidPass(pass: String): Boolean = Validations.isValidPass(pass)
     fun isPassMatched(pass: String, confirmPass: String): Boolean = Validations.isPassMatched(pass, confirmPass)
 
-    fun validateRegister( name: String, phone: String,
-                          mail: String, pass: String,
-                          confirmPass: String, hasTerms: Boolean): Boolean {
+    fun validateRegister(username:String,
+                         email:String, password:String,
+                         name:String, phoneNumber:String,
+                         country:String, city:String,
+                         confirmPass: String): Boolean {
         return when {
+            isValidUserName(username).not() -> return false
             isValidFName(name).not() -> return false
-            isValidPhone(phone).not() -> return false
-            isValidMail(mail).not() -> return false
-            isValidPass(pass).not() -> return false
-            isPassMatched(pass, confirmPass).not() -> return false
-            hasTerms.not() -> return false
+            isValidFName(country).not() -> return false
+            isValidFName(city).not() -> return false
+            isValidPhone(phoneNumber).not() -> return false
+            isValidMail(email).not() -> return false
+            isValidPass(password).not() -> return false
+            isPassMatched(password, confirmPass).not() -> return false
+
             else -> true
         }
     }
@@ -69,16 +76,22 @@ class RegisterUseCase @Inject constructor(private val baseRepository: BaseReposi
         }
     }
 
-    fun sendRequestRegister( name: String, phone: String,
-                             mail: String, pass: String,
-                             fireBaseToken:String
-                             ): Flow<RegisterModel> {
-        return repository.register(name = name,  phoneNumber = phone, email = mail, password = pass, password_confirmation = pass,fireBaseToken = fireBaseToken)
-            .transformResponseData<RegisterModel, RegisterModel> {
+
+    fun sendRequestRegister(username:String,
+                            email:String, password:String,
+                            name:String, phoneNumber:String,
+                            country:String, city:String,
+                            fireBaseToken:String,
+                            role:String?
+    ): Flow<RegisterModel> {
+        return repository.register(name = name,username = username,phoneNumber = phoneNumber,email = email,password = password,
+        country = country,city = city,fireBaseToken = fireBaseToken,role = role
+                )
+            .transformResponse <RegisterModel,RegisterModel>{
             emit(it)
-        }.onEach {resp->
+        }/*.onEach {resp->
                 baseRepository.saveUser(resp.student).also { baseRepository.saveToken(resp.access_token!!) }.also { baseRepository.saveLogin(true) }
-            }
+            }*/
     }
 
   /*  fun sendUpdateUser(imgPart: MultipartBody.Part? = null, fName: String, lName: String,

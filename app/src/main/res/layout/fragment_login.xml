@@ -11,27 +11,42 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardElevation="@dimen/margin_small"
+            app:cardCornerRadius="6dp"
+            android:layout_margin="@dimen/margin_large"
+            app:cardBackgroundColor="@color/colorOnMyBackground"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginBottom="@dimen/margin_normal"
-            android:src="@drawable/logo_gradient"
-            app:layout_constraintBottom_toTopOf="@id/tvTitle"
+            android:src="@drawable/logo"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toTopOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_small"
             android:fontFamily="@font/medium"
             android:gravity="center"
-            android:text="@string/welcome_in_taghareed"
-            android:textColor="@color/dark"
+            android:text="@string/welcome_in_platcourse"
+            android:textColor="@color/colorOnMyBackgroundReverse"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/tvBody"
+            app:layout_constraintTop_toBottomOf="@id/logo"
             app:layout_constraintEnd_toEndOf="@id/loginBtn"
             app:layout_constraintStart_toStartOf="@id/loginBtn" />
 
@@ -42,152 +57,119 @@
             android:layout_marginBottom="32dp"
             android:fontFamily="@font/light"
             android:text="@string/login_hint"
-            android:textColor="@color/greyish_brown"
+            android:textColor="@color/colorOnMyBackgroundReverse"
             android:textSize="15.5sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvEmail"
+
             app:layout_constraintEnd_toEndOf="@id/loginBtn"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="@id/loginBtn" />
 
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
-            android:layout_marginTop="13.5dp"
-            android:fontFamily="@font/regular"
-            android:lineSpacingExtra="25sp"
-            android:text="@string/email"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:textColor="@color/dark_indigo"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/etEmail"
 
-            />
 
-        <ImageView
-            android:id="@+id/ivMarkEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginTop="24dp"
+                    android:minHeight="60dp"
+                    android:padding="@dimen/margin_small"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@null"
+                    app:boxBackgroundMode="filled"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    android:hint="@string/email"
+                    android:textAlignment="viewEnd"
+                    app:suffixTextAppearance="@style/TextInputLayoutPrefixText"
+                    android:textColorHint="@color/brown_grey"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/et_background"
+                        android:fontFamily="@font/regular"
+                        android:textSize="15sp"
 
-            android:layout_marginStart="3dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/tvEmail"
-            app:layout_constraintStart_toEndOf="@id/tvEmail"
-            app:layout_constraintTop_toTopOf="@id/tvEmail" />
+                        android:textColor="@color/colorOnMyBackgroundReverse"
+                        android:paddingStart="@dimen/margin_normal"
+                        android:paddingEnd="@dimen/margin_normal"
+                        android:gravity="start"
+                        android:inputType="textEmailAddress|textNoSuggestions"
+                        android:textAlignment="viewStart"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="19dp"
-            android:fontFamily="@font/medium"
-            android:gravity="center_vertical"
-            android:background="@drawable/border_white"
-            android:hint="@string/enter_email"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:minHeight="41dp"
-            android:paddingStart="13.5dp"
-            android:paddingEnd="@dimen/margin_large"
-            android:textAlignment="gravity"
-            android:textColor="@color/black"
-            android:textSize="13.5sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvErrorMail"
-            />
 
-        <TextView
-            android:id="@+id/tvErrorMail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginTop="@dimen/margin_small"
-            android:fontFamily="@font/regular"
-            android:text="@string/check_email"
-            android:textColor="@color/red_pink"
-            android:layout_marginBottom="13dp"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="@id/etEmail"
-            app:layout_constraintBottom_toTopOf="@id/tvPass"
-
+           <TextView
+                android:id="@+id/tvErrorMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="21dp"
+                android:fontFamily="@font/regular"
+                android:text="@string/check_email"
+                android:textColor="@color/red_pink"
+                android:layout_marginBottom="13dp"
+                android:visibility="invisible"
+                android:layout_gravity="start"
+                app:layout_constraintStart_toStartOf="@id/etEmail"
+                app:layout_constraintBottom_toTopOf="@id/tvPass"
              />
 
-        <TextView
-            android:id="@+id/tvPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/regular"
-            app:layout_constraintBottom_toTopOf="@id/etPassLay"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textSize="12sp"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:textColor="@color/dark_indigo"
-            android:layout_marginStart="22dp"
-            android:layout_marginTop="17.5dp"
-            android:lineSpacingExtra="25sp"
-            android:text="@string/password"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginEnd="21dp"
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etPassLay"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="19dp"
-            android:background="@null"
-            android:gravity="start"
-            android:minHeight="41dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:expandedHintEnabled="false"
-            app:hintAnimationEnabled="false"
-            app:hintTextAppearance="@style/TextInputLayoutHintText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvErrorPass"
-            app:passwordToggleEnabled="true">
+                    android:minHeight="60dp"
+                    android:padding="@dimen/margin_small"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@null"
+                    app:boxBackgroundMode="filled"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    android:hint="@string/password"
+                    app:passwordToggleEnabled="true"
+                    android:textAlignment="viewEnd"
+                    app:suffixTextAppearance="@style/TextInputLayoutPrefixText"
+                    android:textColorHint="@color/brown_grey"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/et_background"
+                        android:fontFamily="@font/regular"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorOnMyBackgroundReverse"
+                        android:paddingStart="@dimen/margin_normal"
+                        android:paddingEnd="@dimen/margin_normal"
+                        android:gravity="start"
+                        android:inputType="textPassword|textNoSuggestions"
+                        android:textAlignment="viewStart"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_white"
-                android:fontFamily="@font/medium"
-                android:inputType="textPassword"
-                android:maxLength="12"
-                android:maxLines="1"
-                android:minHeight="41dp"
-                android:paddingStart="13dp"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_large"
-                android:paddingBottom="@dimen/margin_small"
-                android:textAlignment="viewStart"
-                android:textColor="@color/black"
-                android:textDirection="rtl"
-                android:textSize="13.5sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvPass"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/tvErrorPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:fontFamily="@font/regular"
-            android:text="@string/check_field_pass"
-            android:textColor="@color/red_pink"
-            android:visibility="invisible"
-            android:layout_marginBottom="@dimen/margin_normal"
-            app:layout_constraintBottom_toTopOf="@id/loginBtn"
-            app:layout_constraintStart_toStartOf="@id/etPassLay"
+                <TextView
+                    android:id="@+id/tvErrorPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/check_field_pass"
+                    android:layout_gravity="start"
+                    android:textColor="@color/red_pink"
+                    android:visibility="invisible"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    app:layout_constraintBottom_toTopOf="@id/loginBtn"
+                    app:layout_constraintStart_toStartOf="@id/etPassLay"
              />
 
         <com.google.android.material.button.MaterialButton
@@ -197,31 +179,56 @@
             android:layout_marginStart="19dp"
             android:layout_marginEnd="19dp"
             android:layout_marginBottom="9dp"
-            android:background="@drawable/grad_background_btn"
-            android:backgroundTint="@null"
+            android:background="@drawable/button_background"
             android:fontFamily="@font/medium"
             android:minHeight="44dp"
             android:text="@string/login"
             android:textColor="@color/white"
-            app:backgroundTint="@null"
-            app:layout_constraintBottom_toTopOf="@id/tvForget" />
+            android:backgroundTint="@null"
+            app:backgroundTint="@color/colorPrimary"
+            />
+
 
         <TextView
             android:id="@+id/tvForget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="53dp"
             android:fontFamily="@font/medium"
             android:padding="@dimen/margin_normal"
             android:text="@string/forget_password"
-            android:textColor="@color/dark"
+            android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+        <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/medium"
 
-
+            android:text="@string/new_user"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvCreateAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/medium"
+            android:text="@string/create_account"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

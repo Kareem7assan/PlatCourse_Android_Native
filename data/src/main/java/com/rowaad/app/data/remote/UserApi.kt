@@ -7,6 +7,8 @@ import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.categories_model.CategoriesModel
 
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
+import com.rowaad.app.data.model.courses_model.CouponModel
+import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.courses_model.CoursesModel
 import com.rowaad.app.data.model.discussions_model.Comment
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
@@ -19,20 +21,23 @@ import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.reviews.Review
 import com.rowaad.app.data.model.reviews.ReviewsModel
 import com.rowaad.app.data.model.settings.SettingsModel
+import com.rowaad.app.data.model.teacher_model.TeacherModel
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.TOKEN
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
 interface UserApi {
 
- @POST("login")
+    @FormUrlEncoded
+ @POST("auth/login")
     suspend fun login(
-        @Query("email") email:String,
-        @Query("password") password:String,
-        @Query("device[token]") fireBaseToken:String?=null,
-        @Query("device[type]") type:String="Android"
- ): Response<EndPointResponse<RegisterModel>>
+            @Field("email") email:String,
+            @Field("password") password:String,
+            @Field("device[token]") fireBaseToken:String?=null,
+            @Field("device[type]") type:String="Android"
+ ): Response<RegisterModel>
 
     @POST("login/guests")
     suspend fun guestToken(): Response<EndPointResponse<BaseResponse>>
@@ -48,42 +53,48 @@ interface UserApi {
     suspend fun aboutUs(): Response<EndPointResponse<SettingsModel>>
 
 
-    @POST("register")
+    @FormUrlEncoded
+    @POST("auth/signup")
     suspend fun register(
-         @Query("name") name:String,
-         @Query("email") email:String,
-         @Query("phoneNumber") phoneNumber:String,
-         @Query("password") password:String,
-         @Query("passwordConfirmation") password_confirmation:String,
-         @Query("device[token]") fireBaseToken:String,
-         @Query("device[type]") type: String?="Android"
-     ): Response<EndPointResponse<RegisterModel>>
+         @Field("username") username:String,
+         @Field("email") email:String,
+         @Field("password") password:String,
+         @Field("name") name:String,
+         @Field("phone_number") phoneNumber:String,
+         @Field("country") country:String,
+         @Field("city") city:String,
+         @Field("role") role:String?="student",
+         @Field("device[token]") fireBaseToken:String,
+         @Field("device[type]") type: String?="Android"
+     ): Response<RegisterModel>
 
-    @POST("forget-password")
+    @FormUrlEncoded
+    @POST("auth/forget-password")
     suspend fun forgetPassword(
-        @Query("email") email:String
-    ): Response<EndPointResponse<RegisterModel>>
+        @Field("email") email:String
+    ): Response<RegisterModel>
 
-    @POST("verify-code")
+    @FormUrlEncoded
+    @POST("auth/get-password-token")
     suspend fun verify(
-        @Query("code") verificationCode:String,
-        @Query("email") email:String,
-        @Query("type") type:String?="register"
-    ): Response<EndPointResponse<RegisterModel>>
+        @Field("otp") verificationCode:String,
+        @Field("email") email:String,
+        @Field("type") type:String?="register"
+    ): Response<RegisterModel>
 
+    @FormUrlEncoded
     @POST("forget-password")
     suspend fun resend(
-        @Query("email") email:String,
-        @Query("type") type:String?="register"
-    ): Response<EndPointResponse<RegisterModel>>
+            @Field("email") email:String,
+            @Field("type") type:String?="register"
+    ): Response<RegisterModel>
 
-    @POST("reset-password")
+    @FormUrlEncoded
+    @POST("auth/set-new-password")
     suspend fun resetPassword(
-        @Query("password") password:String,
-        @Query("passwordConfirmation") password_confirmation:String,
-        @Query("email") email:String,
-        @Query("code") code:String?="0",
-    ): Response<EndPointResponse<RegisterModel>>
+        @Field("new_password") newPassword:String,
+        @Field("confirm_password") confirmPassword:String
+    ): Response<RegisterModel>
 
    @GET("courses")
    suspend fun newCourses(
@@ -107,6 +118,11 @@ interface UserApi {
            @Query("page") page:Int?=1
    ): Response<CoursesModel>
 
+   @GET("courses/pending_courses")
+   suspend fun pendingCourses(
+           @Query("page") page:Int?=1
+   ): Response<CoursesModel>
+
    @GET("courses")
    suspend fun searchCourses(
            @Query("title") title:String?=null,
@@ -123,9 +139,10 @@ interface UserApi {
     suspend fun readAllNotification(): Response<Any>
 
 
+    @FormUrlEncoded
     @POST("auth/notifications/read")
     suspend fun readNotification(
-            @Query("notification_ids")  notificationIds:List<Int>
+            @Field("notification_ids")  notificationIds:List<Int>
     ): Response<Any>
 
 
@@ -157,17 +174,31 @@ interface UserApi {
     ): Response<EndPointResponse<Any>>
 
     @Multipart
-    @POST("update-account")
+    @PUT("auth/student-profile/{id}")
     suspend fun updateProfile(
-         @Query("name") name:String,
-         @Query("phone") phoneNumber:String,
-         @Query("email") email:String,
-         @Query("username") username:String?=null,
-         @Query("bio") bio:String?=null,
-         @Part image: MultipartBody.Part?=null,
-         @Part header: MultipartBody.Part?=null,
-        @Query("_method") method:String?="PUT"
-     ): Response<EndPointResponse<RegisterModel>>
+        @Path("id") id:String,
+        @Part image: MultipartBody.Part
+     ): Response<UserModel>
+
+    @PUT("auth/student-profile/{id}")
+    /*@Headers(
+            "Content-Type: multipart/form-data",
+            "Accept: application/json"
+    )*/
+    suspend fun updateProfile(
+        @Path("id") id:String,
+        @Body image: RequestBody
+     ): Response<UserModel>
+
+
+    @Multipart
+    @PUT("auth/student-profile/{id}")
+    suspend fun updateProfile(
+        @Path("id") id:String,
+        @Part("profile_image") name:String?="profile_image",
+        @PartMap body: HashMap<String,RequestBody>
+
+    ): Response<UserModel>
 
     @POST("update-account")
     suspend fun updateProfile(
@@ -184,7 +215,7 @@ interface UserApi {
      @Query("device[token]") fireBaseToken:String?=null,
      @Query("device[type]") type:String="Android",
 
-     ): Response<EndPointResponse<RegisterModel>>
+     ): Response<RegisterModel>
 
     @POST("update-password")
     suspend fun updatePassword(
@@ -261,6 +292,20 @@ interface UserApi {
             @Field("post") discDesc:String,
     ): Response<DiscussionModel>
 
+    @FormUrlEncoded
+    @POST("courses/{course_id}/coupon_inquiry")
+    suspend fun coupon(
+            @Path("course_id") course_id:String,
+            @Field("coupon") coupon:String
+    ): Response<CouponModel>
+
+    @FormUrlEncoded
+    @POST("courses/{course_id}/buy_course")
+    suspend fun buyCoupon(
+            @Path("course_id") course_id:String,
+            @Field("payment_code") payment_code:String
+    ): Response<Any>
+
 
 
     @FormUrlEncoded
@@ -269,6 +314,12 @@ interface UserApi {
             @Path("course_id") courseId:Int,
             @Field("message") message:String
     ): Response<Any>
+
+
+    @GET("auth/teacher-profile/{owner_id}")
+    suspend fun teacher(
+            @Path("owner_id") owner_id:Int
+    ): Response<UserModel>
 
 
 

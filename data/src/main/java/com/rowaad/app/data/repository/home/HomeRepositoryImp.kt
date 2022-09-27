@@ -1,8 +1,10 @@
 package com.rowaad.app.data.repository.home
 
 import com.rowaad.app.data.cache.PreferencesGateway
+import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.categories_model.CategoriesModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
+import com.rowaad.app.data.model.teacher_model.TeacherModel
 import com.rowaad.app.data.remote.UserApi
 import com.rowaad.app.data.repository.base.BaseRepository
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +33,12 @@ class HomeRepositoryImp @Inject constructor(
     override fun myCourses(page: Int?): Flow<Response<CoursesModel>> {
         return flow {
             emit(api.myCourses(page))
+        }
+    }
+
+    override fun pendingCourses(page: Int?): Flow<Response<CoursesModel>> {
+        return flow {
+            emit(api.pendingCourses(page))
         }
     }
 
@@ -66,6 +74,12 @@ class HomeRepositoryImp @Inject constructor(
     override fun buyCourse(courseId: Int): Flow<Response<Any>> {
         return flow {
             emit(api.buyCourse(courseId))
+        }
+    }
+
+    override fun teacher(ownerId: Int): Flow<Response<UserModel>> {
+        return flow {
+            emit(api.teacher(ownerId))
         }
     }
 

@@ -3,6 +3,7 @@ package com.rowaad.app.usecase
 object Validations {
     fun isValidPhone(phone: String):Boolean = true.takeUnless { phone.isBlank() || phone.length < 9 || phone.contains(".")} ?: false
     fun isValidName(name: String):Boolean = true.takeUnless { name.isBlank() } ?: false
+    fun isValidUserName(name: String):Boolean = true.takeIf { name.matches("^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$".toRegex()) } ?: false
     fun isValidIban(iban: String):Boolean = true.takeUnless { iban.isBlank() || iban.length < 24} ?: false
     fun isValidTitle(title: String):Boolean = true.takeUnless { title.isBlank() } ?: false
     fun isValidBody(body: String):Boolean = true.takeUnless { body.length < 3 } ?: false

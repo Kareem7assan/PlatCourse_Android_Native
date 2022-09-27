@@ -43,8 +43,19 @@ class FeaturedCoursesFragment : BaseFragment(R.layout.fragment_my_courses) {
 
     private fun setupActions() {
         coursesAdapter.onClickItem=::onClickItem
+        coursesAdapter.onClickItemProfile=::onClickItemProfile
     }
 
+
+    private fun onClickItemProfile(courseItem: CourseItem, pos: Int) {
+        findNavController().navigate(R.id.action_global_profileTeacherFragment,
+                bundleOf(
+                        "details"
+                                to
+                                courseItem.toJson()
+                )
+        )
+    }
     private fun onClickItem(courseItem: CourseItem, pos: Int) {
         findNavController().navigate(R.id.action_global_courseDetailsFragment,
             bundleOf(
@@ -115,5 +126,10 @@ class FeaturedCoursesFragment : BaseFragment(R.layout.fragment_my_courses) {
 
     private fun hasNext(): Boolean {
         return next!=null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        coursesAdapter.clear()
     }
 }

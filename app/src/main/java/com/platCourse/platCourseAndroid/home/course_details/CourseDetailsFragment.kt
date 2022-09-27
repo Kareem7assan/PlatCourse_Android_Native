@@ -2,7 +2,6 @@ package com.platCourse.platCourseAndroid.home.course_details
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.os.bundleOf
@@ -12,9 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentDetailsCourseBinding
-import com.platCourse.platCourseAndroid.home.course_details.dialog.ContactBottomDialog
+import com.platCourse.platCourseAndroid.home.course_details.dialog.CouponBottomDialog
+import com.platCourse.platCourseAndroid.home.course_details.dialog.CouponPurchaseBottomDialog
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
@@ -25,11 +26,13 @@ import com.rowaad.app.data.model.attribute_course_model.Action
 import com.rowaad.app.data.model.attribute_course_model.CourseListener
 import com.rowaad.app.data.model.attribute_course_model.ItemCourseDetails
 import com.rowaad.app.data.model.courses_model.CourseItem
+import com.rowaad.app.data.model.teacher_model.TeacherModel
+import com.rowaad.utils.IntentUtils
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 
 
-class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), MotionLayout.TransitionListener, CourseListener {
+class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), MotionLayout.TransitionListener, CourseListener, ExoPlayer.AudioOffloadListener {
 
     private var videoUrl: String? = null
     private var isPlay: Boolean = false
@@ -46,22 +49,31 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         super.onViewCreated(view, savedInstanceState)
         details=arguments?.getString("details")?.fromJson<CourseItem>()
         videoUrl=arguments?.getString("url")
-        Log.e("details",details.toString())
         binding.frameLayout.addTransitionListener(this)
         handleWaterMark()
         setupVideo()
         setupRec()
-        setupAdapter()
         sendRequestUser()
         handleCourses()
         setupActions()
         handleBuyObservable()
+        handleCouponObservable()
         handleContactObservable()
     }
 
+    private fun handleCouponObservable() {
+        handleSharedFlow(viewModel.couponFlow,onSuccess = {
+            showSuccessMsg(it as String)
+        })
+        handleSharedFlow(viewModel.couponPurchaseFlow,onSuccess = {
+            showSuccessMsg(getString(R.string.purchase_successfully)).also { findNavController().navigateUp() }
+        })
+    }
+
     private fun handleContactObservable() {
-        handleSharedFlow(viewModel.contactFlow,onSuccess = { it
-            showSuccessMsg(getString(R.string.contact_msg_success))
+        handleSharedFlow(viewModel.contactFlow,onSuccess = { it as TeacherModel
+            //showSuccessMsg(getString(R.string.contact_msg_success))
+            if (it.phone_number.isNullOrBlank().not())IntentUtils.openWhatsappIntent(it.phone_number!! ,requireContext())
         })
     }
 
@@ -75,12 +87,36 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         binding.buyBtn.setOnClickListener {
             viewModel.sendRequestBuyCourse(courseId = details?.id ?: 0)
         }
-        binding.contactBtn.setOnClickListener {
-            ContactBottomDialog{msg->
-                viewModel.sendRequestContactTeacher(courseId = details?.id ?: 0,msg)
-            }.show(requireActivity().supportFragmentManager,"teacher")
-
+        binding.couponBtn.setOnClickListener {
+            showCouponDialog()
         }
+        binding.couponPurchaseBtn.setOnClickListener {
+            showCouponPurchaseDialog()
+        }
+        binding.contactBtn.setOnClickListener {
+            viewModel.sendRequestTeacher(details?.ownerId ?: 0)
+        }
+    }
+
+    private fun showCouponPurchaseDialog() {
+        CouponPurchaseBottomDialog{
+            sendRequestPurchase(it)
+        }.show(requireActivity().supportFragmentManager,"coupon")
+    }
+
+    private fun sendRequestPurchase(code: String) {
+        viewModel.sendRequestCouponPurchase(details?.id ?: 0,code)
+
+    }
+
+    private fun showCouponDialog() {
+        CouponBottomDialog{
+            sendRequestCoupon(it)
+        }.show(requireActivity().supportFragmentManager,"coupon")
+    }
+
+    private fun sendRequestCoupon(coupon: String) {
+        viewModel.sendRequestCoupon(details?.id ?: 0,coupon)
     }
 
     private fun sendRequestUser() {
@@ -89,13 +125,13 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
 
     private fun handleCourses() {
         handleSharedFlow(viewModel.userFlow,onSuccess = { it as UserModel
-
+            setupAdapter()
         })
     }
 
     private fun handleWaterMark() {
         if (viewModel.isUserLogin()){
-            binding.tvOwner.text = viewModel.getUser()?.name
+            binding.tvOwner.text = viewModel.getUser()?.username
             binding.tvPhone.text = viewModel.getUser()?.phone_number
             binding.markLay.show()
         }
@@ -126,11 +162,15 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     private fun showContactButton() {
         binding.contactBtn.show()
         binding.buyBtn.hide()
+        binding.couponBtn.hide()
+        binding.couponPurchaseBtn.hide()
     }
 
     private fun showBuyButton() {
         binding.contactBtn.hide()
         binding.buyBtn.show()
+        binding.couponBtn.show()
+        binding.couponPurchaseBtn.show()
     }
 
     private fun setupRec() {
@@ -142,7 +182,12 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     private fun setupVideo() {
          simplePlayer = ExoPlayer.Builder(requireContext()).build()
          binding.styledVideo.player= simplePlayer
+        binding.styledVideo.isSoundEffectsEnabled=false
+        binding.styledVideo.setShowMultiWindowTimeBar(false)
+
+
          simplePlayer!!.addMediaItem(MediaItem.fromUri(videoUrl ?: details?.intro!!))
+
          simplePlayer!!.prepare()
         simplePlayer?.addListener(object : Player.Listener{
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -159,7 +204,7 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
             startActivity(Intent(requireContext(), FullScreenActivity::class.java).also {
                 it.putExtra("pos", simplePlayer!!.currentPosition)
                 it.putExtra("isPlay", simplePlayer!!.isPlaying)
-                it.putExtra("name", details?.ownerName)
+                it.putExtra("name", viewModel.getUser()?.username)
                 it.putExtra("url", videoUrl ?: details?.intro!!)
 
             })

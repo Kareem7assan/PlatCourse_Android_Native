@@ -13,6 +13,8 @@ import com.platCourse.platCourseAndroid.menu.notifications.adapter.Notifications
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.model.notification_model.NotificationItem
+import com.rowaad.utils.extention.hide
+import com.rowaad.utils.extention.show
 
 class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
 
@@ -34,10 +36,13 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
     }
 
     private fun onNotificationClick(notificationItem: NotificationItem, pos: Int) {
-        notificationAdapter.updateSelectedItem(position = pos)
+        //notificationAdapter.updateSelectedItem(position = pos)
         binding.tvAll.setOnClickListener {
-            notificationAdapter.seeAllNotifications()
+            notificationAdapter.seeAllNotifications().also {
+                viewModel.seeAllNotifications()
+            }
         }
+        viewModel.seeNotification(notificationId = notificationItem.id)
     }
 
     private fun handleObservables() {
@@ -49,7 +54,9 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
     }
 
     private fun showEmpty() {
-
+        binding.emptyLay.root.show()
+        binding.rvNotifications.show()
+        binding.tvAll.hide()
     }
 
     private fun sendRequestNotifications() {

@@ -2,7 +2,6 @@ package com.rowaad.app.data.model
 
 import com.google.gson.annotations.SerializedName
 
-
 data class UserModel(
         val country: String? = null,
         val city: String? = null,
@@ -24,7 +23,7 @@ data class UserModel(
         val user: Int? = null,
         val id: Int? = null,
         val courses:MutableList<Int> ?= null,
-        val pending_courses:MutableList<Int> ?= null,
+        val pending_courses:MutableList<Int>?= null,
         val login_times:Int?=null
 )
 

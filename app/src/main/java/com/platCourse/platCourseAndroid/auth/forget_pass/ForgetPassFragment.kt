@@ -67,8 +67,10 @@ class ForgetPassFragment:BaseFragment(R.layout.fragment_forget_pass) {
     }
 
     private fun handleNavigation(code: String) {
-
-        if (BuildConfig.DEBUG) showSuccessMsg(String.format(getString(R.string.success_code),code)).also { navigateToCode() }
+        if (BuildConfig.DEBUG) {
+            showSuccessMsg(String.format(getString(R.string.code_sent)))
+        }
+        navigateToCode()
     }
 
     private fun navigateToCode() {
@@ -83,7 +85,7 @@ class ForgetPassFragment:BaseFragment(R.layout.fragment_forget_pass) {
                     .collect { isMail ->
                         when(isMail){
                             is ForgetViewModel.Validation.IsValid -> {
-                                binding.etEmail.validateText(isMail.isValid,binding.ivMarkEmail,binding.tvErrorMail)
+                                binding.etMail.validateText(isMail.isValid,binding.ivMarkEmail,binding.tvErrorMail)
                             }
                             else->{}
                         }
@@ -95,21 +97,19 @@ class ForgetPassFragment:BaseFragment(R.layout.fragment_forget_pass) {
 
 
     private fun setupActions() {
-        binding.completeBtn.setOnClickListener {
-            viewModel.sendRequestMail(binding.etEmail.getContent())
+        binding.enterBtn.setOnClickListener {
+            viewModel.sendRequestMail(binding.etMail.getContent())
                 .also {
                     //initialized
-                    viewModel.isValidMail(binding.etEmail.getContent())
+                    viewModel.isValidMail(binding.etMail.getContent())
                     //watcher
-                    binding.etEmail.doOnTextChanged { text, start, before, count ->
+                    binding.etMail.doOnTextChanged { text, start, before, count ->
                         viewModel.isValidMail(text.toString())
                     }}
 
         }
 
-        binding.ivBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
 
 
     }

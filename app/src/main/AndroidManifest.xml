@@ -5,9 +5,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:name=".app.App"
@@ -20,14 +20,29 @@
         android:theme="@style/Theme.PlatCourse"
         android:usesCleartextTraffic="true"
         tools:replace="allowBackup, label,theme">
-        <activity android:name=".home.course_details.FullScreenActivity"
+        <activity android:name=".home.course_sections.files.DownloadPdfActivity"></activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.platCourse.platCourseAndroid.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name=".home.course_sections.files.PdfReaderActivity" />
+        <activity
+            android:name=".home.course_details.FullScreenActivity"
             android:screenOrientation="landscape"
-            />
+            android:theme="@style/AppFullScreenTheme" />
         <activity android:name=".menu.terms.TermsActivity" />
         <activity android:name=".menu.articles.ArticlesActivity" />
         <activity android:name=".menu.article_details.ArticleDetailsActivity" />
         <activity android:name=".menu.pages.PagesActivity" />
         <activity android:name=".menu.contact_us.ContactUsActivity" />
+        <activity android:name=".menu.edit_profile.EditProfileActivity" />
         <activity
             android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -35,8 +50,7 @@
             android:name=".auth.splash.SplashActivity"
             android:clearTaskOnLaunch="true"
             android:exported="true"
-            android:launchMode="singleTop"
-            android:noHistory="true">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

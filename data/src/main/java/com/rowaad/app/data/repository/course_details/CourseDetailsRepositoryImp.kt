@@ -7,6 +7,7 @@ import com.rowaad.app.data.model.WalletModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.contact_us_model.ContactUsModel
+import com.rowaad.app.data.model.courses_model.CouponModel
 import com.rowaad.app.data.model.discussions_model.Comment
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
@@ -63,6 +64,18 @@ class CourseDetailsRepositoryImp @Inject constructor(
     override fun files(courseId: Int,page:Int): Flow<Response<FilesModel>> {
         return flow {
             emit(api.files(courseId,page))
+        }
+    }
+
+    override fun coupon(courseId: Int, coupon: String): Flow<Response<CouponModel>> {
+        return flow {
+            emit(api.coupon(courseId.toString(),coupon))
+        }
+    }
+
+    override fun buyCoupon(courseId: Int, coupon: String): Flow<Response<Any>> {
+        return flow {
+            emit(api.buyCoupon(courseId.toString(),coupon))
         }
     }
 

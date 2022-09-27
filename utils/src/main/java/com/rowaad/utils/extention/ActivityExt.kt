@@ -75,14 +75,15 @@ fun Activity.checkLocationPermissions(requestPermission:Int=100,onLocationGrante
 fun Activity.downloadPdfFile(url: String,title:String?) {
 
 
-    val request: DownloadManager.Request = DownloadManager.Request(Uri.parse(url + ""))
+    val request: DownloadManager.Request = DownloadManager.Request(Uri.parse(url.replace("blob:","") + ""))
     request.setTitle(title)
     request.setMimeType("application/pdf")
     request.allowScanningByMediaScanner()
     request.setAllowedOverMetered(true)
     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "coffee/$title")
+    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "platCourse/$title")
     val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+
     downloadManager!!.enqueue(request)
 
 }

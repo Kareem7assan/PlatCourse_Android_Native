@@ -1,11 +1,10 @@
 package com.platCourse.platCourseAndroid.home.course_sections.lessons
 
-import android.util.Log
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemLessonBinding
 import com.rowaad.app.data.model.lessons.LessonsModel
@@ -56,7 +55,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
             LessonAdapter()
         }
         fun bind(item:LessonsModel) = with(ItemLessonBinding.bind(itemView)) {
-            tvSection.text=item.section?.title
+            tvSection.text=item.lesson_no.toString()+" "+  if (item.section?.title!=null) item.section?.title else ""
             rvLessons.layoutManager=LinearLayoutManager(itemView.context)
             rvLessons.adapter=adapter
 

@@ -64,6 +64,13 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
     private val _buyCourseFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val buyCourseFlow= _buyCourseFlow.asSharedFlow()
 
+
+    private val _couponFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val couponFlow= _couponFlow.asSharedFlow()
+
+    private val _couponPurchaseFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val couponPurchaseFlow= _couponPurchaseFlow.asSharedFlow()
+
     private val _contactFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val contactFlow= _contactFlow.asSharedFlow()
 
@@ -79,10 +86,11 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
                     .onCompletion { _coursesFlow.emit(NetWorkState.StopLoading) }
                     .catch { _coursesFlow.emit(NetWorkState.Error(it.handleException())) }
                     .collectLatest { _coursesFlow.emit(NetWorkState.Success(it)) }
-
-        }
-
+            }
     }
+
+
+
     fun sendRequestUser(){
         if (isUserLogin()){
             executeApi(_userFlow) {
@@ -173,16 +181,51 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
         executeSharedApi(_buyCourseFlow){
             coursesUseCase.buyCourse(courseId)
                     .onStart { _buyCourseFlow.emit(NetWorkState.Loading) }
-                    .onCompletion { _buyCourseFlow.emit(NetWorkState.StopLoading) }
+                    .onCompletion { _buyCourseFlow.emit(NetWorkState.StopLoading).also {
+                        _buyCourseFlow.emit(NetWorkState.Idle)
+                    } }
                     .catch { _buyCourseFlow.emit(NetWorkState.Error(it.handleException())).also {
                         _buyCourseFlow.emit(NetWorkState.Idle)
                     } }
                     .collectLatest { _buyCourseFlow.emit(NetWorkState.Success(it)) }
         }
     }
+    fun sendRequestCoupon(courseId:Int,coupon:String){
+        executeSharedApi(_couponFlow){
+            courseDetailsUseCase.setCoupon(courseId,coupon)
+                    .onStart { _couponFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _couponFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _couponFlow.emit(NetWorkState.Error(it.handleException())).also {
+                        _couponFlow.emit(NetWorkState.Idle)
+                    } }
+                    .collectLatest { _couponFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+    fun sendRequestCouponPurchase(courseId:Int,coupon:String){
+        executeSharedApi(_couponPurchaseFlow){
+            courseDetailsUseCase.setCouponPurchase(courseId,coupon)
+                    .onStart { _couponPurchaseFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _couponPurchaseFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _couponPurchaseFlow.emit(NetWorkState.Error(it.handleException())).also {
+                        _couponPurchaseFlow.emit(NetWorkState.Idle)
+                    } }
+                    .collectLatest { _couponPurchaseFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
     fun sendRequestContactTeacher(courseId:Int,msg:String){
         executeSharedApi(_contactFlow){
             coursesUseCase.contactTeacher(courseId,msg)
+                    .onStart { _contactFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _contactFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _contactFlow.emit(NetWorkState.Error(it.handleException())).also {
+                        _contactFlow.emit(NetWorkState.Idle)
+                    } }
+                    .collectLatest { _contactFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+    fun sendRequestTeacher(ownerId:Int){
+        executeSharedApi(_contactFlow){
+            coursesUseCase.teacher(ownerId)
                     .onStart { _contactFlow.emit(NetWorkState.Loading) }
                     .onCompletion { _contactFlow.emit(NetWorkState.StopLoading) }
                     .catch { _contactFlow.emit(NetWorkState.Error(it.handleException())).also {

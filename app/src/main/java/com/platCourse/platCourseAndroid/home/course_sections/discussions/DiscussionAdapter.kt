@@ -12,12 +12,13 @@ import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.discussions_model.Comment
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.utils.extention.clearTxt
+import com.rowaad.utils.extention.convertDate
 import com.rowaad.utils.extention.getContent
 import java.util.*
 
 class DiscussionAdapter(val user: UserModel?) : RecyclerView.Adapter<DiscussionAdapter.DiscussionVH>() {
 
-    private var data: MutableList<DiscussionModel> = ArrayList()
+    private var data: MutableList<DiscussionModel> = mutableListOf()
 
     var onClickItemComment: ((DiscussionModel,String, Int) -> Unit)? = null
 
@@ -63,8 +64,9 @@ class DiscussionAdapter(val user: UserModel?) : RecyclerView.Adapter<DiscussionA
         }
         fun bind(item: DiscussionModel) = with(ItemDiscussionsBinding.bind(itemView)) {
             tvCreator.text=item.owner_name
-            tvDate.text=item.created_at
+            tvDate.text=item.created_at?.convertDate()
             tvTitle.text=item.title
+            tvPost.text=item.post
             rvComments.layoutManager=LinearLayoutManager(itemView.context)
             rvComments.adapter=adapter
             item.comments?.let { adapter.swapData(it) }

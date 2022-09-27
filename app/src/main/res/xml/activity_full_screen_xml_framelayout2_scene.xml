@@ -7,7 +7,7 @@
         motion:constraintSetEnd="@+id/end"
         motion:motionInterpolator="@string/material_motion_easing_linear"
         motion:constraintSetStart="@id/start"
-        motion:duration="10000">
+        motion:duration="100000">
         <KeyFrameSet>
 
             <KeyPosition

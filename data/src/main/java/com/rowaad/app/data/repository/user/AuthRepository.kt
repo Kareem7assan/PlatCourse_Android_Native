@@ -18,19 +18,25 @@ interface AuthRepository{
     fun privacy(): Flow<Response<EndPointResponse<SettingsModel>>>
     fun salesPolicy(): Flow<Response<EndPointResponse<SettingsModel>>>
     fun aboutUs(): Flow<Response<EndPointResponse<SettingsModel>>>
-    fun login(email:String,password:String,fireBaseToken:String?=null):Flow<Response<EndPointResponse<RegisterModel>>>
-    fun logout(fireBaseToken:String?=null):Flow<Response<EndPointResponse<RegisterModel>>>
-    fun forgetPhone( email: String): Flow<Response<EndPointResponse<RegisterModel>>>
-    fun verify(verificationCode:String, email: String, type:String?="register"): Flow<Response<EndPointResponse<RegisterModel>>>
-    fun resend(email:String, type:String?="register"): Flow<Response<EndPointResponse<RegisterModel>>>
-    fun resetPassword(password:String, email:String,code:String?="0"): Flow<Response<EndPointResponse<RegisterModel>>>
+    fun login(email:String,password:String,fireBaseToken:String?=null):Flow<Response<RegisterModel>>
+    fun logout(fireBaseToken:String?=null):Flow<Response<RegisterModel>>
+    fun forgetPhone( email: String): Flow<Response<RegisterModel>>
+    fun verify(verificationCode:String, email: String, type:String?="register"): Flow<Response<RegisterModel>>
+    fun resend(email:String, type:String?="register"): Flow<Response<RegisterModel>>
+    fun resetPassword(password:String, email:String,code:String?="0"): Flow<Response<RegisterModel>>
 
 
     fun register(
-        name:String, email:String, phoneNumber:String,
-        password:String, password_confirmation:String,
-        fireBaseToken:String
-    ): Flow<Response<EndPointResponse<RegisterModel>>>
+            username:String,
+            email:String,
+            password:String,
+            name:String,
+            phoneNumber:String,
+            country:String,
+            city:String,
+            fireBaseToken:String,
+            role:String?="student"
+    ): Flow<Response<RegisterModel>>
 
 
     fun updatePassword(

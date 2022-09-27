@@ -3,6 +3,7 @@ package com.rowaad.app.usecase.home
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.courses_model.CoursesModel
 import com.rowaad.app.data.model.register_model.RegisterModel
+import com.rowaad.app.data.model.teacher_model.TeacherModel
 import com.rowaad.app.data.repository.base.BaseRepository
 import com.rowaad.app.data.repository.home.HomeRepository
 import com.rowaad.app.usecase.transformResponse
@@ -32,6 +33,10 @@ class CoursesUseCase @Inject constructor(private val baseRepository: BaseReposit
         return repository.myCourses(page)
                 .transformResponse { emit(it) }
     }
+    suspend fun pendingCourses(page:Int?=1): Flow<CoursesModel> {
+        return repository.pendingCourses(page)
+                .transformResponse { emit(it) }
+    }
     suspend fun searchCourse(title:String,page:Int?=1): Flow<CoursesModel> {
         return repository.searchCourse(title,page)
                 .transformResponse { emit(it) }
@@ -42,6 +47,10 @@ class CoursesUseCase @Inject constructor(private val baseRepository: BaseReposit
     }
     suspend fun buyCourse(courseId:Int): Flow<Any> {
         return repository.buyCourse(courseId)
+                .transformResponse { emit(it) }
+    }
+    suspend fun teacher(ownerId:Int): Flow<UserModel> {
+        return repository.teacher(ownerId)
                 .transformResponse { emit(it) }
     }
     suspend fun contactTeacher(courseId:Int,msg:String): Flow<Any> {

@@ -32,6 +32,77 @@
                 android:orientation="vertical"
                 android:layout_margin="@dimen/margin_normal"
                 >
+                <TextView
+                    android:id="@+id/tvFaceTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:gravity="start"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/face"
+                    android:textAlignment="viewStart"
+                    />
+
+                <TextView
+                    android:id="@+id/tvFace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:autoLink="web"
+                    android:textColorLink="#0030FF"
+                    android:linksClickable="true"
+                    android:drawablePadding="@dimen/margin_normal"
+                    android:drawableTint="@android:color/darker_gray"
+                    android:gravity="start|center"
+                    android:padding="@dimen/margin_normal"
+                    android:text="https://www.facebook.com/Platcourse"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/tvPhoneTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:gravity="start"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/phone"
+                    android:textAlignment="viewStart"
+                    />
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:autoLink="phone"
+                    android:textColorLink="#0030FF"
+                    android:clickable="true"
+                    android:padding="@dimen/margin_normal"
+                    android:gravity="start|center"
+                    android:drawableTint="@color/green_apple"
+                    android:drawablePadding="@dimen/margin_normal"
+                    android:drawableEnd="@drawable/ic_whats"
+                    android:text="201010539493"
+                    android:textAlignment="viewStart"
+                    />
+                <TextView
+                    android:id="@+id/tvTitleMail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:gravity="start"
+                    android:fontFamily="@font/regular"
+                    android:text="@string/email"
+                    android:textAlignment="viewStart"
+                    />
+                <TextView
+                    android:id="@+id/tvMail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:padding="@dimen/margin_normal"
+                    android:gravity="start"
+                    android:text="platcourse@gmail.com"
+                    android:textAlignment="viewStart"
+                    />
             <TextView
                 android:id="@+id/tvAddressTitle"
                 android:layout_width="match_parent"
@@ -54,74 +125,9 @@
                 android:textAlignment="viewStart"
                 />
 
-            <TextView
-                android:id="@+id/tvTitleMail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="15sp"
-                android:gravity="start"
-                android:fontFamily="@font/regular"
-                android:text="@string/email"
-                android:textAlignment="viewStart"
-                />
-            <TextView
-                android:id="@+id/tvMail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="15sp"
-                android:padding="@dimen/margin_normal"
-                android:gravity="start"
-                android:text="platcourse@gmail.com"
-                android:textAlignment="viewStart"
-                />
-            <TextView
-                android:id="@+id/tvPhoneTitle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="15sp"
-                android:gravity="start"
-                android:fontFamily="@font/regular"
-                android:text="@string/phone"
-                android:textAlignment="viewStart"
-                />
-            <TextView
-                android:id="@+id/tvPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="15sp"
-                android:padding="@dimen/margin_normal"
-                android:gravity="start|center"
-                android:drawableTint="@android:color/darker_gray"
-                android:drawablePadding="@dimen/margin_normal"
-                android:drawableEnd="@drawable/ic_whats"
-                android:text="201010539493"
-                android:textAlignment="viewStart"
-                />
-                <TextView
-                    android:id="@+id/tvFaceTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="15sp"
-                    android:gravity="start"
-                    android:fontFamily="@font/regular"
-                    android:text="@string/face"
-                    android:textAlignment="viewStart"
-                />
 
-                <TextView
-                    android:id="@+id/tvFace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:autoLink="web"
-                    android:textColorLink="#0030FF"
-                    android:linksClickable="true"
-                    android:drawablePadding="@dimen/margin_normal"
-                    android:drawableTint="@android:color/darker_gray"
-                    android:gravity="start|center"
-                    android:padding="@dimen/margin_normal"
-                    android:text="https://www.facebook.com/Platcourse"
-                    android:textAlignment="viewStart"
-                    android:textSize="15sp" />
+
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

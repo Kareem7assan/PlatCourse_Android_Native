@@ -8,6 +8,7 @@ import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemNotificationBinding
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.utils.extention.tint
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
 class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.NotificationsVH>() {
@@ -55,16 +56,18 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
             tvTitle.text=item.notification?.name
             tvDesc.text=item.notification?.body
             tvCreated.text=item.createdAt
-            if (selectedItemPosition==adapterPosition)
-                item.read=true
-            else
-                item.read=item.read
-
+            //item.read = selectedItemPosition==bindingAdapterPosition
             if (item.read)
                 root.tint(R.color.colorOnMyBackground)
             else
                 root.tint(R.color.color_not_selected)
 
+            itemView?.onClick {
+                onClickItem?.invoke(item,bindingAdapterPosition).also {
+                    item.read=true
+                    notifyDataSetChanged()
+                }
+            }
         }
     }
 }

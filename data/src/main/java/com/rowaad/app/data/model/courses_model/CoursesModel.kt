@@ -9,6 +9,8 @@ data class CoursesModel(
 	val results: List<CourseItem>? = null
 )
 
+data class CouponModel(val details:String?=null)
+
 data class CourseItem(
 	val overview: String? = null,
 	val featured: Boolean? = null,

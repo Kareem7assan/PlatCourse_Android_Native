@@ -13,6 +13,7 @@ import com.rowaad.app.data.model.reviews.Review
 import com.rowaad.app.data.model.settings.SettingsModel
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -32,14 +33,17 @@ interface MenuRepository{
      //fun articles():Flow<Response<List<Article>>>
      //fun article(id: Int):Flow<Response<Article>>
      fun editProfile(
-         name:String,
-         phoneNumber:String,
-         email:String,
-         username:String?=null,
-         bio:String?=null,
-         image: MultipartBody.Part?=null,
-         header: MultipartBody.Part?=null,
-         ):Flow<Response<EndPointResponse<RegisterModel>>>
+         ids: String,
+         image: MultipartBody.Part?=null
+         ):Flow<Response<UserModel>>
+     fun editProfileBody(
+         id: String,
+         image: RequestBody
+         ):Flow<Response<UserModel>>
+  fun editProfilePart(
+         id: String,
+         body: HashMap<String,RequestBody>
+         ):Flow<Response<UserModel>>
 
    /* fun lessons(courseId:Int):Flow<Response<List<LessonsModel>>>
     fun reviews(courseId:Int):Flow<Response<List<Review>>>

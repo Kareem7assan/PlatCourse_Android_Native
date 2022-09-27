@@ -15,6 +15,7 @@ class CoursesAdapter(val isVertical:Boolean?=false) : RecyclerView.Adapter<Cours
     private var data: MutableList<CourseItem> = ArrayList()
 
     var onClickItem: ((CourseItem, Int) -> Unit)? = null
+    var onClickItemProfile: ((CourseItem, Int) -> Unit)? = null
 
     var selectedItemPosition = -1
 
@@ -52,6 +53,7 @@ class CoursesAdapter(val isVertical:Boolean?=false) : RecyclerView.Adapter<Cours
         notifyDataSetChanged()
     }
 
+
     fun removeWithIndex(index: Int) {
         data.removeAt(index)
         notifyItemRemoved(index)
@@ -82,6 +84,9 @@ class CoursesAdapter(val isVertical:Boolean?=false) : RecyclerView.Adapter<Cours
                 onClickItem?.invoke(item,bindingAdapterPosition)
             }
 
+            tvTeacherName.setOnClickListener {
+                onClickItemProfile?.invoke(item,bindingAdapterPosition)
+            }
 
 
             ivImgCourse.loadImage(item.cover)

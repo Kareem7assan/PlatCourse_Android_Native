@@ -3,5 +3,5 @@
     <string name="you_should_login_first">عفواً يجب التسجيل أولاً</string>
     <string name="register">تسجيل حساب جديد</string>
     <string name="login">تسجيل حساب جديد</string>
-    <string name="you_have_unauthorized">لقد تم تعطيل حسابك من قبل الادارة برجاء التواصل معهم</string>
+    <string name="you_have_unauthorized">حدث خطأ ما ، من فضلك سجل دخول من جديد</string>
 </resources>
