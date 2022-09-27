@@ -65,6 +65,11 @@ class CourseDetailsUseCase @Inject constructor(private val baseRepository: BaseR
                 .transformResponse { emit(it) }
     }
 
+    suspend fun markAsWatch(lessonId:Int): Flow<Any> {
+        return detailsRepository.markAsWatch(lesson_id = lessonId)
+                .transformResponse { emit(it) }
+    }
+
 
     suspend fun addComment(discussion_id: Int, comment: String): Flow<Comment> {
         return detailsRepository.addComment(discussion_id, comment)

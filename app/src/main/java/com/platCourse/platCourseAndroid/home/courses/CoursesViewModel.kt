@@ -71,6 +71,9 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
     private val _couponPurchaseFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val couponPurchaseFlow= _couponPurchaseFlow.asSharedFlow()
 
+    private val _markFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+     val markFlow= _markFlow.asSharedFlow()
+
     private val _contactFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
      val contactFlow= _contactFlow.asSharedFlow()
 
@@ -202,8 +205,19 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
         }
     }
     fun sendRequestCouponPurchase(courseId:Int,coupon:String){
-        executeSharedApi(_couponPurchaseFlow){
+        executeSharedApi(_markFlow){
             courseDetailsUseCase.setCouponPurchase(courseId,coupon)
+                    .onStart { _markFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _markFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _markFlow.emit(NetWorkState.Error(it.handleException())).also {
+                        _markFlow.emit(NetWorkState.Idle)
+                    } }
+                    .collectLatest { _markFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+    fun sendRequestMarkVideo(lessonId:Int){
+        executeSharedApi(_couponPurchaseFlow){
+            courseDetailsUseCase.markAsWatch(lessonId)
                     .onStart { _couponPurchaseFlow.emit(NetWorkState.Loading) }
                     .onCompletion { _couponPurchaseFlow.emit(NetWorkState.StopLoading) }
                     .catch { _couponPurchaseFlow.emit(NetWorkState.Error(it.handleException())).also {

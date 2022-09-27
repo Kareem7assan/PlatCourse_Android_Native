@@ -33,6 +33,8 @@ interface CourseDetailsRepository{
     fun files(courseId:Int,page:Int): Flow<Response<FilesModel>>
     fun coupon(courseId:Int,coupon:String): Flow<Response<CouponModel>>
     fun buyCoupon(courseId:Int,coupon:String): Flow<Response<Any>>
+    fun markAsWatch(lesson_id:Int): Flow<Response<Any>>
+
     fun addComment(
              discussion_id:Int,
              comment:String

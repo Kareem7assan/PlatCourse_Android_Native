@@ -2,6 +2,7 @@ package com.platCourse.platCourseAndroid.home.course_details
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.os.bundleOf
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentDetailsCourseBinding
@@ -72,7 +74,6 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
 
     private fun handleContactObservable() {
         handleSharedFlow(viewModel.contactFlow,onSuccess = { it as TeacherModel
-            //showSuccessMsg(getString(R.string.contact_msg_success))
             if (it.phone_number.isNullOrBlank().not())IntentUtils.openWhatsappIntent(it.phone_number!! ,requireContext())
         })
     }
@@ -189,13 +190,28 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
          simplePlayer!!.addMediaItem(MediaItem.fromUri(videoUrl ?: details?.intro!!))
 
          simplePlayer!!.prepare()
+
+
+
         simplePlayer?.addListener(object : Player.Listener{
+
+           
+            /*override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
+                super.onPositionDiscontinuity(oldPosition, newPosition, reason)
+                Log.e("normal_duration",simplePlayer?.currentPosition.toString()+","+simplePlayer?.duration.toString()+","+simplePlayer?.totalBufferedDuration.toString())
+
+                if (simplePlayer?.currentPosition ?: 0 >= (simplePlayer?.duration ?: 0) / 2){
+                    Log.e("durration",simplePlayer?.currentPosition.toString()+","+simplePlayer?.duration.toString())
+                }
+            }*/
+
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
                 this@CourseDetailsFragment.isPlay=isPlaying
                 if (isPlaying && viewModel.isUserLogin()){
                     playingWaterMark()
                 }
+
             }
 
         })

@@ -300,6 +300,12 @@ interface UserApi {
     ): Response<CouponModel>
 
     @FormUrlEncoded
+    @PUT("lessons/{lesson_id}")
+    suspend fun markAsWatch(
+            @Path("lesson_id") lesson_id:String
+    ): Response<Any>
+
+    @FormUrlEncoded
     @POST("courses/{course_id}/buy_course")
     suspend fun buyCoupon(
             @Path("course_id") course_id:String,

@@ -79,6 +79,12 @@ class CourseDetailsRepositoryImp @Inject constructor(
         }
     }
 
+    override fun markAsWatch(lesson_id: Int): Flow<Response<Any>> {
+        return flow {
+            emit(api.markAsWatch(lesson_id.toString()))
+        }
+    }
+
     override fun addComment(discussion_id: Int, comment: String): Flow<Response<Comment>> {
         return flow {
             emit(api.addComment(discussion_id, comment))
