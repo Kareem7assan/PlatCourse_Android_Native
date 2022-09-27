@@ -205,25 +205,25 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
         }
     }
     fun sendRequestCouponPurchase(courseId:Int,coupon:String){
-        executeSharedApi(_markFlow){
-            courseDetailsUseCase.setCouponPurchase(courseId,coupon)
-                    .onStart { _markFlow.emit(NetWorkState.Loading) }
-                    .onCompletion { _markFlow.emit(NetWorkState.StopLoading) }
-                    .catch { _markFlow.emit(NetWorkState.Error(it.handleException())).also {
-                        _markFlow.emit(NetWorkState.Idle)
-                    } }
-                    .collectLatest { _markFlow.emit(NetWorkState.Success(it)) }
-        }
-    }
-    fun sendRequestMarkVideo(lessonId:Int){
         executeSharedApi(_couponPurchaseFlow){
-            courseDetailsUseCase.markAsWatch(lessonId)
+            courseDetailsUseCase.setCouponPurchase(courseId,coupon)
                     .onStart { _couponPurchaseFlow.emit(NetWorkState.Loading) }
                     .onCompletion { _couponPurchaseFlow.emit(NetWorkState.StopLoading) }
                     .catch { _couponPurchaseFlow.emit(NetWorkState.Error(it.handleException())).also {
                         _couponPurchaseFlow.emit(NetWorkState.Idle)
                     } }
                     .collectLatest { _couponPurchaseFlow.emit(NetWorkState.Success(it)) }
+        }
+    }
+    fun sendRequestMarkVideo(lessonId:Int){
+        executeSharedApi(_markFlow){
+            courseDetailsUseCase.markAsWatch(lessonId)
+                    .onStart { _markFlow.emit(NetWorkState.Loading) }
+                    .onCompletion { _markFlow.emit(NetWorkState.StopLoading) }
+                    .catch { _markFlow.emit(NetWorkState.Error(it.handleException())).also {
+                        _markFlow.emit(NetWorkState.Idle)
+                    } }
+                    .collectLatest { _markFlow.emit(NetWorkState.Success(it)) }
         }
     }
     fun sendRequestContactTeacher(courseId:Int,msg:String){
