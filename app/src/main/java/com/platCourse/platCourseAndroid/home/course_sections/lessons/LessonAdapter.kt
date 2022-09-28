@@ -16,8 +16,8 @@ import java.util.*
 class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
 
     private var data: MutableList<VideoModel> = ArrayList()
-
-    var onClickItemVideo: ((VideoModel, Int) -> Unit)? = null
+    private var lessonId:Int? = null
+    var onClickItemVideo: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
 
@@ -39,7 +39,8 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
 
     override fun onBindViewHolder(holder: LessonVH, position: Int) = holder.bind(data[position])
 
-    fun swapData(data: List<VideoModel>) {
+    fun swapData(lessonId:Int,data: List<VideoModel>) {
+        this.lessonId=lessonId
         this.data = data as MutableList<VideoModel>
         notifyDataSetChanged()
     }
@@ -71,7 +72,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
 
             ivPlay.onClick {
                 if (item.video_file!=null)
-                    onClickItemVideo?.invoke(item,bindingAdapterPosition)
+                    onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
                 else
                     onClickItemLink?.invoke(item,bindingAdapterPosition)
             }

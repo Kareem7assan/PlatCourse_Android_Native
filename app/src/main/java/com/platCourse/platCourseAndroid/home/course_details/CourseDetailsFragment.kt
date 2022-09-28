@@ -2,6 +2,8 @@ package com.platCourse.platCourseAndroid.home.course_details
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -12,8 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.Timeline
-import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentDetailsCourseBinding
 import com.platCourse.platCourseAndroid.home.course_details.dialog.CouponBottomDialog
@@ -40,17 +40,26 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     private var isPlay: Boolean = false
     private var simplePlayer: ExoPlayer? = null
     private var details: CourseItem? = null
+    private var lessonId:Int? = null
+    private var isWatched=false
+    private var isPlayedForFirstTime=false
     private val binding by viewBinding<FragmentDetailsCourseBinding>()
     private val viewModel: CoursesViewModel by activityViewModels()
 
+    private var initialTime = 0L
+    private var updateTime:Long? = null
+    private var currentTime:Long? = null
     private val adapter by lazy {
         AttributeAdapter(this)
     }
 
+    private  val TAG = "CourseDetailsFragment"
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         details=arguments?.getString("details")?.fromJson<CourseItem>()
         videoUrl=arguments?.getString("url")
+        lessonId=arguments?.getInt("lesson_id")
         binding.frameLayout.addTransitionListener(this)
         handleWaterMark()
         setupVideo()
@@ -186,7 +195,6 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         binding.styledVideo.isSoundEffectsEnabled=false
         binding.styledVideo.setShowMultiWindowTimeBar(false)
 
-
          simplePlayer!!.addMediaItem(MediaItem.fromUri(videoUrl ?: details?.intro!!))
 
          simplePlayer!!.prepare()
@@ -194,24 +202,27 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
 
 
         simplePlayer?.addListener(object : Player.Listener{
-
-           
-            /*override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
-                super.onPositionDiscontinuity(oldPosition, newPosition, reason)
-                Log.e("normal_duration",simplePlayer?.currentPosition.toString()+","+simplePlayer?.duration.toString()+","+simplePlayer?.totalBufferedDuration.toString())
-
-                if (simplePlayer?.currentPosition ?: 0 >= (simplePlayer?.duration ?: 0) / 2){
-                    Log.e("durration",simplePlayer?.currentPosition.toString()+","+simplePlayer?.duration.toString())
-                }
-            }*/
-
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
                 this@CourseDetailsFragment.isPlay=isPlaying
+
                 if (isPlaying && viewModel.isUserLogin()){
+                    if (!isPlayedForFirstTime){
+                        //change flag
+                        isPlayedForFirstTime=true
+                        initialTime=System.currentTimeMillis().div(SECOND_DURATION_INTERVAL)
+                    }else{
+                        if (updateTime!=null){
+                            initialTime= System.currentTimeMillis().div(SECOND_DURATION_INTERVAL).minus(updateTime?:0L)
+                            updateTime=null
+                        }
+                    }
+                    binding.styledVideo.postDelayed(this@CourseDetailsFragment::calculatePlayingTime,SECOND_DURATION_INTERVAL)
                     playingWaterMark()
                 }
-
+                if (!isPlaying){
+                    updateTime= currentTime?.minus((initialTime))
+                }
             }
 
         })
@@ -222,6 +233,7 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
                 it.putExtra("isPlay", simplePlayer!!.isPlaying)
                 it.putExtra("name", viewModel.getUser()?.username)
                 it.putExtra("url", videoUrl ?: details?.intro!!)
+                it.putExtra("lesson_id", lessonId)
 
             })
         }
@@ -244,6 +256,27 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
 
     }
 
+    fun calculatePlayingTime(){
+        val totalDuration = simplePlayer?.duration?.toFloat()?.div(SECOND_DURATION_INTERVAL)
+        currentTime = System.currentTimeMillis().div(SECOND_DURATION_INTERVAL)
+
+        val difference = currentTime!! - initialTime
+
+        val diff= (difference.div(totalDuration?:0f)).times(100)
+
+        Log.e(TAG, "calculatePlayingTime: $diff %", )
+        //check if video pass 70% watching
+        if (lessonId!=0 && isWatched.not()&&diff>= WATCHED_DURATION) {
+                //change flag
+                isWatched=true
+                //send lesson to server to mark video as watched
+                lessonId?.let { viewModel.sendRequestMarkVideo(it) }
+        }
+
+        if (simplePlayer?.isPlaying==true){
+            Handler(Looper.getMainLooper()).postDelayed(this::calculatePlayingTime,SECOND_DURATION_INTERVAL)
+        }
+    }
     override fun onPause() {
         super.onPause()
         simplePlayer?.pause()
@@ -309,5 +342,10 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
                         details.toJson()
         ))
 
+    }
+
+    companion object{
+        const val WATCHED_DURATION= 70.0
+        const val SECOND_DURATION_INTERVAL=1000L
     }
 }

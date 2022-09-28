@@ -45,7 +45,7 @@
                 android:id="@+id/tvPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01010539493"
+                tools:text="01010539493"
                 android:textColor="@color/black" />
         </LinearLayout>
 
