@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemLessonMediaBinding
 import com.rowaad.app.data.model.lessons.VideoModel
-import com.rowaad.utils.extention.hide
-import com.rowaad.utils.extention.invisible
-import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.loadImage
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
@@ -25,7 +23,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
 
     fun updateSelectedItem(position: Int) {
         selectedItemPosition = position
-        notifyDataSetChanged()
+        notifyItemChanged(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LessonVH {
@@ -40,8 +38,10 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
     override fun onBindViewHolder(holder: LessonVH, position: Int) = holder.bind(data[position])
 
     fun swapData(data: List<VideoModel>) {
+        val oldSize=this.data.size
         this.data = data as MutableList<VideoModel>
-        notifyDataSetChanged()
+        val newItemCount=this.data.size
+        notifyItemRangeChanged(oldSize,newItemCount)
     }
 
     fun removeWithIndex(index: Int) {
@@ -50,38 +50,46 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
         notifyItemRangeChanged(index, itemCount)
     }
 
+    fun checkItemType(item:VideoModel):ItemTypeEnum{
+        return when{
+            item.video_link!=null || item.video_file!=null -> ItemTypeEnum.VIDEO
+            item.file!=null -> ItemTypeEnum.FILE
+            else -> ItemTypeEnum.UNKNOWN
+        }
+    }
+
    inner class LessonVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item:VideoModel) = with(ItemLessonMediaBinding.bind(itemView)) {
-            if (item.video_link!=null || item.video_file!=null) {
-                videoLay.show()
-                tvTitleVideo.text = item.videoName
-            }
-            else{
-                videoLay.invisible()
-            }
 
-            if (item.file!=null) {
-                docLay.show()
-                tvTitleDoc.text = item.videoName
+            tvTitle.text = item.videoName
+
+            when(checkItemType(item)){
+                ItemTypeEnum.VIDEO ->{
+                    //update Mime Icon
+                    ivMime.loadImage(R.drawable.ic_baseline_play_circle_outline_24)
+
+                    // add click listener
+                    ivMime.onClick {
+                        if (item.video_file!=null)
+                            onClickItemVideo?.invoke(item,bindingAdapterPosition)
+                        else
+                            onClickItemLink?.invoke(item,bindingAdapterPosition)
+                    }
+
+                }
+                ItemTypeEnum.FILE ->{
+                    //update Mime Icon
+                    ivMime.loadImage(R.drawable.document)
+
+                    // add click listener
+                    ivMime.onClick {
+                        onClickItemDoc?.invoke(item,bindingAdapterPosition)
+                    }
+                }
+                ItemTypeEnum.UNKNOWN ->{
+                    //Do nothing
+                }
             }
-            else{
-                docLay.invisible()
-                tvTitleVideo.text = item.videoName
-            }
-
-            ivPlay.onClick {
-                if (item.video_file!=null)
-                    onClickItemVideo?.invoke(item,bindingAdapterPosition)
-                else
-                    onClickItemLink?.invoke(item,bindingAdapterPosition)
-            }
-
-
-
-            ivDoc.onClick {
-                onClickItemDoc?.invoke(item,bindingAdapterPosition)
-            }
-
         }
     }
 }
