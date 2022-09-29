@@ -55,7 +55,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
             LessonAdapter()
         }
         fun bind(item:LessonsModel) = with(ItemLessonBinding.bind(itemView)) {
-            tvSection.text=item.lesson_no.toString()+" "+  if (item.section?.title!=null) item.section?.title else ""
+            tvSection.text=item.lesson_no.toString()+" "+  item.title
             rvLessons.layoutManager=LinearLayoutManager(itemView.context)
             rvLessons.adapter=adapter
 

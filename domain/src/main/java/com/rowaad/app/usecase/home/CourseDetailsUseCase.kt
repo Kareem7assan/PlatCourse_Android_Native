@@ -31,7 +31,7 @@ class CourseDetailsUseCase @Inject constructor(private val baseRepository: BaseR
 
     suspend fun lessons(courseId:Int): Flow<List<LessonsModel>> {
         return detailsRepository.lessons(courseId)
-                .transformResponse { emit(it) }
+                .transformResponse { emit(it.map { it.lessons }.first()) }
     }
     suspend fun reviews(courseId:Int): Flow<List<Review>> {
         return detailsRepository.reviews(courseId)

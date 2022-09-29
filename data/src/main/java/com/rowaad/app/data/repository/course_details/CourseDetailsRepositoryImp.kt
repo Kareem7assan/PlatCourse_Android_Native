@@ -12,6 +12,7 @@ import com.rowaad.app.data.model.discussions_model.Comment
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
+import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.quiz_model.QuizModel
@@ -38,7 +39,7 @@ class CourseDetailsRepositoryImp @Inject constructor(
         return flow { emit(api.articles()) }
     }
 
-    override fun lessons(courseId: Int): Flow<Response<List<LessonsModel>>> {
+    override fun lessons(courseId: Int): Flow<Response<List<LessonsResponse>>> {
         return flow { emit(api.lessons(courseId = courseId)) }
     }
 

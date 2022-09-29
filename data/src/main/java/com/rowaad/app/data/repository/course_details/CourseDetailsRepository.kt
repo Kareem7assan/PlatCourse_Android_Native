@@ -10,6 +10,7 @@ import com.rowaad.app.data.model.discussions_model.Comment
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
+import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.quiz_model.QuizModel
@@ -26,7 +27,7 @@ interface CourseDetailsRepository{
 
     fun articles():Flow<Response<List<Article>>>
      fun article(id: Int):Flow<Response<Article>>
-    fun lessons(courseId:Int):Flow<Response<List<LessonsModel>>>
+    fun lessons(courseId:Int):Flow<Response<List<LessonsResponse>>>
     fun reviews(courseId:Int):Flow<Response<List<Review>>>
     fun addReview(courseId:Int,review:Float,description:String?=null):Flow<Response<Any>>
     fun quizzes(courseId:Int): Flow<Response<List<QuizModel>>>
