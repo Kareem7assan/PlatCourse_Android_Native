@@ -33,7 +33,7 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        course=arguments?.getString("course")?.fromJson<CourseItem>()
+        course = arguments?.getString("course")?.fromJson<CourseItem>()
         handleToolbar()
         setupRec()
         sendRequest()
@@ -42,49 +42,54 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     }
 
     private fun setupActions() {
-        adapter.onClickItemDoc=::onClickDoc
-        adapter.onClickItemVideo=::onClickVideo
-        adapter.onClickItemLink=::onClickLink
+        adapter.onClickItemDoc = ::onClickDoc
+        adapter.onClickItemVideo = ::onClickVideo
+        adapter.onClickItemLink = ::onClickLink
     }
 
     private fun onClickDoc(videoModel: VideoModel, pos: Int) {
-        IntentUtils.openUrl(requireContext(),videoModel.file)
+        IntentUtils.openUrl(requireContext(), videoModel.file)
     }
 
-    private fun onClickVideo(videoModel: VideoModel, pos: Int) {
+    private fun onClickVideo(videoModel: VideoModel, pos: Int, lessonId: Int?) {
 
-        findNavController().navigate(R.id.action_global_courseDetailsFragment
-                ,
-                bundleOf(
-                        "details"
-                to
-                        course.toJson()
-                         ,
-                        "url"
-                to
-                        videoModel.video_file
-                )
+        findNavController().navigate(
+            R.id.action_global_courseDetailsFragment,
+            bundleOf(
+                "details"
+                        to
+                        course.toJson(),
+                "url"
+                        to
+                        videoModel.video_file,
+                "lesson_id"
+                        to
+                        lessonId
+            )
 
         )
     }
 
     private fun onClickLink(videoModel: VideoModel, pos: Int) {
-        IntentUtils.openUrl(requireContext(),videoModel.video_link)
+        IntentUtils.openUrl(requireContext(), videoModel.video_link)
     }
 
     private fun handleToolbar() {
-        binding.toolbar.tvTitle.text=getString(R.string.lessons)
-        binding.toolbar.ivBack.onClick{
+        binding.toolbar.tvTitle.text = getString(R.string.lessons)
+        binding.toolbar.ivBack.onClick {
             findNavController().navigateUp()
         }
     }
 
     private fun handleLessonsFlow() {
-        handleSharedFlow(viewModel.lessonsFlow,onSuccess = {val lessons=it as List<LessonsModel>
+        handleSharedFlow(viewModel.lessonsFlow, onSuccess = {
+            val lessons = it as List<LessonsModel>
             if (lessons.isEmpty())
-                binding.rvLessonsTitles.hide().also { binding.tvEmpty.show() }.also { binding.rvLessonsTitles.hide() }
+                binding.rvLessonsTitles.hide().also { binding.tvEmpty.show() }
+                    .also { binding.rvLessonsTitles.hide() }
             else
-                binding.rvLessonsTitles.show().also { adapter.swapData(lessons) }.also { binding.tvEmpty.hide() }
+                binding.rvLessonsTitles.show().also { adapter.swapData(lessons) }
+                    .also { binding.tvEmpty.hide() }
         })
     }
 
@@ -93,8 +98,8 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     }
 
     private fun setupRec() {
-        binding.rvLessonsTitles.layoutManager=LinearLayoutManager(requireContext())
-        binding.rvLessonsTitles.adapter=adapter
+        binding.rvLessonsTitles.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvLessonsTitles.adapter = adapter
 
     }
 }

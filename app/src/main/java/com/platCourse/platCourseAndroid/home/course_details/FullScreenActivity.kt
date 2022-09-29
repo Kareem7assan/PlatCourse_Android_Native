@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -36,8 +39,12 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
     private var isPlay: Boolean = false
     private val viewModel: CoursesViewModel by viewModels()
 
-
-
+    private var initialTime = 0L
+    private var updateTime:Long? = null
+    private var currentTime:Long? = null
+    private var lessonId:Int? = null
+    private var isWatched=false
+    private var isPlayedForFirstTime=false
 
     override fun init() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -48,6 +55,7 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
         val url=intent.getStringExtra("url")!!
         val pos=intent.getLongExtra("pos", 0L)
         val name=intent.getStringExtra("name")
+        lessonId=intent?.getIntExtra("lesson_id",0)
         handleWaterMark(name)
         val isPlay=intent.getBooleanExtra("isPlay", false)
         setupVideo(url, pos, isPlay)
@@ -135,7 +143,56 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
         binding?.styledVideo?.setFullscreenButtonClickListener {
             onBackPressed()
         }
+        simplePlayer?.addListener(object : Player.Listener{
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+                this@FullScreenActivity.isPlay=isPlaying
 
+                if (isPlaying && viewModel.isUserLogin()){
+                    if (!isPlayedForFirstTime){
+                        //change flag
+                        isPlayedForFirstTime=true
+                        initialTime=System.currentTimeMillis().div(CourseDetailsFragment.SECOND_DURATION_INTERVAL)
+                    }else{
+                        if (updateTime!=null){
+                            initialTime= System.currentTimeMillis().div(CourseDetailsFragment.SECOND_DURATION_INTERVAL).minus(updateTime?:0L)
+                            updateTime=null
+                        }
+                    }
+                    binding?.styledVideo?.postDelayed(this@FullScreenActivity::calculatePlayingTime,
+                        CourseDetailsFragment.SECOND_DURATION_INTERVAL
+                    )
+                }
+                if (!isPlaying){
+                    updateTime= currentTime?.minus((initialTime))
+                }
+            }
+
+        })
+    }
+
+    fun calculatePlayingTime(){
+        val totalDuration = simplePlayer?.duration?.toFloat()?.div(CourseDetailsFragment.SECOND_DURATION_INTERVAL)
+        currentTime = System.currentTimeMillis().div(CourseDetailsFragment.SECOND_DURATION_INTERVAL)
+
+        val difference = currentTime!! - initialTime
+
+        val diff= (difference.div(totalDuration?:0f)).times(100)
+
+
+        //check if video pass 70% watching
+        if (lessonId!=0 && isWatched.not()&&diff>= CourseDetailsFragment.WATCHED_DURATION) {
+            //change flag
+            isWatched=true
+            //send lesson to server to mark video as watched
+            lessonId?.let { viewModel.sendRequestMarkVideo(it) }
+        }
+
+        if (simplePlayer?.isPlaying==true){
+            Handler(Looper.getMainLooper()).postDelayed(this::calculatePlayingTime,
+                CourseDetailsFragment.SECOND_DURATION_INTERVAL
+            )
+        }
     }
 
     private fun setCurrentPosition(simplePlayer: ExoPlayer, pos: Long) {

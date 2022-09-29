@@ -17,7 +17,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
 
     var onClickItem: ((LessonsModel, Int) -> Unit)? = null
 
-    var onClickItemVideo: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemVideo: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
 
@@ -59,7 +59,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
             rvLessons.layoutManager=LinearLayoutManager(itemView.context)
             rvLessons.adapter=adapter
 
-            adapter.swapData(item.videos!!.map {
+            adapter.swapData(lessonId = item.id,data = item.videos!!.map {
                 it.videoName=item.title
                 it.file=item.file
                 it
@@ -79,7 +79,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
     private fun onClickLink(videoModel: VideoModel, i: Int) {
         onClickItemLink?.invoke(videoModel,i)
     }
-    private fun onClickVideo(videoModel: VideoModel, i: Int) {
-        onClickItemVideo?.invoke(videoModel,i)
+    private fun onClickVideo(videoModel: VideoModel, i: Int,lessonId:Int?) {
+        onClickItemVideo?.invoke(videoModel,i,lessonId)
     }
 }
