@@ -45,12 +45,16 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
         adapter.onClickItemDoc=::onClickDoc
         adapter.onClickItemVideo=::onClickVideo
         adapter.onClickItemLink=::onClickLink
+        adapter.onDropDownClicked=::expandLesson
     }
 
     private fun onClickDoc(videoModel: VideoModel, pos: Int) {
         IntentUtils.openUrl(requireContext(),videoModel.file)
     }
 
+    private fun expandLesson(position:Int){
+        adapter.updateSelectedItem(position)
+    }
     private fun onClickVideo(videoModel: VideoModel, pos: Int) {
 
         findNavController().navigate(R.id.action_global_courseDetailsFragment

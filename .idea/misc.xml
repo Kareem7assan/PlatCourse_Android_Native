@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/drawable/ic_lesson_bg.xml" value="0.2445" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout-ar/item_lesson_media.xml" value="0.3625" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/activity_full_screen.xml" value="0.3625" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/fragment_details_course.xml" value="0.176" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/fragment_lessons_course.xml" value="0.3625" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/item_lesson.xml" value="0.3625" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/item_lesson_media.xml" value="0.3625" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
