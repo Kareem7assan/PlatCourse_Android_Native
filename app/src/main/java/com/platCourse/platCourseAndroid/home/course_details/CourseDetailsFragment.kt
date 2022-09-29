@@ -219,6 +219,7 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
                     }
                     binding.styledVideo.postDelayed(this@CourseDetailsFragment::calculatePlayingTime,SECOND_DURATION_INTERVAL)
                     playingWaterMark()
+
                 }
                 if (!isPlaying){
                     updateTime= currentTime?.minus((initialTime))
