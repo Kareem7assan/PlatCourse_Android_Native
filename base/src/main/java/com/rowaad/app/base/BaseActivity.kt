@@ -250,9 +250,9 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
             Constants_Api.ERROR_API.NOT_FOUND -> {
                 ErrorDialog.show(this, getString(R.string.some_error))
             }
-            Constants_Api.ERROR_API.UNAUTHRIZED -> {
+            /*Constants_Api.ERROR_API.UNAUTHRIZED -> {
                 baseViewModel.getBaseRepository(this).logout().also { handleUnAuthorized() }
-            }
+            }*/
             Constants_Api.ERROR_API.MAINTENANCE -> {
                 handleMaintenance()
             }

@@ -34,7 +34,7 @@ import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 
 
-class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), MotionLayout.TransitionListener, CourseListener, ExoPlayer.AudioOffloadListener {
+class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), MotionLayout.TransitionListener, CourseListener {
 
     private var videoUrl: String? = null
     private var isPlay: Boolean = false
@@ -183,27 +183,14 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     private fun setupVideo() {
          simplePlayer = ExoPlayer.Builder(requireContext()).build()
          binding.styledVideo.player= simplePlayer
-        binding.styledVideo.isSoundEffectsEnabled=false
-        binding.styledVideo.setShowMultiWindowTimeBar(false)
-
-
          simplePlayer!!.addMediaItem(MediaItem.fromUri(videoUrl ?: details?.intro!!))
 
          simplePlayer!!.prepare()
 
 
 
+
         simplePlayer?.addListener(object : Player.Listener{
-
-           
-            /*override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
-                super.onPositionDiscontinuity(oldPosition, newPosition, reason)
-                Log.e("normal_duration",simplePlayer?.currentPosition.toString()+","+simplePlayer?.duration.toString()+","+simplePlayer?.totalBufferedDuration.toString())
-
-                if (simplePlayer?.currentPosition ?: 0 >= (simplePlayer?.duration ?: 0) / 2){
-                    Log.e("durration",simplePlayer?.currentPosition.toString()+","+simplePlayer?.duration.toString())
-                }
-            }*/
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
