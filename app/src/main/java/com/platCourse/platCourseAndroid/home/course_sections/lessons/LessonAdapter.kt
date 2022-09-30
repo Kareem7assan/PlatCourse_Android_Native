@@ -72,7 +72,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
                     // add click listener
                     ivMime.onClick {
                         if (item.video_file!=null)
-                            onClickItemVideo?.invoke(item,bindingAdapterPosition)
+                            onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
                         else
                             onClickItemLink?.invoke(item,bindingAdapterPosition)
                     }
