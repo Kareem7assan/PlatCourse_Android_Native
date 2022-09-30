@@ -8,36 +8,42 @@
     android:clipToPadding="false"
     android:padding="4dp"
     android:layout_margin="8dp"
-    android:background="@drawable/ic_lesson_bg"
-    android:elevation="8dp">
 
-    <TextView
-        android:id="@+id/tvSection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_normal"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="1. First Lesson" />
+    android:elevation="8dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLessons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_lesson"
+        android:clipToPadding="false"
         android:nestedScrollingEnabled="false"
+        android:paddingTop="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSection"
+        app:layout_constraintTop_toTopOf="@+id/tvSection"
         tools:itemCount="3"
         tools:listitem="@layout/item_lesson_media" />
+
+    <TextView
+        android:id="@+id/tvSection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:background="@drawable/ic_lesson_bg"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="@color/white"
+        android:gravity="start"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1. First Lesson" />
 
     <View
         android:id="@+id/view4"
@@ -56,10 +62,11 @@
         android:id="@+id/iv_drop_down"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        app:tint="@color/white"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvSection"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/tvSection"
         app:layout_constraintTop_toTopOf="@+id/tvSection"
-        app:srcCompat="@drawable/ic_arrow_down_24" />
+        app:srcCompat="@drawable/ic_arrow_down_24"
+        app:tint="@color/white" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
