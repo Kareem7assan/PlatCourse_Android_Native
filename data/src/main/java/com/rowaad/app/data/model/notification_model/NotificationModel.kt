@@ -23,17 +23,26 @@ data class Extra(
     val body: String? = null,
     val notification_type: Int? = null,
     val course_id: Int? = null,
+    val object_id: Int? = null,
+    val object_type: String? = null,
+    val action_url: String? = null,
 
 )
 
 enum class NotificationType {
     QUIZ,
+    LESSON,
+    COURSE_FILE,
+    ANNOUNCEMENT,
     UNKNOWN
 }
 
 fun NotificationItem.getNotificationTypeEnum():NotificationType{
-    return when(this.notification?.notification_type){
-        1 -> NotificationType.QUIZ
+    return when(this.notification?.object_type){
+        "Quiz" -> NotificationType.QUIZ
+        "Announcement" -> NotificationType.ANNOUNCEMENT
+        "Lesson" -> NotificationType.LESSON
+        "CourseFile" -> NotificationType.COURSE_FILE
         else ->NotificationType.UNKNOWN
     }
 }

@@ -1,5 +1,6 @@
 package com.platCourse.platCourseAndroid.menu.notifications
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentMenuBinding
 import com.platCourse.platCourseAndroid.databinding.FragmentNotificationsBinding
+import com.platCourse.platCourseAndroid.home.course_sections.files.PdfReaderActivity
 import com.platCourse.platCourseAndroid.menu.MenuViewModel
 import com.platCourse.platCourseAndroid.menu.adapter.MenuAdapter
 import com.platCourse.platCourseAndroid.menu.notifications.adapter.NotificationsAdapter
@@ -36,7 +38,7 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
     }
 
     private fun setupActions() {
-        notificationAdapter.onClickItem=::onNotificationClick
+        notificationAdapter.onClickItem = ::onNotificationClick
 
         binding.tvAll.setOnClickListener {
             notificationAdapter.seeAllNotifications().also {
@@ -56,25 +58,50 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
 
         //navigate to notification's destination view
         //TODO add more actions to enum and here determine where click listener should navigate to
-        when(notificationItem.getNotificationTypeEnum()){
+        when (notificationItem.getNotificationTypeEnum()) {
             NotificationType.QUIZ -> {
-                findNavController().navigate(R.id.quizFragment, bundleOf(
-                    "course_id" to notificationItem.notification?.course_id
-                ))
+                findNavController().navigate(
+                    R.id.action_global_quizWebViewFragment, bundleOf(
+                        "course_id" to notificationItem.notification?.course_id,
+                        "quiz" to notificationItem.notification?.object_id
+                    )
+                )
             }
             NotificationType.UNKNOWN -> {}
-            null -> {}
+            NotificationType.LESSON -> {
+                // expected lesson_id , course id
+                // fetch course lessons by course id
+                // filter lessons with lesson_id
+                // Then open course details with response
+
+                //but for now lessons by course id
+                if (notificationItem.notification?.course_id != null) {
+                    findNavController().navigate(R.id.courseLessonsFragment, bundleOf(
+                        "course_id" to notificationItem.notification?.course_id
+
+                    ))
+                }
+            }
+            NotificationType.COURSE_FILE -> {
+                startActivity(Intent(requireContext(), PdfReaderActivity::class.java).also {
+                    it.putExtra("pdf", notificationItem.notification?.action_url)
+                })
+            }
+            NotificationType.ANNOUNCEMENT -> {
+                //TODO to be implemented later
+            }
         }
 
 
     }
 
     private fun handleObservables() {
-        handleSharedFlow(viewModel.notificationFlow,onSuccess = { it as List<NotificationItem>
+        handleSharedFlow(viewModel.notificationFlow, onSuccess = {
+            it as List<NotificationItem>
             if (it.isEmpty()) showEmpty()
             else notificationAdapter.swapData(it)
         })
-        handleSharedFlow(viewModel.notificationRemoveFlow,onSuccess = {})
+        handleSharedFlow(viewModel.notificationRemoveFlow, onSuccess = {})
     }
 
     private fun showEmpty() {
@@ -88,8 +115,8 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
     }
 
     private fun setupRec() {
-        binding.rvNotifications.layoutManager=LinearLayoutManager(requireContext())
-        binding.rvNotifications.adapter=notificationAdapter
+        binding.rvNotifications.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvNotifications.adapter = notificationAdapter
 
     }
 }
