@@ -46,6 +46,7 @@ import java.util.*
 class QuizFragment : BaseFragment(R.layout.fragment_quiz) {
 
     private var course: CourseItem? = null
+    private var courseId:Int? = null
     private val binding by viewBinding<FragmentQuizBinding>()
     private val viewModel: CoursesViewModel by activityViewModels()
     private val adapter by lazy {
@@ -55,6 +56,7 @@ class QuizFragment : BaseFragment(R.layout.fragment_quiz) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         course = arguments?.getString("course")?.fromJson<CourseItem>()
+        courseId = arguments?.getInt("course_id")
         setupRec()
         sendRequest()
         handleObservable()
@@ -89,7 +91,7 @@ class QuizFragment : BaseFragment(R.layout.fragment_quiz) {
     }
 
     private fun sendRequest() {
-        viewModel.sendRequestQuizzes(courseId = course?.id ?: 0)
+        viewModel.sendRequestQuizzes(courseId = course?.id ?: courseId?:0)
     }
 
     private fun setupRec() {

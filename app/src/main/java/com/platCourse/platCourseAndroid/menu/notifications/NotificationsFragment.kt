@@ -2,7 +2,9 @@ package com.platCourse.platCourseAndroid.menu.notifications
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentMenuBinding
@@ -13,6 +15,8 @@ import com.platCourse.platCourseAndroid.menu.notifications.adapter.Notifications
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.model.notification_model.NotificationItem
+import com.rowaad.app.data.model.notification_model.NotificationType
+import com.rowaad.app.data.model.notification_model.getNotificationTypeEnum
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 
@@ -33,16 +37,36 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
 
     private fun setupActions() {
         notificationAdapter.onClickItem=::onNotificationClick
-    }
 
-    private fun onNotificationClick(notificationItem: NotificationItem, pos: Int) {
-        //notificationAdapter.updateSelectedItem(position = pos)
         binding.tvAll.setOnClickListener {
             notificationAdapter.seeAllNotifications().also {
                 viewModel.seeAllNotifications()
             }
         }
-        viewModel.seeNotification(notificationId = notificationItem.id)
+    }
+
+    private fun onNotificationClick(notificationItem: NotificationItem, pos: Int) {
+        //mark notification as a read
+        if (!notificationItem.read) {
+            notificationAdapter.updateSelectedItem(pos, item = notificationItem.also {
+                it.read = true
+            })
+            viewModel.seeNotification(notificationId = notificationItem.id)
+        }
+
+        //navigate to notification's destination view
+        //TODO add more actions to enum and here determine where click listener should navigate to
+        when(notificationItem.getNotificationTypeEnum()){
+            NotificationType.QUIZ -> {
+                findNavController().navigate(R.id.quizFragment, bundleOf(
+                    "course_id" to notificationItem.notification?.course_id
+                ))
+            }
+            NotificationType.UNKNOWN -> {}
+            null -> {}
+        }
+
+
     }
 
     private fun handleObservables() {

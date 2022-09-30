@@ -6,7 +6,7 @@ data class QuizModel (val id:Int,val quiz:QuizItem?=null)
 data class QuizItem(
         val id:Int,
         val course:Int,
-        val lesson:LessonsModel?=null,
+        //val lesson:LessonsModel?=null,
         val quiz_title:String?=null,
         val time:Any?=null,
         val questions:List<QuestionItem>?=null,
