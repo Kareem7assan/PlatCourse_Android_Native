@@ -25,6 +25,7 @@
         android:id="@+id/tv_title_doc"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:textColor="@color/colorPrimary"
@@ -78,5 +79,6 @@
         android:id="@+id/grp_doc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="iv_doc,tv_title_doc" />
 </androidx.constraintlayout.widget.ConstraintLayout>
