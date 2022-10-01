@@ -207,7 +207,7 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
     val notificationRemoveFlow= _notificationRemoveFlow.asStateFlow()
 
 
-    fun showNotifications(page:Int=1){
+    fun showNotifications(page:Int){
         executeApi(_notificationFlow){
             menuUseCase.notifications(page)
                     .onStart { _notificationFlow.emit(NetWorkState.Loading) }

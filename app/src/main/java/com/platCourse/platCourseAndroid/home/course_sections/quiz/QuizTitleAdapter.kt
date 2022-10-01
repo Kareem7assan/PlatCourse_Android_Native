@@ -37,8 +37,10 @@ class QuizTitleAdapter : RecyclerView.Adapter<QuizTitleAdapter.QuizVH>() {
     override fun onBindViewHolder(holder: QuizVH, position: Int) = holder.bind(data[position])
 
     fun swapData(data: List<QuizModel>) {
+        val oldPosition=data.size
         this.data = data as MutableList<QuizModel>
-        notifyDataSetChanged()
+        val newItemCount=data.size
+        notifyItemRangeChanged(oldPosition,newItemCount)
     }
 
     fun removeWithIndex(index: Int) {

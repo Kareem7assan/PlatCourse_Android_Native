@@ -13,15 +13,16 @@ import java.util.*
 
 class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.NotificationsVH>() {
 
-    private var data: MutableList<NotificationItem> = ArrayList()
+     var data: MutableList<NotificationItem> = ArrayList()
 
     var onClickItem: ((NotificationItem, Int) -> Unit)? = null
 
     var selectedItemPosition = -1
 
-    fun updateSelectedItem(position: Int) {
+    fun updateSelectedItem(position: Int,item:NotificationItem) {
         selectedItemPosition = position
-        notifyDataSetChanged()
+        data[position]=item
+        notifyItemChanged(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationsVH {
@@ -37,8 +38,10 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
         holder.bind(data[position])
 
     fun swapData(data: List<NotificationItem>) {
-        this.data = data as MutableList<NotificationItem>
-        notifyDataSetChanged()
+        val oldPosition=data.size
+        this.data.addAll(data as MutableList<NotificationItem>)
+        val newItemCount=data.size
+        notifyItemRangeChanged(oldPosition,newItemCount)
     }
 
     fun removeWithIndex(index: Int) {
@@ -48,7 +51,7 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
     }
     fun seeAllNotifications(){
         data.map { it.read=true }
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0,data.size)
     }
 
     inner class NotificationsVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -62,11 +65,8 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
             else
                 root.tint(R.color.color_not_selected)
 
-            itemView?.onClick {
-                onClickItem?.invoke(item,bindingAdapterPosition).also {
-                    item.read=true
-                    notifyDataSetChanged()
-                }
+            itemView.onClick {
+                onClickItem?.invoke(item,bindingAdapterPosition)
             }
         }
     }

@@ -5,6 +5,7 @@ import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
 import com.rowaad.app.data.model.notification_model.NotificationItem
+import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
 import com.rowaad.app.data.repository.base.BaseRepository
@@ -58,7 +59,7 @@ class MenuUseCase @Inject constructor(private val baseRepository: BaseRepository
     }
 
     //notifications
-    suspend fun notifications(page:Int): Flow<List<NotificationItem>> {
+    suspend fun notifications(page:Int): Flow<NotificationModel> {
         return menuRepository.getNotifications(page)
                 .transformResponse { emit(it) }
     }

@@ -41,6 +41,7 @@ import java.util.*
 class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
 
     private var quizId: Int? = 0
+    private var courseId: Int? = 0
     private var course: CourseItem? = null
     private val binding by viewBinding<FragmentAdsBinding>()
     private val viewModel: CoursesViewModel by activityViewModels()
@@ -49,6 +50,7 @@ class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
         super.onViewCreated(view, savedInstanceState)
         course = arguments?.getString("course")?.fromJson<CourseItem>()
         quizId = arguments?.getInt("quiz")
+        courseId = arguments?.getInt("course_id")
         setupWebView()
     }
 
@@ -96,7 +98,7 @@ class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
         }, 3000)
         webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH)
         webSetting.javaScriptCanOpenWindowsAutomatically = true
-        mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id}/$quizId/${viewModel.getToken()}")
+        mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id?:courseId}/$quizId/${viewModel.getToken()}")
         //mWebView.loadUrl("https://platcourse.com/ios/quiz/${course?.id}/$quizId/${viewModel.getToken()}")
        // mWebView.addJavascriptInterface(WebAppInterface(requireContext()), "androidInterface")
         mWebView.webViewClient = object : WebViewClient(), ValueCallback<String> {

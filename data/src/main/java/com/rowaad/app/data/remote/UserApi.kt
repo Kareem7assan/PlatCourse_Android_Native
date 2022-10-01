@@ -133,7 +133,7 @@ interface UserApi {
     @GET("auth/notifications")
     suspend fun notifications(
             @Query("page") page:Int=1
-    ): Response<List<NotificationItem>>
+    ): Response<NotificationModel>
 
 
     @GET("auth/notifications/read_all")

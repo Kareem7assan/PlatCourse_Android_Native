@@ -24,6 +24,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
     private var course: CourseItem? = null
+    private var course_id: Int? = null
     private val binding by viewBinding<FragmentLessonsCourseBinding>()
     private val viewModel: CoursesViewModel by activityViewModels()
     private val adapter by lazy {
@@ -34,6 +35,7 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         course = arguments?.getString("course")?.fromJson<CourseItem>()
+        course_id = arguments?.getInt("course_id")
         handleToolbar()
         setupRec()
         sendRequest()
@@ -98,7 +100,7 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     }
 
     private fun sendRequest() {
-        viewModel.sendRequestLessons(courseId = course?.id ?: 0)
+        viewModel.sendRequestLessons(courseId = course?.id ?: course_id?:0)
     }
 
     private fun setupRec() {
