@@ -15,7 +15,7 @@ data class LessonsModel(
     @SerializedName("title") val title: String,
     @SerializedName("description") val description: String,
     @SerializedName("lesson_no") val lesson_no: Int,
-    @SerializedName("file") val file: String,
+    @SerializedName("file") val file: String?,
     //@SerializedName("quizzes") val quizzes: List<String>,
     @SerializedName("videos") val videos: List<VideoModel>,
     @SerializedName("course") val course: Int,
@@ -27,11 +27,12 @@ data class LessonsModel(
 
 data class VideoModel(
     @SerializedName("id") val id : Int,
-    @SerializedName("content_type") val content_type : Int,
-    @SerializedName("video_link") val video_link : String,
-    @SerializedName("video_file") val video_file : String,
+    @SerializedName("content_type") val content_type : Int?,
+    @SerializedName("video_link") val video_link : String?,
+    @SerializedName("video_file") var video_file : String?,
     var videoName: String? = null,
-    var file: String? = null
+    var file: String? = null,
+    var externalFileExists:Boolean=false
 )
 
 data class Section(val id: Int, val title: String? = null, val description: String? = null)

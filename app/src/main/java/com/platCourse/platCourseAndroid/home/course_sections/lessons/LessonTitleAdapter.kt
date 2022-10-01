@@ -1,7 +1,6 @@
 package com.platCourse.platCourseAndroid.home.course_sections.lessons
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
