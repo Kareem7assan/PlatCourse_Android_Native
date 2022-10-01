@@ -1,7 +1,6 @@
 package com.platCourse.platCourseAndroid.home.course_sections.lessons
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,13 +22,18 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
 
-    var onDropDownClicked:((position:Int) -> Unit)? = null
+    var onDropDownClicked:((isExpanded:Boolean,position:Int) -> Unit)? = null
 
     var selectedItemPosition = -1
 
     fun updateSelectedItem(position: Int) {
         selectedItemPosition = position
         notifyDataSetChanged()
+    }
+
+    fun updateExpandStatus(isExpanded: Boolean,position: Int){
+        data[position].isExpanded=isExpanded
+        notifyItemChanged(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LessonTitleVH {
@@ -43,7 +47,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
     override fun onBindViewHolder(holder: LessonTitleVH, position: Int){
         holder.bind(data[position])
 
-        holder.binding.rvLessons.isVisible= position==selectedItemPosition
+        holder.binding.rvLessons.isVisible= data[position].isExpanded
     }
 
     fun swapData(data: List<LessonsModel>) {
@@ -66,7 +70,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
 
        init {
            binding.ivDropDown.setOnClickListener {
-               onDropDownClicked?.invoke(if (selectedItemPosition==bindingAdapterPosition) -1 else bindingAdapterPosition)
+               onDropDownClicked?.invoke(data[bindingAdapterPosition].isExpanded.not(),bindingAdapterPosition)
            }
        }
         fun bind(item:LessonsModel) = with(binding) {

@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemLessonMediaBinding
 import com.rowaad.app.data.model.lessons.VideoModel
@@ -51,24 +52,16 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
         notifyItemRangeChanged(index, itemCount)
     }
 
-    fun checkItemType(item:VideoModel):ItemTypeEnum{
-        return when{
-            item.video_link!=null || item.video_file!=null -> ItemTypeEnum.VIDEO
-            item.file!=null -> ItemTypeEnum.FILE
-            else -> ItemTypeEnum.UNKNOWN
-        }
-    }
 
    inner class LessonVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item:VideoModel) = with(ItemLessonMediaBinding.bind(itemView)) {
 
-            tvTitle.text = item.videoName
 
-            when(checkItemType(item)){
-                ItemTypeEnum.VIDEO ->{
-                    //update Mime Icon
-                    ivMime.loadImage(R.drawable.ic_baseline_play_circle_outline_24)
 
+
+                if (item.video_link!=null || item.video_file!=null) {
+                    tvTitle.text = item.videoName
+                    grpVideo.isVisible=true
                     // add click listener
                     ivMime.onClick {
                         if (item.video_file!=null)
@@ -78,19 +71,18 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
                     }
 
                 }
-                ItemTypeEnum.FILE ->{
+            if (item.file!=null){
+                    tvTitleDoc.text = item.videoName
                     //update Mime Icon
-                    ivMime.loadImage(R.drawable.document)
+                    grpDoc.isVisible=true
 
                     // add click listener
-                    ivMime.onClick {
+                    ivDoc.onClick {
                         onClickItemDoc?.invoke(item,bindingAdapterPosition)
                     }
                 }
-                ItemTypeEnum.UNKNOWN ->{
-                    //Do nothing
-                }
-            }
+
+
         }
     }
 }

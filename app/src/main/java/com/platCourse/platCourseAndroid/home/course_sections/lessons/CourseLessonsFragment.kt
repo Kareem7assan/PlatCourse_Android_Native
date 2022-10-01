@@ -15,6 +15,7 @@ import com.rowaad.app.data.cache.fromJson
 import com.rowaad.app.data.cache.toJson
 import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.lessons.LessonsModel
+import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.lessons.VideoModel
 import com.rowaad.utils.IntentUtils
 import com.rowaad.utils.extention.hide
@@ -28,7 +29,7 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     private val binding by viewBinding<FragmentLessonsCourseBinding>()
     private val viewModel: CoursesViewModel by activityViewModels()
     private val adapter by lazy {
-        LessonTitleAdapter()
+        SectionAdapter()
     }
 
 
@@ -54,8 +55,9 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
         IntentUtils.openUrl(requireContext(), videoModel.file)
     }
 
-    private fun expandLesson(position:Int){
-        adapter.updateSelectedItem(position)
+    private fun expandLesson(parentPosition:Int,childPosition:Int){
+        //adapter.expandItem(parentPosition, childPosition)
+
     }
     private fun onClickVideo(videoModel: VideoModel, pos: Int, lessonId: Int?) {
 
@@ -89,12 +91,15 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
     private fun handleLessonsFlow() {
         handleSharedFlow(viewModel.lessonsFlow, onSuccess = {
-            val lessons = it as List<LessonsModel>
+            val lessons = it as List<LessonsResponse>
+
             if (lessons.isEmpty())
                 binding.rvLessonsTitles.hide().also { binding.tvEmpty.show() }
                     .also { binding.rvLessonsTitles.hide() }
             else
-                binding.rvLessonsTitles.show().also { adapter.swapData(lessons) }
+                binding.rvLessonsTitles.show().also {
+                    adapter.swapData(lessons)
+                }
                     .also { binding.tvEmpty.hide() }
         })
     }
