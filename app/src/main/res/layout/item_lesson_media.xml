@@ -25,7 +25,6 @@
         android:id="@+id/tv_title_doc"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:textColor="@color/colorPrimary"
@@ -33,7 +32,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/iv_doc"
         app:layout_constraintLeft_toRightOf="@+id/iv_doc"
         app:layout_constraintTop_toTopOf="@+id/iv_doc"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="What is new in UI/UX?" />
 
     <ImageView
@@ -53,7 +51,9 @@
         android:layout_height="40dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/document"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view5"
         app:tint="@color/colorPrimary" />
@@ -62,25 +62,11 @@
         android:id="@+id/view5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="50dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
-
-    <View
-        android:id="@+id/view6"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="50dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_doc" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/grp_video"
@@ -92,6 +78,5 @@
         android:id="@+id/grp_doc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="view6,iv_doc,tv_title_doc" />
+        app:constraint_referenced_ids="iv_doc,tv_title_doc" />
 </androidx.constraintlayout.widget.ConstraintLayout>
