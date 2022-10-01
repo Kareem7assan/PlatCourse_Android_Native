@@ -6,6 +6,7 @@ import com.rowaad.app.data.model.discussions_model.Comment
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
+import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.quiz_model.QuizModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.reviews.Review
@@ -29,9 +30,9 @@ class CourseDetailsUseCase @Inject constructor(private val baseRepository: BaseR
                 .transformResponse { emit(it) }
     }
 
-    suspend fun lessons(courseId:Int): Flow<List<LessonsModel>> {
+    suspend fun lessons(courseId:Int): Flow<List<LessonsResponse>> {
         return detailsRepository.lessons(courseId)
-                .transformResponse { emit(it.map { it.lessons }.first()) }
+                .transformResponse { emit(it) }
     }
     suspend fun reviews(courseId:Int): Flow<List<Review>> {
         return detailsRepository.reviews(courseId)

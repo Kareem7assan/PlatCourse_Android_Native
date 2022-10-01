@@ -5,14 +5,17 @@
       <map>
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/drawable/bg_lesson.xml" value="0.2445" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/drawable/bg_round_corner_img_tans_black.xml" value="0.2445" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/drawable/bg_section.xml" value="0.2445" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/drawable/ic_lesson_bg.xml" value="0.2445" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout-ar/item_lesson_media.xml" value="0.3625" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/activity_full_screen.xml" value="0.3625" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/exo_playback_control_view.xml" value="0.3625" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/fragment_details_course.xml" value="0.176" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/fragment_lessons_course.xml" value="0.3625" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/fragment_quiz.xml" value="0.25" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/item_lesson.xml" value="0.6" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/item_lesson_media.xml" value="0.3625" />
+        <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/item_section.xml" value="0.3625" />
         <entry key="..\:/OpenSource/Android/PlatCourse_Android_Native/app/src/main/res/layout/layout_exoplayer_control_views.xml" value="0.3625" />
       </map>
     </option>

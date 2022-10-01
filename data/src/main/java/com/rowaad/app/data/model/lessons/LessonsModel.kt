@@ -16,11 +16,13 @@ data class LessonsModel(
     @SerializedName("description") val description: String,
     @SerializedName("lesson_no") val lesson_no: Int,
     @SerializedName("file") val file: String,
-    @SerializedName("quizzes") val quizzes: List<String>,
+    //@SerializedName("quizzes") val quizzes: List<String>,
     @SerializedName("videos") val videos: List<VideoModel>,
     @SerializedName("course") val course: Int,
     @SerializedName("created_at") val created_at: String,
-    @SerializedName("updated_at") val updated_at: String
+    @SerializedName("updated_at") val updated_at: String,
+    //for UI purpose
+    var isExpanded:Boolean=false
 )
 
 data class VideoModel(
