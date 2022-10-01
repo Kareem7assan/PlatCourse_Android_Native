@@ -13,7 +13,7 @@ import java.util.*
 
 class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.NotificationsVH>() {
 
-    private var data: MutableList<NotificationItem> = ArrayList()
+     var data: MutableList<NotificationItem> = ArrayList()
 
     var onClickItem: ((NotificationItem, Int) -> Unit)? = null
 
@@ -39,7 +39,7 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
 
     fun swapData(data: List<NotificationItem>) {
         val oldPosition=data.size
-        this.data = data as MutableList<NotificationItem>
+        this.data.addAll(data as MutableList<NotificationItem>)
         val newItemCount=data.size
         notifyItemRangeChanged(oldPosition,newItemCount)
     }

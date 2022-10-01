@@ -5,8 +5,14 @@ import com.rowaad.app.data.model.CreatedAt
 import com.rowaad.app.data.model.UserModel
 
 data class NotificationModel(
-    val records: List<NotificationItem>,
-    val deliveryMen: UserModel? = null
+    @SerializedName("count")
+    val count:Int?,
+    @SerializedName("next")
+    val next:String?,
+    @SerializedName("previous")
+    val previous:String?,
+    @SerializedName("results")
+    val result:List<NotificationItem>
 )
 
 data class NotificationItem(

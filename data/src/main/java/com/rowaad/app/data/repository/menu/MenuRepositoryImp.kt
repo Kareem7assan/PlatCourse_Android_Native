@@ -94,7 +94,7 @@ class MenuRepositoryImp @Inject constructor(
         return flow { emit(api.rate(courseId,review, description)) }
     }*/
 
-    override fun getNotifications(page: Int): Flow<Response<List<NotificationItem>>> {
+    override fun getNotifications(page: Int): Flow<Response<NotificationModel>> {
         return flow {
             emit(api.notifications())
         }

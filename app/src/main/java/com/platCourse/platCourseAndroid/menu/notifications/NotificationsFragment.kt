@@ -8,19 +8,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
-import com.platCourse.platCourseAndroid.databinding.FragmentMenuBinding
 import com.platCourse.platCourseAndroid.databinding.FragmentNotificationsBinding
 import com.platCourse.platCourseAndroid.home.course_sections.files.PdfReaderActivity
 import com.platCourse.platCourseAndroid.menu.MenuViewModel
-import com.platCourse.platCourseAndroid.menu.adapter.MenuAdapter
 import com.platCourse.platCourseAndroid.menu.notifications.adapter.NotificationsAdapter
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.model.notification_model.NotificationItem
+import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.notification_model.NotificationType
 import com.rowaad.app.data.model.notification_model.getNotificationTypeEnum
+import com.rowaad.utils.extention.handlePagination
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
+
 
 class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
 
@@ -28,6 +29,11 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
     private val binding by viewBinding<FragmentNotificationsBinding>()
     private val notificationAdapter by lazy { NotificationsAdapter() }
 
+    lateinit var layoutManager: LinearLayoutManager
+
+    // Store a member variable for the listener
+    private var page=1
+    private var next:String?=null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +41,16 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
         sendRequestNotifications()
         handleObservables()
         setupActions()
+        handlePage()
+    }
+
+    private fun handlePage() {
+        binding.rvNotifications.handlePagination {
+            if (hasNext()) {
+                page++
+                sendRequestNotifications()
+            }
+        }
     }
 
     private fun setupActions() {
@@ -97,9 +113,13 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
 
     private fun handleObservables() {
         handleSharedFlow(viewModel.notificationFlow, onSuccess = {
-            it as List<NotificationItem>
-            if (it.isEmpty()) showEmpty()
-            else notificationAdapter.swapData(it)
+            it as NotificationModel
+            if (it.result.isEmpty()) showEmpty()
+
+            else {
+                next=it.next
+                notificationAdapter.swapData(it.result)
+            }
         })
         handleSharedFlow(viewModel.notificationRemoveFlow, onSuccess = {})
     }
@@ -111,12 +131,15 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
     }
 
     private fun sendRequestNotifications() {
-        viewModel.showNotifications()
+        viewModel.showNotifications(page)
     }
 
     private fun setupRec() {
-        binding.rvNotifications.layoutManager = LinearLayoutManager(requireContext())
+        layoutManager= LinearLayoutManager(requireContext())
+        binding.rvNotifications.layoutManager = layoutManager
         binding.rvNotifications.adapter = notificationAdapter
 
     }
+
+    fun hasNext()=next!=null
 }

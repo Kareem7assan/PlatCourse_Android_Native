@@ -49,7 +49,7 @@ interface MenuRepository{
     fun reviews(courseId:Int):Flow<Response<List<Review>>>
     fun addReview(courseId:Int,review:Float,description:String?=null):Flow<Response<Any>>
 */
-     fun getNotifications(page: Int) : Flow<Response<List<NotificationItem>>>
+     fun getNotifications(page: Int) : Flow<Response<NotificationModel>>
      fun readAllNotifications() : Flow<Response<Any>>
      fun readNotification(ids:List<Int>) : Flow<Response<Any>>
     var isNotification:Boolean
