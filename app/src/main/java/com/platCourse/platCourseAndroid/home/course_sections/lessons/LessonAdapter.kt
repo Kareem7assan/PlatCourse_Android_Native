@@ -4,11 +4,15 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemLessonMediaBinding
 import com.rowaad.app.data.model.lessons.VideoModel
+import com.rowaad.utils.extention.hide
+import com.rowaad.utils.extention.invisible
 import com.rowaad.utils.extention.loadImage
+import com.rowaad.utils.extention.show
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
@@ -36,7 +40,9 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: LessonVH, position: Int) = holder.bind(data[position])
+    override fun onBindViewHolder(holder: LessonVH, position: Int) {
+        holder.bind(data[position])
+    }
 
     fun swapData(lessonId:Int,data: List<VideoModel>) {
         this.lessonId=lessonId
@@ -56,14 +62,23 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
    inner class LessonVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item:VideoModel) = with(ItemLessonMediaBinding.bind(itemView)) {
 
-
-
-
+            if (bindingAdapterPosition==data.lastIndex && item.file==null){
+                    view5.invisible()
+            }
+            else{
+                    view5.show()
+            }
                 if (item.video_link!=null || item.video_file!=null) {
                     tvTitle.text = item.videoName
                     grpVideo.isVisible=true
                     // add click listener
                     ivMime.onClick {
+                        if (item.video_file!=null)
+                            onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
+                        else
+                            onClickItemLink?.invoke(item,bindingAdapterPosition)
+                    }
+                    tvTitle.onClick {
                         if (item.video_file!=null)
                             onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
                         else
@@ -80,7 +95,15 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
                     ivDoc.onClick {
                         onClickItemDoc?.invoke(item,bindingAdapterPosition)
                     }
+                // add click listener
+                    tvTitleDoc.onClick {
+                        onClickItemDoc?.invoke(item,bindingAdapterPosition)
+                    }
                 }
+            else{
+                grpDoc.isVisible=false
+            }
+
 
 
         }

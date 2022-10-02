@@ -193,7 +193,9 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 baseViewModel.unAuthorizedFlow
                         .collect {
-                    if (it) handleUnAuthorized()
+                    if (it) handleUnAuthorized().also {
+                        getBaseRepository(this@BaseActivity).clearCache()
+                    }
                 }
             }
         }
@@ -259,7 +261,11 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
             Constants_Api.ERROR_API.CONNECTION_ERROR -> {
                 NoInternetDialog.show(this@BaseActivity)
             }
-
+            Constants_Api.ERROR_API.UNAUTHRIZED -> {
+                handleUnAuthorized().also {
+                    getBaseRepository(this).clearCache()
+                }
+            }
             else -> {
                 //ErrorDialog.show(this, getString(R.string.some_error))
                 ErrorDialog.show(this,th.message!!)

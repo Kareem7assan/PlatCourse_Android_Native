@@ -9,31 +9,21 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/margin_normal"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:gravity="start"
+        android:textAlignment="viewStart"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_mime"
-        app:layout_constraintLeft_toRightOf="@+id/iv_mime"
-        app:layout_constraintTop_toTopOf="@+id/iv_mime"
-        tools:text="What is new in UI/UX?" />
-
-    <TextView
-        android:id="@+id/tv_title_doc"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_doc"
-        app:layout_constraintLeft_toRightOf="@+id/iv_doc"
-        app:layout_constraintTop_toTopOf="@+id/iv_doc"
-        tools:text="What is new in UI/UX?" />
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/iv_mime"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="What " />
 
     <ImageView
         android:id="@+id/iv_mime"
@@ -42,21 +32,43 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_baseline_play_circle_outline_24"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_title"
         app:tint="@color/colorPrimary" />
+
+
+    <TextView
+        android:id="@+id/tv_title_doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_weight="1"
+        android:gravity="start|center_vertical"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        app:layout_constrainedWidth="true"
+        android:layout_marginTop="@dimen/margin_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_doc"
+        app:layout_constraintTop_toBottomOf="@id/view5"
+
+        tools:text="What is new in UI/UX?" />
+
 
     <ImageView
         android:id="@+id/iv_doc"
         android:layout_width="35dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="@dimen/margin_small"
         android:layout_marginBottom="8dp"
         android:src="@drawable/document"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view5"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title_doc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_doc"
+
         app:tint="@color/colorPrimary" />
 
     <View
@@ -65,15 +77,16 @@
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="@color/colorPrimary"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/barrier8" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/grp_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="tv_title,iv_mime,view5" />
+        app:constraint_referenced_ids="tv_title,iv_mime" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/grp_doc"
@@ -81,4 +94,11 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:constraint_referenced_ids="iv_doc,tv_title_doc" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tv_title,iv_mime" />
 </androidx.constraintlayout.widget.ConstraintLayout>

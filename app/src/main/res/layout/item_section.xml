@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textSize="18sp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorOnMyBackgroundReverse"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="section title" />
 
@@ -24,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorOnMyBackgroundReverse"
+        android:fontFamily="@font/regular"
         app:layout_constraintLeft_toLeftOf="@+id/tv_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         tools:text="that is description for this course" />

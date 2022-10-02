@@ -74,12 +74,13 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
            }
        }
         fun bind(item:LessonsModel) = with(binding) {
-            tvSection.text="${item.lesson_no}. ${item.title}"
+            tvSection.text=item.title
             rvLessons.layoutManager=LinearLayoutManager(itemView.context)
             rvLessons.adapter=adapter
 
             ivDropDown.loadImage(if (selectedItemPosition==bindingAdapterPosition) R.drawable.ic_arrow_up_24 else R.drawable.ic_arrow_down_24)
 
+            
             adapter.swapData(lessonId = item.id,data = item.videos!!.map {
                 it.videoName=item.title
                 it.file=item.file

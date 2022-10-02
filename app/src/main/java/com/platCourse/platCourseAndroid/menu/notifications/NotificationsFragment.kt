@@ -14,6 +14,7 @@ import com.platCourse.platCourseAndroid.menu.MenuViewModel
 import com.platCourse.platCourseAndroid.menu.notifications.adapter.NotificationsAdapter
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
+import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
 import com.rowaad.app.data.model.notification_model.NotificationType
@@ -21,6 +22,8 @@ import com.rowaad.app.data.model.notification_model.getNotificationTypeEnum
 import com.rowaad.utils.extention.handlePagination
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.toJson
+import org.jetbrains.anko.support.v4.toast
 
 
 class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
@@ -45,7 +48,7 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
     }
 
     private fun handlePage() {
-        binding.rvNotifications.handlePagination {
+        binding.root.handlePagination {
             if (hasNext()) {
                 page++
                 sendRequestNotifications()
@@ -99,9 +102,15 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
                 }
             }
             NotificationType.COURSE_FILE -> {
-                startActivity(Intent(requireContext(), PdfReaderActivity::class.java).also {
-                    it.putExtra("pdf", notificationItem.notification?.action_url)
-                })
+
+                findNavController().navigate(R.id.action_global_courseFilesFragment,
+                bundleOf(
+                        "course"
+                                to
+                                CourseItem(id = notificationItem.notification?.course_id).toJson()
+
+                )
+                        )
             }
             NotificationType.ANNOUNCEMENT -> {
                 //TODO to be implemented later

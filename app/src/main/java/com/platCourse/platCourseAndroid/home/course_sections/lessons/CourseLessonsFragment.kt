@@ -62,18 +62,18 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     private fun onClickVideo(videoModel: VideoModel, pos: Int, lessonId: Int?) {
 
         findNavController().navigate(
-            R.id.action_global_courseDetailsFragment,
-            bundleOf(
-                "details"
-                        to
-                        course.toJson(),
-                "url"
-                        to
-                        videoModel.video_file,
-                "lesson_id"
-                        to
-                        lessonId
-            )
+                R.id.action_global_courseDetailsFragment,
+                bundleOf(
+                        "details"
+                                to
+                                course.toJson(),
+                        "url"
+                                to
+                                videoModel.video_file,
+                        "lesson_id"
+                                to
+                                lessonId
+                )
 
         )
     }
@@ -95,12 +95,12 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
             if (lessons.isEmpty())
                 binding.rvLessonsTitles.hide().also { binding.tvEmpty.show() }
-                    .also { binding.rvLessonsTitles.hide() }
+                        .also { binding.rvLessonsTitles.hide() }
             else
                 binding.rvLessonsTitles.show().also {
                     adapter.swapData(lessons)
                 }
-                    .also { binding.tvEmpty.hide() }
+                        .also { binding.tvEmpty.hide() }
         })
     }
 

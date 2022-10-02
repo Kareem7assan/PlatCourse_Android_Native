@@ -182,10 +182,6 @@ interface UserApi {
      ): Response<UserModel>
 
     @PUT("auth/student-profile/{id}")
-    /*@Headers(
-            "Content-Type: multipart/form-data",
-            "Accept: application/json"
-    )*/
     suspend fun updateProfile(
         @Path("id") id:String,
         @Body image: RequestBody
