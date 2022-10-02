@@ -55,9 +55,8 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
         IntentUtils.openUrl(requireContext(), videoModel.file)
     }
 
-    private fun expandLesson(parentPosition:Int,childPosition:Int){
-        //adapter.expandItem(parentPosition, childPosition)
-
+    private fun expandLesson(parentPosition:Int){
+        adapter.updateSelectedItem(parentPosition)
     }
     private fun onClickVideo(videoModel: VideoModel, pos: Int, lessonId: Int?) {
 
