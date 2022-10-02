@@ -2,11 +2,14 @@ package com.platCourse.platCourseAndroid.home.course_sections.lessons
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemSectionBinding
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.lessons.VideoModel
+import com.rowaad.utils.extention.loadImage
 
 class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
 
@@ -18,9 +21,10 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
 
-    var onDropDownClicked:((parentPosition: Int,childPosition: Int) -> Unit)? = null
+    var onDropDownClicked:((parentPosition: Int) -> Unit)? = null
+    var selectedItemPosition = -1
 
-   inner class SectionHolder(private val binding:ItemSectionBinding):RecyclerView.ViewHolder(binding.root){
+   inner class SectionHolder( val binding:ItemSectionBinding):RecyclerView.ViewHolder(binding.root){
         private val adapter by lazy {
             LessonTitleAdapter()
         }
@@ -35,6 +39,14 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
             adapter.onDropDownClicked = { expanded , position ->
                adapter.updateExpandStatus(expanded,position)
             }
+            binding.ivToggle.setOnClickListener {
+                if (bindingAdapterPosition==selectedItemPosition){
+                    toggle(-1)
+                }else{
+                    toggle(bindingAdapterPosition)
+                }
+
+            }
 
         }
 
@@ -42,6 +54,7 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
             tvTitle.text=item.title
             tvDesc.text=item.description
             adapter.swapData(item.lessons)
+            ivToggle.loadImage(if (selectedItemPosition==bindingAdapterPosition) R.drawable.ic_arrow_up_24 else R.drawable.ic_arrow_down_24)
         }
     }
 
@@ -51,8 +64,8 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
 
     override fun onBindViewHolder(holder: SectionHolder, position: Int) {
         holder.bind(data[position])
+        holder.binding.rvLessons.isVisible = position==selectedItemPosition
     }
-    var selectedItemPosition = -1
 
     fun updateSelectedItem(position: Int) {
         selectedItemPosition = position
@@ -76,4 +89,7 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
         onClickItemVideo?.invoke(videoModel,i,lessonId)
     }
 
+    private fun toggle(position: Int){
+        onDropDownClicked?.invoke(position)
+    }
 }

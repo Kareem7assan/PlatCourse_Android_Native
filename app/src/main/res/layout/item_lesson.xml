@@ -9,6 +9,7 @@
     android:padding="4dp"
     android:layout_margin="8dp"
 
+    android:background="@drawable/bg_section"
     android:elevation="8dp">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:background="@drawable/bg_lesson"
         android:clipToPadding="false"
         android:nestedScrollingEnabled="false"
         android:paddingTop="8dp"
@@ -32,21 +32,19 @@
         android:id="@+id/tvSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="10dp"
-        android:background="@drawable/ic_lesson_bg"
-
         android:fontFamily="@font/medium"
-        android:textColor="@color/colorOnMyBackground"
+
         android:gravity="start"
+        android:padding="10dp"
         android:textAlignment="textStart"
+        android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1. First Lesson" />
 
-    View
+    <View
         android:id="@+id/view4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -68,6 +66,6 @@
         app:layout_constraintRight_toRightOf="@+id/tvSection"
         app:layout_constraintTop_toTopOf="@+id/tvSection"
         app:srcCompat="@drawable/ic_arrow_down_24"
-        app:tint="@color/colorOnMyBackground" />
+        app:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
