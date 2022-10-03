@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemNotificationBinding
 import com.rowaad.app.data.model.notification_model.NotificationItem
+import com.rowaad.utils.extention.convertDate
 import com.rowaad.utils.extention.tint
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
@@ -58,12 +59,13 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsAdapter.Notificat
         fun bind(item:NotificationItem) = with(ItemNotificationBinding.bind(itemView)) {
             tvTitle.text=item.notification?.name
             tvDesc.text=item.notification?.body
-            tvCreated.text=item.createdAt
+            tvCreated.text=item.createdAt?.convertDate()
             //item.read = selectedItemPosition==bindingAdapterPosition
             if (item.read)
                 root.tint(R.color.colorOnMyBackground)
             else
                 root.tint(R.color.color_not_selected)
+
 
             itemView.onClick {
                 onClickItem?.invoke(item,bindingAdapterPosition)

@@ -64,7 +64,7 @@ inline fun <reified T : Any> SharedPreferences.Editor.putValue(
         Long::class -> putLong(key, value as Long)
         Float::class -> putFloat(key, value as Float)
         String::class -> putString(key, value as String)
-        UserModel::class -> putString(key, value.toJson())
+        UserModel::class -> putString(key, value.toJsonPref())
         else -> throw UnsupportedOperationException("not supported preferences type")
     }
 }
@@ -79,15 +79,15 @@ inline fun <reified T : Any?> SharedPreferences.getValue(
         Long::class -> getLong(key, defaultValue as Long) as T
         Float::class -> getFloat(key, defaultValue as Float) as T
         String::class -> getString(key, defaultValue as String) as T
-        UserModel::class -> getString(key, null)?.fromJson() as T?
+        UserModel::class -> getString(key, null)?.fromJsonPref() as T?
         else -> throw UnsupportedOperationException("not supported preferences type")
     }
 }
 
-inline fun <reified R> String.fromJson(): R {
+ inline fun <reified R> String.fromJsonPref(): R {
     return Gson().fromJson(this, R::class.java)
 }
 
-inline fun <reified R> R.toJson(): String {
+ inline fun <reified R> R.toJsonPref(): String {
     return Gson().toJson(this, R::class.java)
 }

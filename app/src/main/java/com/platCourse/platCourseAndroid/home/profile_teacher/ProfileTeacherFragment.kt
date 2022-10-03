@@ -11,11 +11,11 @@ import com.platCourse.platCourseAndroid.databinding.FragmentProfileBinding
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
-import com.rowaad.app.data.cache.fromJson
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.utils.Constants_Api
 import com.rowaad.utils.IntentUtils
+import com.rowaad.utils.extention.fromJson
 import com.rowaad.utils.extention.loadImage
 import org.jetbrains.anko.sdk27.coroutines.onClick
 

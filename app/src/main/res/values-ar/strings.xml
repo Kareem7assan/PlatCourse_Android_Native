@@ -267,7 +267,7 @@
     <string name="desc_required">الوصف مطلوب</string>
     <string name="comment_required">يجب اضافة تعليق</string>
     <string name="contact_teacher">تواصل مع المدرس</string>
-    <string name="paurchase_course">شراء الكورس</string>
+    <string name="paurchase_course">تقديم طلب شراء الكورس</string>
     <string name="msg">اكتب رسالتك</string>
     <string name="msg_required">اضف رسالتك</string>
 

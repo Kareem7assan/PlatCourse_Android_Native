@@ -10,9 +10,9 @@ import com.platCourse.platCourseAndroid.home.course_sections.discussions.dialog.
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
-import com.rowaad.app.data.cache.fromJson
 import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.discussions_model.DiscussionModel
+import com.rowaad.utils.extention.fromJson
 
 class DiscussionsFragment  : BaseFragment(R.layout.fragment_discussions) {
 

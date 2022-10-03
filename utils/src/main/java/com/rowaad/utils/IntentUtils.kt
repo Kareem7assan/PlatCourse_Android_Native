@@ -52,6 +52,18 @@ object IntentUtils {
         }
 
 }
+    fun openUrlWithWaterMark(context: Context, url: String?,userName:String,phone: String){
+        val url="https://platcourse.com/pdf_file?username=${userName}&phone_number=${phone}&link=${url}"
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+
+        }
+        catch (e: Exception) {
+            context.toast("الرابط غير صحيح")
+        }
+
+}
 
     fun openInstagramIntent(context: Context, uri: String?) {
         val likeIng = Intent(Intent.ACTION_VIEW, Uri.parse(uri))

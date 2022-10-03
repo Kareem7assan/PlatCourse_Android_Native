@@ -96,8 +96,9 @@ class NotificationsFragment : BaseFragment(R.layout.fragment_notifications) {
                 //but for now lessons by course id
                 if (notificationItem.notification?.course_id != null) {
                     findNavController().navigate(R.id.courseLessonsFragment, bundleOf(
-                        "course_id" to notificationItem.notification?.course_id
-
+                        "lesson_id" to notificationItem.notification?.object_id
+                    ,
+                        "course" to CourseItem(id = notificationItem.notification?.course_id).toJson()
                     ))
                 }
             }

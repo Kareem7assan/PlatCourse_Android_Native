@@ -1,5 +1,6 @@
 package com.platCourse.platCourseAndroid.home.course_sections.lessons
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -13,6 +14,7 @@ import com.rowaad.utils.extention.loadImage
 
 class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
 
+    private var expandedLessonId: Int? = null
     private var data = mutableListOf<LessonsResponse>()
 
     var onClickItem: ((LessonsModel, Int) -> Unit)? = null
@@ -39,6 +41,9 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
             adapter.onDropDownClicked = { expanded , position ->
                adapter.updateExpandStatus(expanded,position)
             }
+
+
+
             binding.ivToggle.setOnClickListener {
                 if (bindingAdapterPosition==selectedItemPosition){
                     toggle(-1)
@@ -54,6 +59,7 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
             tvTitle.text=item.title
             tvDesc.text=item.description
             adapter.swapData(item.lessons)
+
             ivToggle.loadImage(if (selectedItemPosition==bindingAdapterPosition) R.drawable.ic_arrow_up_24 else R.drawable.ic_arrow_down_24)
         }
     }
@@ -67,8 +73,9 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
         holder.binding.rvLessons.isVisible = position==selectedItemPosition
     }
 
-    fun updateSelectedItem(position: Int) {
+    fun updateSelectedItem(position: Int,expandedLessonId:Int?=null) {
         selectedItemPosition = position
+        this.expandedLessonId=expandedLessonId
         notifyDataSetChanged()
     }
     fun swapData(data: List<LessonsResponse>) {

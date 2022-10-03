@@ -2,7 +2,7 @@ package com.rowaad.app.data.repository.menu
 
 import android.util.Log
 import com.rowaad.app.data.cache.PreferencesGateway
-import com.rowaad.app.data.cache.toJson
+import com.rowaad.app.data.cache.toJsonPref
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.WalletModel
@@ -108,7 +108,7 @@ class MenuRepositoryImp @Inject constructor(
 
     override fun readNotification(ids: List<Int>): Flow<Response<Any>> {
         return flow {
-            Log.e("notifications",ids.toJson())
+            Log.e("notifications",ids.toJsonPref())
             emit(api.readNotification(ids))
         }
     }

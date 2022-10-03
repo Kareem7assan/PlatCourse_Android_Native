@@ -21,8 +21,6 @@ import com.platCourse.platCourseAndroid.home.course_details.dialog.CouponPurchas
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
-import com.rowaad.app.data.cache.fromJson
-import com.rowaad.app.data.cache.toJson
 import com.rowaad.app.data.model.UserModel
 import com.rowaad.app.data.model.attribute_course_model.Action
 import com.rowaad.app.data.model.attribute_course_model.CourseListener
@@ -30,8 +28,10 @@ import com.rowaad.app.data.model.attribute_course_model.ItemCourseDetails
 import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.teacher_model.TeacherModel
 import com.rowaad.utils.IntentUtils
+import com.rowaad.utils.extention.fromJson
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.toJson
 
 
 class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), MotionLayout.TransitionListener, CourseListener, ExoPlayer.AudioOffloadListener {
@@ -82,8 +82,14 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     }
 
     private fun handleContactObservable() {
-        handleSharedFlow(viewModel.contactFlow,onSuccess = { it as TeacherModel
-            if (it.phone_number.isNullOrBlank().not())IntentUtils.openWhatsappIntent(it.phone_number!! ,requireContext())
+        handleSharedFlow(viewModel.contactFlow,onSuccess = {
+            findNavController().navigate(R.id.action_global_profileTeacherFragment,
+                    bundleOf(
+                            "details"
+                                    to
+                                    details.toJson()
+                    )
+            )
         })
     }
 
@@ -170,6 +176,8 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     }
 
     private fun showContactButton() {
+        if ( details?.ownerId!=null && details?.ownerId != 0 ) binding.contactBtn.show()
+        else binding.contactBtn.hide()
         binding.contactBtn.show()
         binding.buyBtn.hide()
         binding.couponBtn.hide()

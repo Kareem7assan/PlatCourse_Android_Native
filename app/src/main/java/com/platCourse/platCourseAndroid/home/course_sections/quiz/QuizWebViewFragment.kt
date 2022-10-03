@@ -27,9 +27,9 @@ import com.platCourse.platCourseAndroid.databinding.FragmentQuizBinding
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
-import com.rowaad.app.data.cache.fromJson
 import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.utils.Constants_Api.PrefKeys.TOKENS
+import com.rowaad.utils.extention.fromJson
 import org.jetbrains.anko.configuration
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import java.io.File

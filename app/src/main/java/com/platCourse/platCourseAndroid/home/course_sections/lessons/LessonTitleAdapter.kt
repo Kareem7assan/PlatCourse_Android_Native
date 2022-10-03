@@ -2,6 +2,7 @@ package com.platCourse.platCourseAndroid.home.course_sections.lessons
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,7 +48,9 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
     override fun onBindViewHolder(holder: LessonTitleVH, position: Int){
         holder.bind(data[position])
 
-        holder.binding.rvLessons.isVisible= data[position].isExpanded
+        holder.binding.rvLessons.isVisible = data[position].isExpanded
+        holder.binding.ivDropDown.loadImage(if (holder.binding.rvLessons.isVisible) R.drawable.ic_arrow_up_24 else R.drawable.ic_arrow_down_24)
+
     }
 
     fun swapData(data: List<LessonsModel>) {
@@ -77,15 +80,12 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
             tvSection.text=item.title
             rvLessons.layoutManager=LinearLayoutManager(itemView.context)
             rvLessons.adapter=adapter
-
-            ivDropDown.loadImage(if (selectedItemPosition==bindingAdapterPosition) R.drawable.ic_arrow_up_24 else R.drawable.ic_arrow_down_24)
-
-            
             adapter.swapData(lessonId = item.id,data = item.videos!!.map {
                 it.videoName=item.title
                 it.file=item.file
                 it
             })
+            ivDropDown.loadImage(if (rvLessons.isVisible) R.drawable.ic_arrow_up_24 else R.drawable.ic_arrow_down_24)
 
             adapter.onClickItemVideo=::onClickVideo
             adapter.onClickItemLink=::onClickLink
