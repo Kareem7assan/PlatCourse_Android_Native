@@ -53,11 +53,6 @@ object NetWorkModule {
             val original = chain.request()
             val requestBuilder = original.newBuilder()
                 .method(original.method, original.body)
-
-            //requestBuilder.addHeader("Accept", "application/json")
-            //content_type='multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
-
-            //requestBuilder.addHeader("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
             requestBuilder.addHeader("LOCALE-CODE", lang)
             requestBuilder.addHeader("DEVICE-ID", devId!!)
             requestBuilder.addHeader("Authorization", token)

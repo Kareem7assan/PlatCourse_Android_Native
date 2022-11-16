@@ -20,9 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10dp"
         android:visibility="invisible"
-        android:layout_marginStart="17dp"
-        android:src="@mipmap/profile"
-    />
+        android:layout_marginStart="17dp" />
 
 
     <TextView

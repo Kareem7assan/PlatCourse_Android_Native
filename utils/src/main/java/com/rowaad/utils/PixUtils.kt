@@ -46,6 +46,21 @@ object PixUtils {
               .addFormDataPart("profile_image", featuredImage.name, featuredImage.asRequestBody())
               .build()
     }
+    fun convertFileToPart(
+          path: String?
+  ): MultipartBody {
+
+      val featuredFile = File(path)
+          //builder.addFormDataPart(parm_name!!, featured_image.name, RequestBody.create(MultipartBody.FORM, bos.toByteArray(),featured_image))
+          //val builder = builder.addFormDataPart("profile_image", featured_image.name, featured_image.asRequestBody(MultipartBody.FORM))
+
+
+      return MultipartBody.Builder()
+              .setType(MultipartBody.FORM)
+              .addFormDataPart("cv", featuredFile.name, featuredFile.asRequestBody())
+              .build()
+    }
+
 
     fun toRequestBody(value: String?): RequestBody {
         return RequestBody.create("text/plain".toMediaTypeOrNull(), value!!)

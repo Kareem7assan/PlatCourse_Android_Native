@@ -65,7 +65,7 @@ android {
             // and the plugin automatically assigns all the module's flavors to
             // that dimension.
             dimension "version"
-            versionNameSuffix "-dev"
+            //versionNameSuffix "-dev"
             buildConfigField("String", "BASE_URL", "\"https://platcourse.com/api/\"")
 
         }
@@ -114,6 +114,7 @@ dependencies {
     implementation project(path: ':utils')
     implementation 'com.itextpdf:itextg:5.5.10'
 
+    implementation 'com.github.halilozercan:BetterVideoPlayer:2.0.0-alpha01'
 
     //essentials
     implementation Deps.kotlin.stdLib
@@ -192,9 +193,14 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:29.1.0')
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    //implementation 'com.google.firebase:firebase-analytics-ktx'
+
     implementation 'com.google.firebase:firebase-messaging-ktx'
     //implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-config-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation "com.google.android.gms:play-services-cronet:18.0.1"
+
 
     //map
     implementation 'com.google.android.gms:play-services-places:17.0.0'
@@ -219,6 +225,10 @@ dependencies {
     implementation 'com.jakewharton.rxbinding4:rxbinding-material:4.0.0'
 
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
+    //implementation 'com.google.android.exoplayer:exoplayer:2.12.0'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.18.1'
+//    implementation 'com.github.atwa:filepicker:1.0.4'
+
 
     //pix (support android 30)
     implementation  'com.fxn769:pix:1.5.6'
@@ -233,5 +243,6 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
 
 }

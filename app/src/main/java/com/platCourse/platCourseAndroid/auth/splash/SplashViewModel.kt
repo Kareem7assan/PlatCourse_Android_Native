@@ -27,6 +27,9 @@ open class SplashViewModel @Inject constructor(private val splashUseCase: Splash
 
     private val _guestTokenFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
 
+    private val _appVersion= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
+    val appVersion = _appVersion.asSharedFlow()
+
     init {
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             splashUseCase.saveFirebaseToken(it)
@@ -48,6 +51,14 @@ open class SplashViewModel @Inject constructor(private val splashUseCase: Splash
             splashUseCase.getGuestToken()
                 .catch { _guestTokenFlow.emit(NetWorkState.Error(it)) }
                 .collect{ _navigationFlow.emit(SplashNavigation.NavigateToHome) }
+        }
+    }
+
+     fun sendRequestVersion() {
+        executeApi(_appVersion) {
+            splashUseCase.getAppVersion()
+                .catch { _appVersion.emit(NetWorkState.Error(it)) }
+                .collect{ _appVersion.emit(NetWorkState.Success(it)) }
         }
     }
 

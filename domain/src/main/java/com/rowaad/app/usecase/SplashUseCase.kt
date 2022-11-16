@@ -1,5 +1,6 @@
 package com.rowaad.app.usecase
 
+import com.rowaad.app.data.model.AppVersionModel
 import com.rowaad.app.data.model.BaseResponse
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.UserModel
@@ -33,6 +34,13 @@ class SplashUseCase @Inject constructor(private val baseRepository: BaseReposito
                              baseRepository.saveToken(token)
 
                          }
+    }
+
+    //get user token
+    suspend fun getAppVersion() : Flow<String> {
+         return repository.getAppVersion()
+                         .transformResponse <AppVersionModel,String> { emit(it.android ?: "") }
+
     }
 
 

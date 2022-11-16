@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">platCourse</string>
+    <string name="app_name">Platcourse</string>
     <string name="should_login_tweet">يتوجب التسجيل لاظهار رقم صاحب التغريدة</string>
     <string name="login">تسجيل دخول</string>
     <string name="register">تسجيل حساب</string>
@@ -276,7 +276,7 @@
     <string name="new_user">مستخدم جديد</string>
     <string name="attemps_times">عدد مرات الدخول %1$s من ٦</string>
     <string name="register_hint">احصل على حساب جديد وأبد في التعلم</string>
-    <string name="invalid_user_name">يجب ان يتكون اسم المستخدم من أحرف كبيرة و صغيرة و ارقام و شرطات سفلية</string>
+    <string name="invalid_user_name">يجب ان يتكون اسم المستخدم من أحرف كبيرة و صغيرة و ارقام و شرطات سفلية و بدون مسافات</string>
     <string name="full_name">الاسم بالكامل </string>
     <string name="invalid_name">الاسم غير صحيح</string>
     <string name="invalid_email">البريد الالكتروني غير صحيح</string>
@@ -305,4 +305,11 @@
     <string name="have_code_purchase">امتلك كود شراء</string>
     <string name="coupon_purchase">أدخل كود الشراء الخاص بك</string>
     <string name="purchase_successfully">تم شراء الكورس بنجاح</string>
+    <string name="phone_permission_title">تصريح لاستخدام قراءة بيانات الهاتف الأساسية</string>
+    <string name="phone_state_permission_message">من فضلك قم بالموافقة على تصريح قراءة البيانات لكي نستطيع تحسين موثوقية البيانات المدخلة</string>
+    <string name="student">طالب</string>
+    <string name="teacher">مدرس</string>
+    <string name="profile_type">نوع الحساب</string>
+    <string name="cv">السيرة الذاتية</string>
+    <string name="pending_teacher_account">تم انشاء الحساب الخاص بك و في انتظار موافقة الادارة</string>
 </resources>

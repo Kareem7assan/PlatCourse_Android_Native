@@ -130,7 +130,7 @@ class EditProfileActivity : BaseActivity(R.layout.activity_edit_profile) {
             avatar=avatarPart
             binding!!.ivAvatar.setImageBitmap(BitmapUtils.modifyImgOrientation(avatarPath!!))
 
-            val build=PixUtils.convertImgToFile(imgName, avatarPath)
+            //val build=PixUtils.convertImgToFile(imgName, avatarPath)
             binding?.transformBtn?.show()
             //sendRequestAvatar(PixUtils.convertImgToFile(imgName, avatarPath))
         }

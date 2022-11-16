@@ -2,6 +2,7 @@ package com.platCourse.platCourseAndroid.home.course_sections.files
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -86,9 +87,14 @@ class CourseFilesFragment : BaseFragment(R.layout.fragment_files_course) {
     }
 
     private fun openLink(url: String?) {
+        lifecycleScope.launch(Dispatchers.IO) {
+             URL(url).openStream()
 
+        }
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
+        i.flags=  Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
+
         startActivity(i)
     }
 

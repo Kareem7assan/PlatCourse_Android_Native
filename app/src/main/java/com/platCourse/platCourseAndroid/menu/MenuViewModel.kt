@@ -41,6 +41,9 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
     private val _editProfileFlow= MutableStateFlow<NetWorkState>(NetWorkState.Idle)
     val editProfileFlow= _editProfileFlow.asSharedFlow()
 
+    private val _hasSeenNotifications= MutableStateFlow<Boolean>(false)
+    val hasSeenNotifications= _hasSeenNotifications.asSharedFlow()
+
 
     private val _contactsPostFlow= MutableSharedFlow<NetWorkState>()
     val contactsPostFlow= _contactsPostFlow.asSharedFlow()
@@ -213,7 +216,9 @@ open class MenuViewModel @Inject constructor(private val menuUseCase: MenuUseCas
                     .onStart { _notificationFlow.emit(NetWorkState.Loading) }
                     .onCompletion { _notificationFlow.emit(NetWorkState.StopLoading) }
                     .catch { _notificationFlow.emit(NetWorkState.Error(it.handleException())) }
-                    .collect {resp-> _notificationFlow.emit(NetWorkState.Success(resp))}
+                    .collect {resp-> _notificationFlow.emit(NetWorkState.Success(resp))
+                        _hasSeenNotifications.value=resp.result.any { it.read.not() }
+                    }
         }
     }
 

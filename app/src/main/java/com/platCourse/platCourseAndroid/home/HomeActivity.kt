@@ -1,15 +1,30 @@
 package com.platCourse.platCourseAndroid.home
 
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
+import android.provider.Settings
+import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ActivityHomeBinding
+import com.platCourse.platCourseAndroid.menu.MenuViewModel
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 import com.rowaad.utils.extention.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity(R.layout.activity_home) {
@@ -17,6 +32,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private var mLastClickTime: Long = 0
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navController: NavController
+    private val viewModel: MenuViewModel by viewModels()
 
 
     override fun init() {
@@ -27,6 +43,34 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         setActions()
         setupBottomNavigationChecked()
         setupToolbarAction()
+        Timer().scheduleAtFixedRate(object : TimerTask(){
+            override fun run() {
+                    runOnUiThread {
+                        if (viewModel.isVisitor.not()) viewModel.showNotifications(1)
+                    }
+
+
+
+
+            }
+
+        },0,60000)
+        binding.toolbar?.notificationCount.hide()
+        handleCount()
+
+
+    }
+
+    private fun handleCount() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.hasSeenNotifications.collectLatest { hasUnSeen ->
+                    if (hasUnSeen && binding.toolbar?.ivNotif.isVisible) binding.toolbar?.notificationCount.show()
+                    else binding.toolbar?.notificationCount.hide()
+                }
+            }
+        }
+
     }
 
     private fun setupToolbarAction() {

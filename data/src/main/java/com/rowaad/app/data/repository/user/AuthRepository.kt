@@ -1,5 +1,6 @@
 package com.rowaad.app.data.repository.user
 
+import com.rowaad.app.data.model.AppVersionModel
 import com.rowaad.app.data.model.BaseResponse
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.UserModel
@@ -15,6 +16,7 @@ import retrofit2.http.Query
 interface AuthRepository{
     //fun getUser(): Flow<Response<EndPointResponse<RegisterModel>>>
     fun guestToken():Flow<Response<EndPointResponse<BaseResponse>>>
+    fun getAppVersion():Flow<Response<AppVersionModel>>
     fun privacy(): Flow<Response<EndPointResponse<SettingsModel>>>
     fun salesPolicy(): Flow<Response<EndPointResponse<SettingsModel>>>
     fun aboutUs(): Flow<Response<EndPointResponse<SettingsModel>>>
@@ -35,7 +37,8 @@ interface AuthRepository{
             country:String,
             city:String,
             fireBaseToken:String,
-            role:String?="student"
+            role:String?="student",
+            cv:MultipartBody.Part?=null,
     ): Flow<Response<RegisterModel>>
 
 

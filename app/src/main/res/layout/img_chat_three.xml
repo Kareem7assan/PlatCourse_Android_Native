@@ -36,7 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:maxHeight="200dp"
-            android:src="@mipmap/iphone"
             android:scaleType="fitXY"
 
 

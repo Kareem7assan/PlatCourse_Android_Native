@@ -30,7 +30,7 @@ class ProfileTeacherFragment : BaseFragment(R.layout.fragment_profile) {
         details=arguments?.getString("details")?.fromJson<CourseItem>()
         sendRequestProfile()
         setupActions()
-        handleData(viewModel.getUser()!!)
+        if (details==null && viewModel.getUser()!=null)handleData(viewModel.getUser()!!)
         handleProfileObservable()
 
         handleToolbar()

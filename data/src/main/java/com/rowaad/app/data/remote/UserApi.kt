@@ -31,7 +31,7 @@ import retrofit2.http.*
 
 interface UserApi {
 
-    @FormUrlEncoded
+ @FormUrlEncoded
  @POST("auth/login")
     suspend fun login(
             @Field("email") email:String,
@@ -42,6 +42,9 @@ interface UserApi {
 
     @POST("login/guests")
     suspend fun guestToken(): Response<EndPointResponse<BaseResponse>>
+
+    @GET("auth/app-version")
+    suspend fun getAppVersion(): Response<AppVersionModel>
 
   @GET("pages/privacy-policy")
     suspend fun privacy(): Response<EndPointResponse<SettingsModel>>
@@ -67,6 +70,22 @@ interface UserApi {
          @Field("role") role:String?="student",
          @Field("device[token]") fireBaseToken:String,
          @Field("device[type]") type: String?="Android"
+     ): Response<RegisterModel>
+
+    @Multipart
+    @POST("auth/signup")
+    suspend fun register(
+        @Part("username") username:RequestBody,
+        @Part("email") email:RequestBody,
+        @Part("password") password:RequestBody,
+        @Part("name") name:RequestBody,
+        @Part("phone_number") phoneNumber:RequestBody,
+        @Part("country") country:RequestBody,
+        @Part("city") city:RequestBody,
+        @Part("role") role:RequestBody,
+        @Part("device[token]") fireBaseToken:RequestBody,
+        @Part("device[type]") type: RequestBody,
+        @Part cv: MultipartBody.Part?=null
      ): Response<RegisterModel>
 
     @FormUrlEncoded

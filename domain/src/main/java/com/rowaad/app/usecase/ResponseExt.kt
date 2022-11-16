@@ -59,6 +59,7 @@ inline fun < T, R> Flow<Response<T>>.transformResponse(
 }
 
 fun Throwable.handleException():Throwable{
+    this.printStackTrace()
     Log.e("exception",this.javaClass.canonicalName+","+this.javaClass.name)
     return if(this is AndroidException || this is RemoteException || this is BindException ||this is PortUnreachableException ||this is SocketTimeoutException || this is UnknownServiceException ||this is UnknownHostException || this is IOException ||this is ConnectException || this is NoRouteToHostException){
         Throwable(Constants_Api.ERROR_API.CONNECTION_ERROR)

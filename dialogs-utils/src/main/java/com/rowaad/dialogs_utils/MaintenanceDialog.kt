@@ -30,7 +30,7 @@ object MaintenanceDialog {
             )
             ?.build()
             ?.show()
-        dialog?.findViewById<Button>(R.id.btn_retry)?.setOnClickListener {
+        dialog?.findViewById<Button>(R.id.btnUpdate)?.setOnClickListener {
             retryAction?.invoke().also { dialog.dismiss() }
         }
         /*dialog?.findViewById<AppCompatTextView>(R.id.btn_close_app)?.setOnClickListener {

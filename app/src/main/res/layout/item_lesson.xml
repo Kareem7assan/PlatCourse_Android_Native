@@ -34,15 +34,16 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/medium"
 
-        android:gravity="start"
+        android:gravity="end"
         android:padding="10dp"
-        android:textAlignment="textStart"
+        android:textAlignment="viewEnd"
+
         android:textColor="@color/colorOnMyBackgroundReverse"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="1. First Lesson" />
+        tools:text="الدرس الأول" />
 
     <View
         android:id="@+id/view4"
@@ -63,7 +64,7 @@
         android:layout_height="30dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvSection"
-        app:layout_constraintRight_toRightOf="@+id/tvSection"
+        app:layout_constraintStart_toStartOf="@+id/tvSection"
         app:layout_constraintTop_toTopOf="@+id/tvSection"
         app:srcCompat="@drawable/ic_arrow_down_24"
         app:tint="@color/colorOnMyBackgroundReverse" />

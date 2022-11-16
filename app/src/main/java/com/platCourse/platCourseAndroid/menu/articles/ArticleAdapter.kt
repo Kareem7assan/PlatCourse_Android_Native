@@ -8,6 +8,7 @@ import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ItemArticleBinding
 import com.rowaad.app.data.model.articles.Article
 import com.rowaad.app.data.model.articles.ArticlesModel
+import com.rowaad.utils.extention.convertDate
 import java.util.*
 
 class ArticleAdapter : RecyclerView.Adapter<ArticleAdapter.ArticleVH>() {
@@ -48,7 +49,7 @@ class ArticleAdapter : RecyclerView.Adapter<ArticleAdapter.ArticleVH>() {
     inner class ArticleVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item:Article) = with(ItemArticleBinding.bind(itemView)) {
             tvTitle.text=item.title
-            tvCreated.text=item.created_at
+            tvCreated.text=item.created_at?.convertDate()
             itemView.setOnClickListener {
                 onClickItem?.invoke(item,adapterPosition)
             }

@@ -29,6 +29,17 @@
         android:tint="@color/steel_grey"
         />
     <ImageView
+        android:id="@+id/notificationCount"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        app:layout_constraintStart_toEndOf="@id/ivNotif"
+        app:layout_constraintBottom_toBottomOf="@id/ivNotif"
+        android:background="@drawable/circle_shape"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        />
+    <ImageView
         android:id="@+id/ivBack"
         android:layout_width="40dp"
         android:layout_height="40dp"

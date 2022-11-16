@@ -3,9 +3,11 @@ package com.rowaad.utils.extention
 import android.Manifest
 import android.app.usage.NetworkStats
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -96,4 +98,30 @@ fun Fragment.checkPermissionLocation(onLocationGranted: (granted: Boolean) -> Un
         .subscribe { granted ->
             onLocationGranted(granted)
         }
+}
+fun Fragment.handlePermissionFile(requestPermissionLauncher: ActivityResultLauncher<Array<String>>,onSuccess:()->Unit,onFail:()->Unit,showInContextUI:(()->Unit)?=null){
+
+    when {
+        ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                &&
+                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED -> {
+            onSuccess.invoke()
+        }
+        shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) && shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)-> {
+            showInContextUI?.invoke()
+
+        }
+        ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED -> {
+            requestPermissionLauncher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+        }
+        ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED -> {
+            requestPermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        }
+        else -> {
+            // You can directly ask for the permission.
+            // The registered ActivityResultCallback gets the result of this request.
+            requestPermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE))
+
+        }
+    }
 }

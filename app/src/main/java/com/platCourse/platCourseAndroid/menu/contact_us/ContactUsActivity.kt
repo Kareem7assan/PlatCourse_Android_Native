@@ -7,6 +7,7 @@ import com.platCourse.platCourseAndroid.menu.MenuViewModel
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.app.data.model.settings.Social
 import com.rowaad.utils.IntentUtils
+import com.rowaad.utils.extention.toast
 
 class ContactUsActivity : BaseActivity(R.layout.activity_contact_us) {
 
@@ -27,8 +28,8 @@ class ContactUsActivity : BaseActivity(R.layout.activity_contact_us) {
         binding.tvMail.setOnClickListener {
             IntentUtils.openEmailIntent(context = this,emai = binding.tvMail.text.toString())
         }
-        binding.tvPhone.setOnClickListener {
-            IntentUtils.openWhatsappIntent(context = this,number = binding.tvPhone.text.toString())
+        binding.tvPhoneNum.setOnClickListener {
+            IntentUtils.openWhatsappIntent(context = this,number = binding.tvPhoneNum.text.toString())
         }
 
 

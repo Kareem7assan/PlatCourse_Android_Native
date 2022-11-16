@@ -8,7 +8,6 @@
         android:id="@+id/ivOwner"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@mipmap/profile"
         android:layout_marginStart="18dp"
         android:visibility="invisible"
         android:layout_marginTop="12.5dp"

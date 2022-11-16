@@ -3,6 +3,7 @@ package com.rowaad.app.base
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 abstract class BaseFragment(private val layout:Int): Fragment() {
 
+    private var uidValue: String? = ""
     private  var fragmentView: ViewGroup?=null
     private var baseActivity: BaseActivity? = null
     private var progressDialog: ACProgressFlower? = null

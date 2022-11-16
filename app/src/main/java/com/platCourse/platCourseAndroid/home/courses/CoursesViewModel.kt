@@ -1,6 +1,7 @@
 package com.platCourse.platCourseAndroid.home.courses
 
 import android.util.Log
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.firebase.messaging.FirebaseMessaging
 import com.rowaad.app.base.BaseViewModel
 import com.rowaad.app.data.model.UserModel
@@ -16,6 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 open class CoursesViewModel @Inject constructor(private val coursesUseCase: CoursesUseCase,
                                                 private val courseDetailsUseCase: CourseDetailsUseCase) : BaseViewModel(){
+
+    var simplePlayer: ExoPlayer? = null
+    var lastPos=0L
 
     private var ownedCourses: MutableList<Int> = mutableListOf()
     private var token: String?=null
@@ -301,5 +305,7 @@ open class CoursesViewModel @Inject constructor(private val coursesUseCase: Cour
     fun getToken(): String {
         return courseDetailsUseCase.token
     }
+
+
 
 }

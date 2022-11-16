@@ -24,6 +24,7 @@ class RegisterUseCase @Inject constructor(private val baseRepository: BaseReposi
     }
 
     fun isValidFName(name: String): Boolean = Validations.isValidName(name)
+    fun isValidNameNormal(name: String): Boolean = Validations.isValidNormal(name)
     fun isValidUserName(name: String): Boolean = Validations.isValidUserName(name)
     fun isValidLName(name: String): Boolean = Validations.isValidName(name)
     fun isValidPhone(phone: String): Boolean = Validations.isValidPhone(phone)
@@ -43,8 +44,8 @@ class RegisterUseCase @Inject constructor(private val baseRepository: BaseReposi
         return when {
             isValidUserName(username).not() -> return false
             isValidFName(name).not() -> return false
-            isValidFName(country).not() -> return false
-            isValidFName(city).not() -> return false
+            isValidNameNormal(country).not() -> return false
+            isValidNameNormal(city).not() -> return false
             isValidPhone(phoneNumber).not() -> return false
             isValidMail(email).not() -> return false
             isValidPass(password).not() -> return false
@@ -82,10 +83,11 @@ class RegisterUseCase @Inject constructor(private val baseRepository: BaseReposi
                             name:String, phoneNumber:String,
                             country:String, city:String,
                             fireBaseToken:String,
-                            role:String?
+                            role:String?,
+                            cv:MultipartBody.Part?,
     ): Flow<RegisterModel> {
         return repository.register(name = name,username = username,phoneNumber = phoneNumber,email = email,password = password,
-        country = country,city = city,fireBaseToken = fireBaseToken,role = role
+        country = country,city = city,fireBaseToken = fireBaseToken,role = role,cv = cv
                 )
             .transformResponse <RegisterModel,RegisterModel>{
             emit(it)

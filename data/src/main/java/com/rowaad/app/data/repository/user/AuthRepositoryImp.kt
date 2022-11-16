@@ -1,18 +1,23 @@
 package com.rowaad.app.data.repository.user
 
 import com.rowaad.app.data.cache.PreferencesGateway
+import com.rowaad.app.data.model.AppVersionModel
 import com.rowaad.app.data.model.BaseResponse
 import com.rowaad.app.data.model.EndPointResponse
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.settings.SettingsModel
 import com.rowaad.app.data.remote.UserApi
 import com.rowaad.app.data.repository.base.BaseRepository
-import com.rowaad.app.data.repository.base.BaseRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import javax.inject.Inject
+
 
 class AuthRepositoryImp @Inject constructor(
     private val api: UserApi,
@@ -22,6 +27,10 @@ class AuthRepositoryImp @Inject constructor(
 
     override fun guestToken(): Flow<Response<EndPointResponse<BaseResponse>>> {
         return flow { emit(api.guestToken()) }
+    }
+
+    override fun getAppVersion(): Flow<Response<AppVersionModel>> {
+        return flow { emit(api.getAppVersion()) }
     }
 
     override fun privacy(): Flow<Response<EndPointResponse<SettingsModel>>> {
@@ -42,7 +51,13 @@ class AuthRepositoryImp @Inject constructor(
         password: String,
         fireBaseToken: String?
     ): Flow<Response<RegisterModel>> {
-        return flow { emit(api.login(email = email,password = password,fireBaseToken = fireBaseToken)) }
+        return flow { emit(
+            api.login(
+                email = email,
+                password = password,
+                fireBaseToken = fireBaseToken
+            )
+        ) }
     }
 
     override fun logout(fireBaseToken: String?): Flow<Response<RegisterModel>> {
@@ -60,7 +75,7 @@ class AuthRepositoryImp @Inject constructor(
         email: String,
         type: String?
     ): Flow<Response<RegisterModel>> {
-        return flow { emit(api.verify(verificationCode = verificationCode,email =  email, type)) }
+        return flow { emit(api.verify(verificationCode = verificationCode, email = email, type)) }
     }
 
     override fun resend(
@@ -75,23 +90,69 @@ class AuthRepositoryImp @Inject constructor(
         email: String,
         code: String?
     ): Flow<Response<RegisterModel>> {
-        return flow { emit(api.resetPassword(newPassword = password,confirmPassword = password)) }
+        return flow { emit(api.resetPassword(newPassword = password, confirmPassword = password)) }
     }
 
 
     override fun register(
-            username:String,
-            email:String,
-            password:String,
-            name:String,
-            phoneNumber:String,
-            country:String,
-            city:String,
-            fireBaseToken:String,
-            role:String?
+        username: String,
+        email: String,
+        password: String,
+        name: String,
+        phoneNumber: String,
+        country: String,
+        city: String,
+        fireBaseToken: String,
+        role: String?,
+        cv: MultipartBody.Part?
+
     ): Flow<Response<RegisterModel>> {
-        return flow { emit(api.register(username = username,email = email,password = password,
-                name = name,phoneNumber = phoneNumber,country = country,city = city,fireBaseToken = fireBaseToken)) }
+
+        return flow { if (cv==null)
+                        emit(
+                            api.register(
+                                username = username,
+                                email = email,
+                                password = password,
+                                name = name,
+                                phoneNumber = phoneNumber,
+                                country = country,
+                                city = city,
+                                fireBaseToken = fireBaseToken,
+                                role = role
+                            )
+                        )
+             else{
+                    val userNameBody: RequestBody = username.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val nameBody: RequestBody = name.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val emailBody: RequestBody = email.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val passwordBody: RequestBody = password.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val phoneNumberBody: RequestBody = phoneNumber.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val countryBody: RequestBody = country.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val cityBody: RequestBody = city.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val fireBaseTokenBody: RequestBody = fireBaseToken.toRequestBody("text/plain".toMediaTypeOrNull())
+                    val roleBody: RequestBody = "teacher".toRequestBody("text/plain".toMediaTypeOrNull())
+                    val devTypeBody: RequestBody = "android".toRequestBody("text/plain".toMediaTypeOrNull())
+
+
+            emit(
+                api.register(
+                    username = userNameBody,
+                    email = emailBody,
+                    password = passwordBody,
+                    name = nameBody,
+                    phoneNumber = phoneNumberBody,
+                    country = countryBody,
+                    city = cityBody,
+                    type = devTypeBody,
+                    fireBaseToken = fireBaseTokenBody,
+                    role = roleBody,
+                    cv = cv
+                )
+            )
+        }
+
+        }
     }
 
 

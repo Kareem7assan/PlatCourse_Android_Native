@@ -17,7 +17,6 @@
         android:id="@+id/ivOwner"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@mipmap/profile"
         android:layout_marginTop="12.5dp"
         app:layout_constraintStart_toStartOf="@id/startGuide"
         app:layout_constraintTop_toTopOf="parent"
@@ -307,7 +306,6 @@
             android:id="@+id/ivFirstImg"
             android:layout_width="match_parent"
             android:layout_height="185dp"
-            android:src="@mipmap/iphone2"
             android:layout_weight="1"
 
             />

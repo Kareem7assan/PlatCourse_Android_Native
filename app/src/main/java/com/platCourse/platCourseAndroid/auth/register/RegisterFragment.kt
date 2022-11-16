@@ -1,10 +1,16 @@
 package com.platCourse.platCourseAndroid.auth.register
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -22,13 +28,29 @@ import com.rowaad.app.data.model.UserModel
 import com.rowaad.utils.extention.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import org.jetbrains.anko.support.v4.toast
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
+    private var pdfPart: MultipartBody.Part? = null
+    private val REQ_CODE_PDF: Int = 1000
     private val binding by viewBinding<FragmentRegisterBinding>()
     private val viewModel: RegisterViewModel by viewModels()
     private val loginViewModel: LoginViewModel by viewModels()
 
+    private val requestPermissionFilesLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ){
+            if (it.all { it.value==true }){
+
+                openAnyFile(REQ_CODE_PDF)
+            }
+            else{
+                openAnyFile(REQ_CODE_PDF)
+            }
+        }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //setupHint()
@@ -37,19 +59,55 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         setupController()
         observeNavigation()
         observeLogin()
+        handleFileAction()
 
     }
 
+    private fun handleFileAction() {
+        binding.rbTeacher.setOnCheckedChangeListener { compoundButton, b ->
+            if (b){
+                binding.layAttach.show()
+                binding.tvAttach.show()
+            }
+
+        }
+        binding.rbStudent.setOnCheckedChangeListener { compoundButton, b ->
+            if (b){
+                binding.layAttach.hide()
+                binding.tvAttach.hide()
+            }
+        }
+
+        binding.layAttach.setOnClickListener {
+          //  openAnyFile(REQ_CODE_PDF)
+
+             //val filePicker = FilePicker.getInstance(requireActivity())
+            /*filePicker.pickPdf() { result ->
+                val name: String? = result?.first
+                val file: File? = result?.second
+                binding.tvName.text=name
+                pdfPart=file?.convertMultiPartPdf("cv")
+            }*/
+            handlePermissionFile(requestPermissionFilesLauncher, onSuccess = {
+                openAnyFile(REQ_CODE_PDF)
+            }, onFail = {
+                toast("cant use this feature")
+            })
+
+        }
+    }
+
     private fun observeLogin() {
-        handleSharedFlow(loginViewModel.userFlow,onSuccess = {it as UserModel
+        handleSharedFlow(loginViewModel.userFlow, onSuccess = {
+            it as UserModel
             handleNavigation(it)
         })
     }
     private fun handleNavigation(userModel: UserModel) {
-        showSuccessMsg(String.format(getString(R.string.attemps_times),userModel.login_times)).also {
+        showSuccessMsg(String.format(getString(R.string.attemps_times), userModel.login_times)).also {
             Handler(Looper.getMainLooper()).postDelayed({
                 requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
-            },1000)
+            }, 1000)
         }
 
 
@@ -57,12 +115,37 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     }
 
+    private fun openAnyFile(requestCode: Int) {
+        val intent: Intent =
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+            } else {
+                Intent(Intent.ACTION_PICK, MediaStore.Video.Media.INTERNAL_CONTENT_URI)
+            }
+        intent.type = "application/pdf"
+        intent.action = Intent.ACTION_GET_CONTENT
+        intent.putExtra("return-data", true)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        startActivityForResult(intent, requestCode)
+
+
+    }
+
     private fun setupController() {
         binding.registerBtn.setOnClickListener {
-            viewModel.sendRequestRegister(name = binding.etName.getContent(),phoneNumber = binding.etPhone.getContent(),
-                email = binding.etEmail.getContent(),password = binding.etPass.getContent(),confirmPassword = binding.etConfirmPass.getContent(),username = binding.etUsername.getContent(),
-                    country = binding.etCountry.getContent(),city = binding.etCity.getContent(),fireBaseToken = "asdakjjza",role = "student"
-                )
+            viewModel.sendRequestRegister(
+                name = binding.etName.getContent(),
+                phoneNumber = binding.etPhone.getContent(),
+                email = binding.etEmail.getContent(),
+                password = binding.etPass.getContent(),
+                confirmPassword = binding.etConfirmPass.getContent(),
+                username = binding.etUsername.getContent(),
+                country = binding.etCountry.getContent(),
+                city = binding.etCity.getContent(),
+                fireBaseToken = "asdakjjza",
+                role = if (binding.rbStudent.isChecked) "student" else "teacher",
+                cv = if (binding.rbStudent.isChecked) null else pdfPart
+            )
                 .also {
                     //initialized
                     viewModel.isValidNameFlow(binding.etName.getContent())
@@ -114,10 +197,16 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
                     }}
                 .also {
                     //initialized
-                    viewModel.isValidConfirmPassFlow(binding.etPass.getContent(),binding.etConfirmPass.getContent())
+                    viewModel.isValidConfirmPassFlow(
+                        binding.etPass.getContent(),
+                        binding.etConfirmPass.getContent()
+                    )
                     //watcher
                     binding.etConfirmPass.doOnTextChanged { text, start, before, count ->
-                        viewModel.isValidConfirmPassFlow(binding.etPass.getContent(),text.toString())
+                        viewModel.isValidConfirmPassFlow(
+                            binding.etPass.getContent(),
+                            text.toString()
+                        )
                     }}
 
         }
@@ -191,7 +280,10 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     .also {
         //watcher
         binding.etConfirmPass.addTextChangedListener {
-            if (binding.etConfirmPass.text?.length ?: 0 > 1) viewModel.isValidConfirmPassFlow(binding.etPass.getContent(),binding.etConfirmPass.text.toString())
+            if (binding.etConfirmPass.text?.length ?: 0 > 1) viewModel.isValidConfirmPassFlow(
+                binding.etPass.getContent(),
+                binding.etConfirmPass.text.toString()
+            )
         }}
 
 }
@@ -217,7 +309,11 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
                             binding.tvErrorUserName.text=""
                         else
                             binding.tvErrorUserName.text=getString(R.string.invalid_user_name)
-                        binding.etUsername.validateText(isName.isValid, null, binding.tvErrorUserName)
+                        binding.etUsername.validateText(
+                            isName.isValid,
+                            null,
+                            binding.tvErrorUserName
+                        )
                     }
                 }
             }
@@ -264,7 +360,11 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isValidEmailFlow.collect { isMail->
                     if (isMail is RegisterViewModel.Validation.IsValid){
-                        binding.etEmail.validateText(isMail.isValid, binding.ivMarkEmail, binding.tvErrorMail)
+                        binding.etEmail.validateText(
+                            isMail.isValid,
+                            binding.ivMarkEmail,
+                            binding.tvErrorMail
+                        )
                     }
                 }
             }
@@ -276,7 +376,9 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isValidPassFlow.collect { isCorrect->
                     if (isCorrect is RegisterViewModel.Validation.IsValid){
-                        if (binding.etPass.text.isNullOrEmpty()) binding.tvErrorPass.text=getString(R.string.empty_field)
+                        if (binding.etPass.text.isNullOrEmpty()) binding.tvErrorPass.text=getString(
+                            R.string.empty_field
+                        )
                         else binding.tvErrorPass.text=getString(R.string.check_field_pass)
 
                         binding.etPass.validateText(isCorrect.isValid, null, binding.tvErrorPass)
@@ -292,7 +394,11 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isValidConfirmPassFlow.collect { isCorrect->
                     if (isCorrect is RegisterViewModel.Validation.IsValid){
-                        binding.etConfirmPass.validateText(isCorrect.isValid, null, binding.tvErrorConfirmPass)
+                        binding.etConfirmPass.validateText(
+                            isCorrect.isValid,
+                            null,
+                            binding.tvErrorConfirmPass
+                        )
                     }
                 }
             }
@@ -309,7 +415,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
                             showErrorMessage(getString(R.string.accept_terms))
                         }
                         else{
-                            Log.e("terms","not error")
+                            Log.e("terms", "not error")
                         }
                     }
                 }
@@ -318,18 +424,49 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     }
 
     private fun observeRegister() {
-        handleSharedFlow(viewModel.userFlow,onShowProgress = {},onHideProgress = {},onSuccess = {},lifeCycle = Lifecycle.State.CREATED)
+        handleSharedFlow(
+            viewModel.userFlow,
+            onShowProgress = {},
+            onHideProgress = {},
+            onSuccess = {},
+            lifeCycle = Lifecycle.State.CREATED
+        )
     }
 
     private fun observeNavigation() {
         handleFlow(viewModel.userNavigation){
             //navigateToHome(it.second)
-            loginViewModel.sendRequestLogin(email = it.first,pass = it.second)
+            if (binding.rbTeacher.isChecked)
+                showSuccessMsg(getString(R.string.pending_teacher_account))
+            else
+                loginViewModel.sendRequestLogin(email = it.first, pass = it.second)
         }
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val uri: Uri = data?.data!!
+        if (requestCode == REQ_CODE_PDF && resultCode == Activity.RESULT_OK) {
+            uri.convertFilePdf(requireActivity(), "cv") { part, filePath->
+                pdfPart=part
+                binding.tvName.text=if (filePath.split("/").isNullOrEmpty()) "cv.pdf" else filePath.split("/").last()
+            }
+        }
+    }
 
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode==REQ_CODE_PDF){
+            if (grantResults.isNotEmpty()){
+                openAnyFile(REQ_CODE_PDF)
+            }
+        }
+    }
 
 }

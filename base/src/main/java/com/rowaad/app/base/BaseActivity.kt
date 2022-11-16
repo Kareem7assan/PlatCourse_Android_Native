@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
+import android.hardware.display.DisplayManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,15 +24,20 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewModelScope
 import cc.cloudist.acplibrary.ACProgressConstant
 import cc.cloudist.acplibrary.ACProgressFlower
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.rowaad.app.base.databinding.ActivityBaseBinding
+import com.rowaad.app.base.utils.UtilitySecurity
 import com.rowaad.app.data.remote.NetWorkState
 import com.rowaad.app.data.repository.base.BaseRepository
 import com.rowaad.app.data.utils.Constants_Api
 import com.rowaad.dialogs_utils.*
+import com.rowaad.utils.extention.fromJson
+import com.rowaad.utils.extention.toJson
 import com.rowaad.utils.extention.toast
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -42,16 +49,51 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 
+
 @AndroidEntryPoint
-abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity() {
+abstract class BaseActivity(private val layoutResource: Int): AppCompatActivity() {
+     val uidValue: String? by lazy {
+         Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+     }
+    private  val ref: DatabaseReference by lazy {
+         Firebase.database("https://platcourse-ce46f-default-rtdb.firebaseio.com/").reference
+    }
+    private var registeredBefore: Boolean = false
+    private var screeningBefore: Boolean = false
     private var viewBase: ActivityBaseBinding? = null
     private var progressDialog: ACProgressFlower? = null
     var savedInstanceState: Bundle? = null
 
     private val baseViewModel: BaseViewModel by viewModels()
 
+    private val listener =
+        object : DisplayManager.DisplayListener {
+            override fun onDisplayChanged(displayId: Int) {
+                Log.e("displayChange", displayId.toString())
+            }
+
+            override fun onDisplayAdded(displayId: Int) {
+                // here stop video player
+                if (UtilitySecurity.haveManyDisplays(applicationContext)){
+                    Log.e("exc", "1")
+                    addValue(PlatApp(true, uidValue ?: ""))
+                    manyScreenPolicy()
+                }
+                else{
+                    addValue(PlatApp(true, uidValue ?: ""))
+
+                    voilantPolicy()
+                }
+            }
+
+            override fun onDisplayRemoved(displayId: Int) {
+                removeValue(uidValue!!)
+            }
+        }
+
+
     open fun setFullScreen(){
-        //window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
     abstract fun init()
@@ -64,29 +106,70 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
     }
 
 
+    fun addValue(value: Any){
+        val rootRef = FirebaseDatabase.getInstance().reference
+        val memberRef = rootRef.child("plat_app")
+        memberRef.child(uidValue!!).setValue(value)
+    }
+
+    fun removeValue(uid: String){
+        ref?.child("plat_app").child(uid).removeValue { error, ref ->
+            intent.component = (ComponentName(
+                "com.platcourse.platcourseapplication",
+                "com.platCourse.platCourseAndroid.auth.splash.SplashActivity"
+            ))
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+
+        }
+        /*equalTo(uid).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.ref.setValue(null);
+
+                toast("removed")
+                intent.component = (ComponentName(
+                    "com.platCourse.platCourseAndroid",
+                    "com.platCourse.platCourseAndroid.auth.splash.SplashActivity"
+                ))
+                //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra(Constants_Api.INTENT.LOGOUT, true)
+                startActivity(intent)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })*/
+    }
+
     fun showVisitorDialog(view: View, onAction: (() -> Unit)?) {
-        val snack= Snackbar.make(view, getString(R.string.you_should_login_first), Snackbar.LENGTH_LONG)
+        val snack= Snackbar.make(
+            view,
+            getString(R.string.you_should_login_first),
+            Snackbar.LENGTH_LONG
+        )
                 .setAction(getString(R.string.register)) {
                     onAction?.invoke()
                     intent.component = (ComponentName(
-                            "com.platCourse.platCourseAndroid",
-                            "com.platCourse.platCourseAndroid.auth.splash.SplashActivity"
+                        "com.platcourse.platcourseapplication",
+                        "com.platCourse.platCourseAndroid.auth.splash.SplashActivity"
                     ))
                     //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    intent.putExtra(Constants_Api.INTENT.LOGOUT,true)
+                    intent.putExtra(Constants_Api.INTENT.LOGOUT, true)
                     startActivity(intent)
                 }
                 .setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setActionTextColor(ContextCompat.getColor(this, R.color.off_white_four))
 
         val view = snack.view
-        val textView = view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-        val btn = view.findViewById<Button>(com.google.android.material.R.id.snackbar_action)
-        textView.typeface = ResourcesCompat.getFont(this,R.font.regular)
-        btn.typeface = ResourcesCompat.getFont(this,R.font.regular)
+        val textView = view.findViewById<TextView>(R.id.snackbar_text)
+        val btn = view.findViewById<Button>(R.id.snackbar_action)
+        textView.typeface = ResourcesCompat.getFont(this, R.font.regular)
+        btn.typeface = ResourcesCompat.getFont(this, R.font.regular)
         snack.show()
     }
-
+data class PlatApp(val isRecording: Boolean, val uid: String)
     fun getBaseRepository(appContext: Context): BaseRepository = EntryPointAccessors
         .fromApplication(appContext, BaseActivityEntryPoint::class.java)
         .baseRepository
@@ -94,6 +177,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             getCustomizedContext(this, getBaseRepository(this).lang)
 
@@ -101,6 +185,11 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         else
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
 
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         //resources.setLanguage(baseViewModel.getBaseRepository(this).lang)
@@ -119,11 +208,11 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
         else {
             setContentView(layoutResource)
         }*/
-        setFullScreen()
+        //setFullScreen()
         viewBase = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(viewBase?.root)
         val activityView = LayoutInflater.from(this)
-                .inflate(layoutResource, viewBase?.flContent, false) as ViewGroup
+            .inflate(layoutResource, viewBase?.flContent, false) as ViewGroup
         viewBase?.flContent?.addView(activityView)
 
         //setContentView(layoutResource)
@@ -132,7 +221,78 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
         setActions()
         observeUnAuthorized()
         observeMaintenance()
-       // observeConnection()
+        observeConnection()
+        checkUserRegisteredBeforeInDB(uidValue)
+
+
+    }
+
+     fun checkEmulator() {
+        if (UtilitySecurity.CheckIsRealPhoneMain(this).not()) {
+            intent.component = (ComponentName(
+                "com.platcourse.platcourseapplication",
+                "com.platCourse.platCourseAndroid.error.ErrorScreenActivity"
+            ))
+            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.putExtra(
+                "error",
+                "قد يتواجد على جهازك بعض البرامج او التطبيقات التى لا تتوافق مع شروط و احكام و خصوصية التطبيق، يرجى حذفها و اعادة المحاولة."
+            )
+
+            addValue(PlatApp(false, uidValue ?: ""))
+            startActivity(intent)
+            finish()
+
+
+
+
+        }
+    }
+
+     fun checkUserRegisteredBeforeInDB(uidValue: String?) {
+
+        ref?.child("plat_app")?.child(uidValue!!)?.get()?.addOnSuccessListener {
+            val json = it.value.toJson()
+            val user = json.fromJson<PlatApp?>()
+                registeredBefore = user != null
+                if (registeredBefore) screeningBefore = user?.isRecording ?: false
+            }
+
+
+            if (registeredBefore && screeningBefore) manyScreenPolicy()
+            else if (registeredBefore) voilantPolicy()
+            else checkEmulator()
+
+        }
+
+
+     fun voilantPolicy() {
+         intent.component = (ComponentName(
+             "com.platcourse.platcourseapplication",
+             "com.platCourse.platCourseAndroid.error.ErrorScreenActivity"
+         ))
+         intent.putExtra(
+             "error", "عذرا لا يسمح بالتسجيل لقد قمت بانتهاك سياسة خصوصية التطبيق."
+         )
+         startActivity(intent)
+         finish()
+    }
+     fun manyScreenPolicy() {
+         intent.component = (ComponentName(
+             "com.platcourse.platcourseapplication",
+             "com.platCourse.platCourseAndroid.error.ErrorScreenActivity"
+         ))
+         intent.putExtra(
+             "error", "لا يسمح بتشغيل التطبيق على شاشة خارجية."
+         )
+         startActivity(intent)
+         finish()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val displayManager = applicationContext.getSystemService(DISPLAY_SERVICE) as DisplayManager
+        displayManager.registerDisplayListener(listener, null)
 
     }
 
@@ -154,7 +314,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 baseViewModel.connectionErrorFlow.collectLatest {
-                    if (it) NoInternetDialog.show(this@BaseActivity,{})
+                    if (it) NoInternetDialog.show(this@BaseActivity, {})
 
 
                 }
@@ -171,7 +331,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
         viewBase?.flContent?.addView(progress)
     }
 
-    private fun inflateMain(layoutResource:Int) {
+    private fun inflateMain(layoutResource: Int) {
         //viewBase?.flProgress?.show()
         viewBase?.flContent?.removeAllViewsInLayout()
 
@@ -181,11 +341,11 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
     }
 
 
-     fun showSuccessMsg(title:String){
-        SuccessToast.showToast(this,title)
+     fun showSuccessMsg(title: String){
+        SuccessToast.showToast(this, title)
     }
-     fun showErrorMsg(title:String){
-        ErrorDialog.show(this,title)
+     fun showErrorMsg(title: String){
+        ErrorDialog.show(this, title)
     }
 
     private fun observeUnAuthorized() {
@@ -242,7 +402,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
 
 
 
-   fun handleErrorGeneral(th: Throwable, func: (() -> Unit)?=null) {
+   fun handleErrorGeneral(th: Throwable, func: (() -> Unit)? = null) {
        //Log.e("error",th.message.toString())
        th.printStackTrace()
         when (th.message) {
@@ -268,26 +428,26 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
             }
             else -> {
                 //ErrorDialog.show(this, getString(R.string.some_error))
-                ErrorDialog.show(this,th.message!!)
+                ErrorDialog.show(this, th.message!!)
 
             }
         }
     }
 
-     fun handleMaintenance(func: (() -> Unit)?=null) {
+     fun handleMaintenance(func: (() -> Unit)? = null) {
         if (func != null) MaintenanceDialog.show(this, func) else MaintenanceDialog.show(
             this
         )
     }
 
     private fun handleUnAuthorized() {
-        Log.e("authorized","authorized")
+        Log.e("authorized", "authorized")
         UnAuthorizeDialog.show(
             activity = this,
             title = getString(R.string.you_have_unauthorized)
         ) {
             intent.component = (ComponentName(
-                "com.platCourse.platCourseAndroid",
+                "com.platcourse.platcourseapplication",
                 "com.platCourse.platCourseAndroid.auth.splash.SplashActivity"
             ))
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -307,7 +467,7 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
 
     }
 
-     fun hideProgressFullScreen(res:Int){
+     fun hideProgressFullScreen(res: Int){
 /*
          viewBase!!.flContent?.hide()
          viewBase?.mainContent?.show()
@@ -348,20 +508,22 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
     ){
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                userFlow.collect {networkState->
+                userFlow.collect { networkState->
                     when(networkState){
-                        is NetWorkState.Success<*> ->{
+                        is NetWorkState.Success<*> -> {
                             onSuccess(networkState.data!!)
                         }
-                        is NetWorkState.Loading->{
-                            if (onShowProgress==null) showProgress() else onShowProgress()
+                        is NetWorkState.Loading -> {
+                            if (onShowProgress == null) showProgress() else onShowProgress()
                         }
-                        is NetWorkState.StopLoading->{
-                            if (onHideProgress==null) hideProgress() else onHideProgress()
+                        is NetWorkState.StopLoading -> {
+                            if (onHideProgress == null) hideProgress() else onHideProgress()
 
                         }
-                        is NetWorkState.Error->{
-                            if (onError==null) handleErrorGeneral(networkState.th) else onError(networkState.th)
+                        is NetWorkState.Error -> {
+                            if (onError == null) handleErrorGeneral(networkState.th) else onError(
+                                networkState.th
+                            )
                         }
 
                         else ->{
@@ -381,24 +543,27 @@ abstract class BaseActivity(private val layoutResource:Int): AppCompatActivity()
     ){
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                userFlow.collectLatest {networkState->
+                userFlow.collectLatest { networkState->
 
                     when(networkState){
-                        is NetWorkState.Loading->{
-                            if (onShowProgress==null) showProgress() else onShowProgress()
+                        is NetWorkState.Loading -> {
+                            if (onShowProgress == null) showProgress() else onShowProgress()
                         }
-                        is NetWorkState.StopLoading->{
-                            if (onHideProgress==null) hideProgress() else onHideProgress()
+                        is NetWorkState.StopLoading -> {
+                            if (onHideProgress == null) hideProgress() else onHideProgress()
 
                         }
-                        is NetWorkState.Success<*> ->{
+                        is NetWorkState.Success<*> -> {
                             onSuccess(networkState.data!!)
                         }
-                        is NetWorkState.Error->{
-                            if (onError==null) handleErrorGeneral(networkState.th) else onError(networkState.th)
+                        is NetWorkState.Error -> {
+                            if (onError == null) handleErrorGeneral(networkState.th) else onError(
+                                networkState.th
+                            )
 
                         }
-                        is NetWorkState.Idle->{}
+                        is NetWorkState.Idle -> {
+                        }
                     }
                 }
             }

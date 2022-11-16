@@ -87,10 +87,10 @@ init {
     }
 
     fun isValidCityFlow(name: String){
-        _isValidCityFlow.value=(Validation.IsValid(registerUseCase.isValidFName(name)))
+        _isValidCityFlow.value=(Validation.IsValid(registerUseCase.isValidNameNormal(name)))
     }
     fun isValidCountryFlow(name: String){
-        _isValidCountryFlow.value=(Validation.IsValid(registerUseCase.isValidFName(name)))
+        _isValidCountryFlow.value=(Validation.IsValid(registerUseCase.isValidNameNormal(name)))
     }
 
 
@@ -110,14 +110,15 @@ init {
             name:String, phoneNumber:String,
             country:String, city:String,
             fireBaseToken:String,confirmPassword: String,
-            role:String?
+            role:String?,
+            cv:MultipartBody.Part?
     ){
 
 
 
         if (registerUseCase.validateRegister(username,email,password,name,phoneNumber,country,city,confirmPassword)){
             executeApi(_userFlow){
-                registerUseCase.sendRequestRegister(username=username, email=email, password=password, name=name, phoneNumber=phoneNumber, country=country, city=city, fireBaseToken=fireBaseToken, role=role)
+                registerUseCase.sendRequestRegister(username=username, email=email, password=password, name=name, phoneNumber=phoneNumber, country=country, city=city, fireBaseToken=fireBaseToken, role=role,cv = cv)
                     .onStart { _userFlow.emit(NetWorkState.Loading) }
                     .onCompletion { _userFlow.emit(NetWorkState.StopLoading).also {
                         _userFlow.emit(NetWorkState.Idle)

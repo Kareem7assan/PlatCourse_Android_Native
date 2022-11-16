@@ -68,13 +68,14 @@
                     android:textAlignment="viewStart"
                     />
                 <TextView
-                    android:id="@+id/tvPhone"
+                    android:id="@+id/tvPhoneNum"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="15sp"
-                    android:autoLink="phone"
+                    android:linksClickable="true"
                     android:textColorLink="#0030FF"
-                    android:clickable="true"
+                    android:textColor="#0030FF"
+                    android:autoLink="web"
                     android:padding="@dimen/margin_normal"
                     android:gravity="start|center"
                     android:drawableTint="@color/green_apple"
