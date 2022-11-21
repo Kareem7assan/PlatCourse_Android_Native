@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="start"
         >
     <TextView
         android:id="@+id/tvQuiz"
@@ -26,15 +27,30 @@
         />
 
         <TextView
-            android:id="@+id/tvQuestion"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvQuestions"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
-            android:text="@string/press_to_go"
+            tools:text="qus 10 from 10"
+            android:gravity="start"
+            android:textColor="@color/black"
+            android:fontFamily="@font/regular"
+            android:textAlignment="viewStart"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/margin_normal"
-            android:padding="@dimen/margin_small"
+            />
+        <TextView
+            android:id="@+id/tvAnswers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:gravity="start"
+            android:textColor="@color/black"
+            android:textAlignment="viewStart"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="@dimen/margin_normal"
             />
 
     androidx.recyclerview.widget.RecyclerView

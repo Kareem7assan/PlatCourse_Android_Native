@@ -1,5 +1,7 @@
 package com.platCourse.platCourseAndroid.home.course_sections.quiz
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +36,9 @@ class QuizTitleAdapter : RecyclerView.Adapter<QuizTitleAdapter.QuizVH>() {
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: QuizVH, position: Int) = holder.bind(data[position])
+    override fun onBindViewHolder(holder: QuizVH, position: Int) {
+        holder.bind(data[position])
+    }
 
     fun swapData(data: List<QuizModel>) {
         val oldPosition=data.size
@@ -53,7 +57,22 @@ class QuizTitleAdapter : RecyclerView.Adapter<QuizTitleAdapter.QuizVH>() {
 
         fun bind(item:QuizModel) = with(ItemQuizBinding.bind(itemView)) {
             tvQuiz.text=item.quiz?.quiz_title
-            tvQuestion.setOnClickListener {
+            tvQuestions.text=String.format(itemView.context.getString(R.string.questions_num),item.quiz?.questions)
+            when{
+                item.quiz?.solved==true && item.quiz?.passed==true->{
+                    //green color & show grade
+                    root.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#72e65e")))
+                            .also { tvAnswers.text= String.format(itemView.context.getString(R.string.result_mark),item.quiz?.score) }
+                }
+                item.quiz?.solved==true && item.quiz?.passed!!.not()->{
+                    root.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#e39376")))
+                            .also { tvAnswers.text= String.format(itemView.context.getString(R.string.result_mark),item.quiz?.score) }
+                }
+                item.quiz?.solved!!.not()->{
+                    root.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
+                }
+            }
+            tvQuestions.setOnClickListener {
                 onClickItem?.invoke(item,bindingAdapterPosition)
             }
         }

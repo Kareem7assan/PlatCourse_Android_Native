@@ -312,4 +312,7 @@
     <string name="profile_type">نوع الحساب</string>
     <string name="cv">السيرة الذاتية</string>
     <string name="pending_teacher_account">تم انشاء الحساب الخاص بك و في انتظار موافقة الادارة</string>
+    <string name="questions_num">عدد الأسئلة : %1$s</string>
+    <string name="result_mark">النتيجة : %1$s</string>
+
 </resources>

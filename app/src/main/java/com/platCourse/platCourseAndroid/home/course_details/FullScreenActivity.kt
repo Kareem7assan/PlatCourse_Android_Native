@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.WindowInsets
 import androidx.activity.viewModels
@@ -75,18 +76,33 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
         windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
     }
 
-    @SuppressLint("WrongConstant")
     private fun hideSystemUI() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            window.insetsController?.hide(WindowInsets.Type.systemBars())
-            binding!!.rootFullScreen.setOnApplyWindowInsetsListener { view, windowInsets ->
+            val windowInsetsController = ViewCompat.getWindowInsetsController(window.decorView) ?: return
+            // Configure the behavior of the hidden system bars
+            windowInsetsController.isAppearanceLightNavigationBars = false
 
-                view.windowInsetsController!!.systemBarsBehavior= BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            windowInsetsController.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            // Hide both the status bar and the navigation bar
+            windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
 
-                view.windowInsetsController!!.hide(WindowInsets.Type.systemBars())
+            ViewCompat.setOnApplyWindowInsetsListener(binding!!.root) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                // Apply the insets as a margin to the view. Here the system is setting
+                // only the bottom, left, and right dimensions, but apply whichever insets are
+                // appropriate to your layout. You can also update the view padding
+                // if that's more appropriate.
+                view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    leftMargin = insets.left
+                    bottomMargin = insets.bottom
+                    rightMargin = -150
+                }
 
-                windowInsets
+
+                // Return CONSUMED if you don't want want the window insets to keep being
+                // passed down to descendant views.
+                WindowInsetsCompat.CONSUMED
             }
 
         }
