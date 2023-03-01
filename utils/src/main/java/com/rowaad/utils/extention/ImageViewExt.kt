@@ -50,6 +50,7 @@ fun ImageView.loadAsMap(lat: String?, lng:String,key:String,corner: Int?=14) {
 
 fun ImageView?.loadImage(url: String?) {
     this?.context?.let {
+        show()
         Glide.with(it)
             .load(url)
             //.placeholder(R.drawable.ic_place_holder2)

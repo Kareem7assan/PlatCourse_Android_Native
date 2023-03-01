@@ -1,5 +1,6 @@
 package com.platCourse.platCourseAndroid.home.course_sections.lessons
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
     var onClickItemVideo: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemAssign: ((VideoModel, Int) -> Unit)? = null
 
     var selectedItemPosition = -1
 
@@ -102,6 +104,24 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
                 }
             else{
                 grpDoc.isVisible=false
+            }
+            Log.e("quizes",item.quizzes?.size.toString())
+            if (item.quizzes?.size ?: 0 > 0){
+                    tvTitleAssign.text = item.quizzes?.first()?.quiz?.quiz_title
+                    //update Mime Icon
+                    grpAssign.isVisible=true
+
+                    // add click listener
+                    ivAssign.onClick {
+                        onClickItemAssign?.invoke(item,bindingAdapterPosition)
+                    }
+                // add click listener
+                    tvTitleAssign.onClick {
+                        onClickItemAssign?.invoke(item,bindingAdapterPosition)
+                    }
+                }
+            else{
+                grpAssign.isVisible=false
             }
 
 

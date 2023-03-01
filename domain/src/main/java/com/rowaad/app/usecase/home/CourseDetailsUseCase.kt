@@ -7,6 +7,8 @@ import com.rowaad.app.data.model.discussions_model.DiscussionModel
 import com.rowaad.app.data.model.files.FilesModel
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.lessons.LessonsResponse
+import com.rowaad.app.data.model.quiz_model.AnswersModel
+import com.rowaad.app.data.model.quiz_model.QuizItem
 import com.rowaad.app.data.model.quiz_model.QuizModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.reviews.Review
@@ -46,6 +48,19 @@ class CourseDetailsUseCase @Inject constructor(private val baseRepository: BaseR
 
     suspend fun quizzes(courseId:Int): Flow<List<QuizModel>> {
         return detailsRepository.quizzes(courseId)
+                .transformResponse { emit(it.map {quizModel -> quizModel.copy(quiz = quizModel.quiz?.copy(solved = quizModel.solved,
+                    passed = quizModel.passed,score = quizModel.score,quiz_questions = quizModel.quiz_questions
+                    ))
+                }) }
+    }
+
+    suspend fun sendAnswers(quizId:Int,answers: AnswersModel): Flow<QuizModel> {
+        return detailsRepository.postAnswers(quizId, answers)
+                .transformResponse { emit(it) }
+    }
+
+    suspend fun quiz(quizId:Int): Flow<QuizItem> {
+        return detailsRepository.quiz(quizId)
                 .transformResponse { emit(it) }
     }
 

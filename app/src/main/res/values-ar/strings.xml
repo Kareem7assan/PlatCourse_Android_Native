@@ -313,6 +313,13 @@
     <string name="cv">السيرة الذاتية</string>
     <string name="pending_teacher_account">تم انشاء الحساب الخاص بك و في انتظار موافقة الادارة</string>
     <string name="questions_num">عدد الأسئلة : %1$s</string>
+    <string name="questions_num_red">عدد الأسئلة : <font color="#FB3B60">%1$s</font></string>
+    <string name="result_num_red">نتيجة الاختبار : <font color="#FB3B60">%1$s</font></string>
     <string name="result_mark">النتيجة : %1$s</string>
+    <string name="finish_exam">انهاء الاختبار</string>
+    <string name="pending_lesson">يجب الانتهاء من اختباراتك الغير مكتملة حتي تتمكن من استكمال مشاهدة الدروس</string>
+    <string name="solved_successfully">مبروك لقد قمت باجتياز الاختبار بنجاح 👍</string>
+    <string name="not_solved_successfully">للأسف لم تستطع اجتياز الاختبار ، حاول مرة أخرى</string>
+    <string name="solve_before_first">يجب الانتهاء من الاختبار السابق أولاً</string>
 
 </resources>

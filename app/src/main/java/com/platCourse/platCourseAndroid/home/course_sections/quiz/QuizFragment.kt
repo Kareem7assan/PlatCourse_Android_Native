@@ -8,7 +8,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentQuizBinding
+import com.platCourse.platCourseAndroid.home.HomeActivity
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
+import com.rowaad.app.base.BaseActivity
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.model.courses_model.CourseItem
@@ -17,6 +19,7 @@ import com.rowaad.utils.extention.fromJson
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 import com.rowaad.utils.extention.toJson
+import org.jetbrains.anko.support.v4.toast
 
 class QuizFragment : BaseFragment(R.layout.fragment_quiz) {
 
@@ -40,17 +43,20 @@ class QuizFragment : BaseFragment(R.layout.fragment_quiz) {
 
     private fun setupActions() {
         adapter.onClickItem=::onClickQuiz
+        adapter.onClickItemDisabled=::onClickItemDisabled
+    }
+
+    private fun onClickItemDisabled(quizModel: QuizModel, i: Int) {
+        toast(getString(R.string.solve_before_first))
     }
 
     private fun onClickQuiz(quizModel: QuizModel, pos: Int) {
-        findNavController().navigate(R.id.action_global_quizWebViewFragment,
+        findNavController().navigate(R.id.action_global_quizDetailsFragment,
                 bundleOf(
-                        "course"
-                        to
-                                course.toJson(),
+
                         "quiz"
                         to
-                                quizModel.quiz?.id
+                        quizModel.quiz?.toJson()
 
                 )
                 )

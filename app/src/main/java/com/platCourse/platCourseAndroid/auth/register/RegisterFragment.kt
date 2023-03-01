@@ -104,16 +104,17 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         })
     }
     private fun handleNavigation(userModel: UserModel) {
-        showSuccessMsg(String.format(getString(R.string.attemps_times), userModel.login_times)).also {
+        /*showSuccessMsg(String.format(getString(R.string.attemps_times), userModel.login_times)).also {
             Handler(Looper.getMainLooper()).postDelayed({
                 requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
-            }, 1000)
+            }, 1000)*/
+        requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
         }
 
 
 
 
-    }
+
 
     private fun openAnyFile(requestCode: Int) {
         val intent: Intent =

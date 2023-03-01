@@ -14,20 +14,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.platCourse.platCourseAndroid.BuildConfig
-import com.rowaad.app.base.BaseActivity
-import com.rowaad.app.data.utils.Constants_Api.INTENT.LOGOUT
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ActivitySplashBinding
-import com.platCourse.platCourseAndroid.home.HomeActivity
 import com.platCourse.platCourseAndroid.error.ErrorScreenActivity
+import com.platCourse.platCourseAndroid.home.HomeActivity
+import com.platCourse.platCourseAndroid.home.youtube.YoutubeActivity
+import com.rowaad.app.base.BaseActivity
+import com.rowaad.app.data.utils.Constants_Api.INTENT.LOGOUT
 import com.rowaad.dialogs_utils.MaintenanceDialog
-import com.rowaad.utils.IntentUtils
-import com.rowaad.utils.extention.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,9 +45,9 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
             supportFragmentManager.findFragmentById(R.id.auth_nav_host) as NavHostFragment
         navController = navHostFragment.navController
         fromLogout = intent.getBooleanExtra(LOGOUT, false)
-
         viewModel.sendRequestVersion()
         handleVersion()
+
 
 
     }
@@ -162,7 +159,7 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
                         ||
                         manger.simCountryIso=="ma" || manger.simCountryIso=="tn"
                         ||
-                        manger.simCountryIso=="dz"
+                        manger.simCountryIso=="dz" || manger.simCountryIso=="il"
 
                         )
                 if (isTrusted) handleNavigation(fromLogout = fromLogout)
@@ -205,7 +202,8 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
                         ||
                         manger.simCountryIso=="qa" || manger.simCountryIso=="lb"
                         ||
-                        manger.simCountryIso=="ma" || manger.simCountryIso=="tn" || manger.simCountryIso=="dz"
+                        manger.simCountryIso=="ma" || manger.simCountryIso=="tn"
+                        || manger.simCountryIso=="dz" || manger.simCountryIso=="il"
 
                         )
                 if (isTrusted) handleNavigation(fromLogout = fromLogout)

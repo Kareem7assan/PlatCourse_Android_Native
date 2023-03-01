@@ -34,7 +34,7 @@ object Versions {
     const val appCompat = "1.2.0"
     const val anko = "0.10.8"
     const val androidxCore = "1.2.0"
-    const val constraintLayout = "2.0.4"
+    const val constraintLayout = "2.1.4"
     const val gradlePlugin = "4.1.2"
     const val material = "1.2.1"
     const val coroutines = "1.3.5"

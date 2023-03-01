@@ -1,8 +1,10 @@
 package com.rowaad.app.base
 
+import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.hardware.display.DisplayManager
@@ -38,7 +40,6 @@ import com.rowaad.app.data.utils.Constants_Api
 import com.rowaad.dialogs_utils.*
 import com.rowaad.utils.extention.fromJson
 import com.rowaad.utils.extention.toJson
-import com.rowaad.utils.extention.toast
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +48,8 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+
+import java.net.Socket
 import java.util.*
 
 
@@ -93,7 +96,10 @@ abstract class BaseActivity(private val layoutResource: Int): AppCompatActivity(
 
 
     open fun setFullScreen(){
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
 
     }
     abstract fun init()
@@ -103,6 +109,41 @@ abstract class BaseActivity(private val layoutResource: Int): AppCompatActivity(
     @EntryPoint
     interface BaseActivityEntryPoint {
         val baseRepository: BaseRepository
+    }
+
+    fun applicationIsInstall(context: Context, packageName: String): Boolean {
+        return try {
+            context.packageManager.getApplicationInfo(packageName, 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            false
+        }
+
+
+    }
+    open fun isAppRunning(context: Context, packageName: String?): Boolean {
+        val activityManager: ActivityManager =
+            context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        var res=false
+        try {
+            Socket("google.com", 4444).close()
+
+        }
+         catch (ex: Exception){
+
+            res=true
+        }
+        Log.e("appName", res.toString())
+        val procInfos: List<ActivityManager.RunningAppProcessInfo> =
+            activityManager.runningAppProcesses
+            for (processInfo in procInfos) {
+                Log.e("appName", processInfo.processName + "\n")
+                if (processInfo.processName.contains(packageName.toString(), true)) {
+                    return true
+                }
+        }
+        return false
     }
 
 
@@ -225,6 +266,28 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
         checkUserRegisteredBeforeInDB(uidValue)
 
 
+        if (applicationIsInstall(this, "com.teamviewer.quicksupport.market")
+            ||
+            applicationIsInstall(
+                this,
+                "com.teamviewer.teamviewer.market.mobile"
+            )
+            ||
+            applicationIsInstall(
+                this,
+                "com.splashtop.remote.business"
+            )
+            ||
+            applicationIsInstall(
+                this,
+                "com.logmein.rescuemobile"
+            )
+
+        ){
+            teamViewerPolicy()
+        }
+
+
     }
 
      fun checkEmulator() {
@@ -273,6 +336,18 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
          ))
          intent.putExtra(
              "error", "عذرا لا يسمح بالتسجيل لقد قمت بانتهاك سياسة خصوصية التطبيق."
+         )
+         startActivity(intent)
+         finish()
+    }
+     fun teamViewerPolicy() {
+         intent.component = (ComponentName(
+             "com.platcourse.platcourseapplication",
+             "com.platCourse.platCourseAndroid.error.ErrorScreenActivity"
+         ))
+         intent.putExtra(
+             "error",
+             "عذرا لا يسمح بإستخدام teamViewer أو برنامج يتيح مشاركة جهازك مع أجهزة اخري برجاء حذفه ثم اعادة التشغيل."
          )
          startActivity(intent)
          finish()

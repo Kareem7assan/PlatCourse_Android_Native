@@ -11,6 +11,9 @@ import com.platCourse.platCourseAndroid.databinding.ItemLessonBinding
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.lessons.VideoModel
 import com.rowaad.utils.extention.loadImage
+import org.jetbrains.anko.backgroundColorResource
+import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
 class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH>() {
@@ -22,6 +25,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
     var onClickItemVideo: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemAssign: ((VideoModel, Int) -> Unit)? = null
 
     var onDropDownClicked:((isExpanded:Boolean,position:Int) -> Unit)? = null
 
@@ -83,16 +87,33 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
             adapter.swapData(lessonId = item.id,data = item.videos!!.map {
                 it.videoName=item.title
                 it.file=item.file
+                it.quizzes=item.quizzes
+                it.downloadable=item.downloadable
                 it
             })
-            ivDropDown.loadImage(if (rvLessons.isVisible) R.drawable.ic_arrow_up_24 else R.drawable.ic_arrow_down_24)
-
-            adapter.onClickItemVideo=::onClickVideo
-            adapter.onClickItemLink=::onClickLink
-            adapter.onClickItemDoc=::onClickDoc
+            if (item.canStart) {
+                ivDropDown.loadImage(if (rvLessons.isVisible) R.drawable.ic_arrow_up_24 else R.drawable.ic_arrow_down_24)
+                ivDropDown.isVisible=true
+                lessonBg.backgroundColorResource=R.color.white
+                adapter.onClickItemVideo = ::onClickVideo
+                adapter.onClickItemLink = ::onClickLink
+                adapter.onClickItemDoc = ::onClickDoc
+                adapter.onClickItemAssign = ::onClickItemAssign
+            }
+            else{
+                ivDropDown.isVisible=false
+                lessonBg.backgroundColorResource=R.color.light_grey_blue
+                itemView.onClick {
+                    Toast.makeText(itemView.context, itemView.context.getString(R.string.pending_lesson), Toast.LENGTH_LONG).show()
+                }
+            }
         }
 
 
+    }
+
+    private fun onClickItemAssign(videoModel: VideoModel, i: Int) {
+        onClickItemAssign?.invoke(videoModel,i)
     }
 
     private fun onClickDoc(videoModel: VideoModel, i: Int) {

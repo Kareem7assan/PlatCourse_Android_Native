@@ -15,6 +15,8 @@ import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
+import com.rowaad.app.data.model.quiz_model.AnswersModel
+import com.rowaad.app.data.model.quiz_model.QuizItem
 import com.rowaad.app.data.model.quiz_model.QuizModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.reviews.Review
@@ -60,6 +62,16 @@ class CourseDetailsRepositoryImp @Inject constructor(
         return flow {
             emit(api.quizzes(courseId))
         }
+    }
+
+    override fun quiz(quizId: Int): Flow<Response<QuizItem>> {
+        return flow {
+            emit(api.quiz(quizId))
+        }
+    }
+
+    override fun postAnswers(quizId: Int, answers: AnswersModel): Flow<Response<QuizModel>> {
+        return flow { emit(api.sendAnswers(quizId, answers)) }
     }
 
     override fun files(courseId: Int,page:Int): Flow<Response<FilesModel>> {

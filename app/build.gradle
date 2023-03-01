@@ -128,16 +128,17 @@ dependencies {
     implementation Deps.design.lottie
     implementation Deps.design.swipeRefresh
     implementation Deps.design.shimmer
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
 
     //hilt
     implementation Deps.dagger_hilt.hilt
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.palette:palette-ktx:1.0.0'
 
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
 
     kapt Deps.dagger_hilt.hilt_compiler

@@ -17,6 +17,8 @@ import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
+import com.rowaad.app.data.model.quiz_model.AnswersModel
+import com.rowaad.app.data.model.quiz_model.QuizItem
 import com.rowaad.app.data.model.quiz_model.QuizModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.reviews.Review
@@ -276,11 +278,21 @@ interface UserApi {
     ): Response<Any>
 
 
-
- @GET("quizzes")
+   @GET("quizzes")
     suspend fun quizzes(
      @Query("course_id") courseId:Int
- ): Response<List<QuizModel>>
+  ): Response<List<QuizModel>>
+
+   @GET("quizzes/{quizId}")
+   suspend fun quiz(
+           @Path("quizId") quizId:Int,
+           ): Response<QuizItem>
+
+  @POST("quizzes/{quizId}/submit_quiz")
+    suspend fun sendAnswers(
+         @Path("quizId") quizId:Int,
+         @Body answers: AnswersModel,
+ ): Response<QuizModel>
 
  @GET("courses/{course_id}/files")
     suspend fun files(

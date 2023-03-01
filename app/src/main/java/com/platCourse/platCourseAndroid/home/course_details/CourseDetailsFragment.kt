@@ -538,7 +538,7 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
                 R.id.action_global_quizFragment, bundleOf(
                 "course"
                         to
-                        details.toJson()
+                details.toJson()
         )
         )
     }

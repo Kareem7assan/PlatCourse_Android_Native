@@ -22,6 +22,7 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
     var onClickItemVideo: ((VideoModel, Int, LessonId:Int?) -> Unit)? = null
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemAssign: ((VideoModel, Int) -> Unit)? = null
 
     var onDropDownClicked:((parentPosition: Int) -> Unit)? = null
     var selectedItemPosition = -1
@@ -37,6 +38,7 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
 
             adapter.onClickItemVideo= ::onClickVideo
             adapter.onClickItemLink= ::onClickLink
+            adapter.onClickItemAssign= ::onClickAssign
             adapter.onClickItemDoc= ::onClickDoc
             adapter.onDropDownClicked = { expanded , position ->
                adapter.updateExpandStatus(expanded,position)
@@ -64,6 +66,8 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
         }
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionHolder {
         return SectionHolder(ItemSectionBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
@@ -88,6 +92,9 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
 
     private fun onClickDoc(videoModel: VideoModel, i: Int) {
         onClickItemDoc?.invoke(videoModel,i)
+    }
+    private fun onClickAssign(videoModel: VideoModel, i: Int) {
+        onClickItemAssign?.invoke(videoModel,i)
     }
     private fun onClickLink(videoModel: VideoModel, i: Int) {
         onClickItemLink?.invoke(videoModel,i)

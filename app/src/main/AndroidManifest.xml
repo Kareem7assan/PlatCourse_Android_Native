@@ -9,23 +9,34 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <queries>
+
+        <!-- Specific apps you interact with, eg: -->
+        <package android:name="com.teamviewer.teamviewer.market.mobile" />
+        <!--
+             Specific intents you query for,
+             eg: for a custom share UI
+        -->
+
+    </queries>
+
     <application
         android:name=".app.App"
         android:allowBackup="false"
         android:allowClearUserData="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_launcher"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlatCourse"
         android:usesCleartextTraffic="true"
-
         tools:replace="allowBackup, label,theme">
-
-        <activity android:name=".home.course_sections.files.DownloadPdfActivity"/>
-        <activity android:name=".error.ErrorScreenActivity"/>
+        <activity android:name=".home.youtube.YoutubeActivity"></activity>
+        <activity android:name=".home.course_sections.files.DownloadPdfActivity" />
+        <activity android:name=".error.ErrorScreenActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -40,10 +51,9 @@
         <activity android:name=".home.course_sections.files.PdfReaderActivity" />
         <activity
             android:name=".home.course_details.FullScreenActivity"
-            android:screenOrientation="landscape"
             android:configChanges="screenSize"
-            android:theme="@style/AppFullScreenTheme"
-            />
+            android:screenOrientation="landscape"
+            android:theme="@style/AppFullScreenTheme" />
         <activity android:name=".menu.terms.TermsActivity" />
         <activity android:name=".menu.articles.ArticlesActivity" />
         <activity android:name=".menu.article_details.ArticleDetailsActivity" />
@@ -67,14 +77,11 @@
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"
-            android:exported="true"
-            >
-            <intent-filter
-                >
+            android:exported="true">
+            <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

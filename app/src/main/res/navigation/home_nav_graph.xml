@@ -112,6 +112,13 @@
         android:label="QuizDetailsFragment"
         tools:layout="@layout/fragment_ads">
     </fragment>
+    <fragment
+
+        android:id="@+id/quizDetailsFragment"
+        android:name="com.platCourse.platCourseAndroid.home.course_sections.quiz.quiz_details.QuizDetailsFragment"
+        android:label="QuizDetailsFragment"
+        tools:layout="@layout/fragment_details_course">
+    </fragment>
 
     <fragment
         android:id="@+id/courseLessonsFragment"
@@ -148,7 +155,7 @@
     <action android:id="@+id/action_global_quizWebViewFragment" app:destination="@id/quizWebViewFragment"/>
     <action android:id="@+id/action_global_courseFilesFragment" app:destination="@id/courseFilesFragment"/>
     <action android:id="@+id/action_global_discussionsFragment" app:destination="@id/discussionsFragment"/>
-    <action android:id="@+id/action_global_pendingCoursesFragment" app:destination="@id/pendingCoursesFragment"/><action android:id="@+id/action_global_profileTeacherFragment" app:destination="@id/profileTeacherFragment"/>
+    <action android:id="@+id/action_global_pendingCoursesFragment" app:destination="@id/pendingCoursesFragment"/><action android:id="@+id/action_global_profileTeacherFragment" app:destination="@id/profileTeacherFragment"/><action android:id="@+id/action_global_quizDetailsFragment" app:destination="@id/quizDetailsFragment"/>
 
 
 <!--

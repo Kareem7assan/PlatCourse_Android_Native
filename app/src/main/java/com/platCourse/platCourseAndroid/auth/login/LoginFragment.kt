@@ -134,16 +134,17 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     private fun handleNavigation(userModel: UserModel) {
-        showSuccessMsg(String.format(getString(R.string.attemps_times),userModel.login_times)).also {
+        /*showSuccessMsg(String.format(getString(R.string.attemps_times),userModel.login_times)).also {
                 Handler(Looper.getMainLooper()).postDelayed({
                     requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
-                },1000)
+                },1000)*/
+        requireActivity().startActivityWithAnimationFinishAllStack<HomeActivity>()
         }
 
 
 
 
-    }
+
 
 
 

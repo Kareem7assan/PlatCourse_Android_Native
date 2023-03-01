@@ -13,6 +13,8 @@ import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.notification_model.NotificationItem
 import com.rowaad.app.data.model.notification_model.NotificationModel
+import com.rowaad.app.data.model.quiz_model.AnswersModel
+import com.rowaad.app.data.model.quiz_model.QuizItem
 import com.rowaad.app.data.model.quiz_model.QuizModel
 import com.rowaad.app.data.model.register_model.RegisterModel
 import com.rowaad.app.data.model.reviews.Review
@@ -31,6 +33,8 @@ interface CourseDetailsRepository{
     fun reviews(courseId:Int):Flow<Response<List<Review>>>
     fun addReview(courseId:Int,review:Float,description:String?=null):Flow<Response<Any>>
     fun quizzes(courseId:Int): Flow<Response<List<QuizModel>>>
+    fun quiz(quizId: Int): Flow<Response<QuizItem>>
+    fun postAnswers(quizId:Int,answers:AnswersModel): Flow<Response<QuizModel>>
     fun files(courseId:Int,page:Int): Flow<Response<FilesModel>>
     fun coupon(courseId:Int,coupon:String): Flow<Response<CouponModel>>
     fun buyCoupon(courseId:Int,coupon:String): Flow<Response<Any>>

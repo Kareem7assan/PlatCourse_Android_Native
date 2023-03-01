@@ -148,7 +148,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
         binding.toolbar.root.show()
     }
 
-    private fun setupTitle(title: String) {
+     fun setupTitle(title: String) {
         binding.toolbar.tvTitle.text=title
     }
     fun setupTitleSubCat(title: String) {

@@ -1,11 +1,13 @@
 package com.platCourse.platCourseAndroid.home.course_sections.lessons
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platCourse.platCourseAndroid.R
@@ -19,12 +21,12 @@ import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.lessons.VideoModel
 import com.rowaad.utils.IntentUtils
-import com.rowaad.utils.extention.fromJson
-import com.rowaad.utils.extention.hide
-import com.rowaad.utils.extention.show
-import com.rowaad.utils.extention.toJson
+import com.rowaad.utils.extention.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.toast
+import java.net.URL
 
 class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
@@ -52,17 +54,54 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
     private fun setupActions() {
         adapter.onClickItemDoc = ::onClickDoc
+        adapter.onClickItemAssign = ::onClickItemAssign
         adapter.onClickItemVideo = ::onClickVideo
         adapter.onClickItemLink = ::onClickLink
         adapter.onDropDownClicked=::expandLesson
     }
 
+    private fun onClickItemAssign(videoModel: VideoModel, pos: Int) {
+        findNavController().navigate(R.id.action_global_quizDetailsFragment, bundleOf("quiz"
+                to videoModel.quizzes?.map {quizModel->
+            quizModel.copy(quiz = quizModel.quiz?.copy(solved = quizModel.solved,
+                passed = quizModel.passed,score = quizModel.score,quiz_questions = quizModel.quiz_questions
+            ))
+        }?.first()?.quiz.toJson()))
+    }
     private fun onClickDoc(videoModel: VideoModel, pos: Int) {
 
         //IntentUtils.openUrl(requireContext(), videoModel.file)
-        startActivity(Intent( requireContext(), PdfReaderActivity::class.java).also {
+
+        /*startActivity(Intent( requireContext(), PdfReaderActivity::class.java).also {
             it.putExtra("pdf",videoModel.file)
-        })
+        })*/
+
+        if (videoModel.downloadable==true) {
+            requireActivity().checkDownloadPermissions {
+                if (it) {
+                    openLink("https://platcourse.com/pdf_file?username=${viewModel.getUser()?.username}&phone_number=${viewModel.getUser()?.phone_number}&link=${videoModel.file!!}")
+                }
+            }
+        }
+        else{
+            //preview
+            startActivity(Intent(requireContext(), PdfReaderActivity::class.java).also {
+                it.putExtra("pdf", videoModel.file)
+            })
+            //IntentUtils.openUrl(requireContext(),item.file)
+        }
+    }
+
+    private fun openLink(url: String?) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            URL(url).openStream()
+
+        }
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        i.flags=  Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
+
+        startActivity(i)
     }
 
     private fun expandLesson(parentPosition:Int){
