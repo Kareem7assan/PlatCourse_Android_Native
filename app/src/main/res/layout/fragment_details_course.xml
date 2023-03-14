@@ -170,5 +170,41 @@
         android:background="@drawable/button_background"
         />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/qualityLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:elevation="14dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:id="@+id/tvQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="80dp"
+            android:textAlignment="center"
+            android:background="@drawable/rect_shape_stroke_grey"
+            android:textColor="@color/black"
+            android:padding="@dimen/margin_small"
+            android:drawableEnd="@drawable/ic_arrow_down_24"
+            android:text="auto"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvQualities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_quality"
+            android:background="@color/white"
+            tools:itemCount="3"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/margin_small"
+            />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -32,7 +32,7 @@ class DownloadPdfActivity : BaseActivity(R.layout.activity_download_pdf) {
         webSetting.javaScriptEnabled = true
         webSetting.javaScriptCanOpenWindowsAutomatically = true
         webSetting.domStorageEnabled = true
-        webSetting.setAppCacheEnabled(true)
+        //webSetting.setAppCacheEnabled(true)
         webSetting.loadWithOverviewMode = true
         webSetting.loadsImagesAutomatically = true
         webSetting.useWideViewPort = true

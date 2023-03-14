@@ -86,7 +86,7 @@ class QuizDetailsFragment : BaseFragment(R.layout.fragment_details_quiz) {
             binding.tvAnswers.show()
             binding.tvQuesNums.show()
             binding.tvAnswers.text=String.format(getString(R.string.result_mark),quiz?.score?.roundToInt())+"/"+quiz?.questions?.size.toString()
-            adapter.swapData(quizQuestions = quiz!!.questions as MutableList<QuestionItem>,studentAnswers = quiz!!.quiz_questions as MutableList<QuizQuestion>,solved = quiz!!.solved ?: false,passed = quiz!!.passed ?: false)
+            adapter.swapData(quizQuestions = quiz!!.questions?.shuffled() as MutableList<QuestionItem>,studentAnswers = quiz!!.quiz_questions as MutableList<QuizQuestion>,solved = quiz!!.solved ?: false,passed = quiz!!.passed ?: false)
             binding.tvQuesNums.text= String.format(getString(R.string.questions_num),quiz?.questions?.size ?: 0)
             hasAnswered=true
         }
@@ -122,7 +122,8 @@ class QuizDetailsFragment : BaseFragment(R.layout.fragment_details_quiz) {
             binding.tvTimer.show()
             binding.tvAnswers.hide()
             handleTimer(quiz?.time ?: 10f)
-            adapter.swapData(quizQuestions = quiz!!.questions as MutableList<QuestionItem>,studentAnswers = quiz!!.quiz_questions as MutableList<QuizQuestion>,solved = quiz!!.solved ?: false,passed = quiz!!.passed ?: false)
+            Log.e("quiz",quiz!!.toString())
+            adapter.swapData(quizQuestions = quiz!!.questions?.shuffled() as MutableList<QuestionItem>,studentAnswers = quiz!!.quiz_questions as MutableList<QuizQuestion>,solved = quiz!!.solved ?: false,passed = quiz!!.passed ?: false)
         }
         binding.tvQuesNums.text= String.format(getString(R.string.questions_num),quiz?.questions?.size ?: 0)
     }

@@ -38,7 +38,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
         if (arguments?.getBoolean(Constants_Api.INTENT.LOGOUT,false)==true)
             preventBack()
-
         observeNavigation()
         setupInputsValidations()
         setupActions()

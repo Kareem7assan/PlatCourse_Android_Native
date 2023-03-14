@@ -14,12 +14,16 @@ import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentLessonsCourseBinding
 import com.platCourse.platCourseAndroid.home.course_sections.files.PdfReaderActivity
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
+import com.platCourse.platCourseAndroid.home.youtube.YoutubeActivity
 import com.rowaad.app.base.BaseFragment
 import com.rowaad.app.base.viewBinding
 import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.app.data.model.lessons.LessonsModel
 import com.rowaad.app.data.model.lessons.LessonsResponse
 import com.rowaad.app.data.model.lessons.VideoModel
+import com.rowaad.dialogs_utils.DeleteDialog
+import com.rowaad.dialogs_utils.SolveQuizDialog
+import com.rowaad.dialogs_utils.SuccessDialog
 import com.rowaad.utils.IntentUtils
 import com.rowaad.utils.extention.*
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +61,16 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
         adapter.onClickItemAssign = ::onClickItemAssign
         adapter.onClickItemVideo = ::onClickVideo
         adapter.onClickItemLink = ::onClickLink
+        adapter.onClickItemYoutube = ::onClickItemYoutube
+        adapter.onClickItemFirstQuiz = ::onClickItemFirstQuiz
         adapter.onDropDownClicked=::expandLesson
+    }
+
+    private fun onClickItemFirstQuiz(lessonsModel: LessonsModel, pos: Int) {
+        SolveQuizDialog.show(requireActivity(),lessonsModel.firstUnsolvedRequiredQuiz?.quiz_title ?: ""){
+            findNavController().navigate(R.id.action_global_quizDetailsFragment, bundleOf("quiz"
+                    to lessonsModel.firstUnsolvedRequiredQuiz?.copy(quiz_questions = lessonsModel.firstUnsolvedRequiredQuiz?.quiz_questions ?: listOf()).toJson()))
+        }
     }
 
     private fun onClickItemAssign(videoModel: VideoModel, pos: Int) {
@@ -129,6 +142,32 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
     private fun onClickLink(videoModel: VideoModel, pos: Int) {
         IntentUtils.openUrl(requireContext(), videoModel.video_link)
+    }
+
+    private fun onClickItemYoutube(videoModel: VideoModel, pos: Int) {
+        /*startActivity(Intent(requireContext(),YoutubeActivity::class.java).also {
+            Log.e("video_id",videoModel.video_id.toString())
+            it.putExtra("video_id",videoModel.video_id)
+            it.putExtra("video_title",videoModel.videoName)
+        })*/
+        findNavController().navigate(
+            R.id.action_global_courseDetailsFragment,
+            bundleOf(
+                "details"
+                        to
+                        course.toJson(),
+                "url"
+                        to
+                        videoModel.video_id,
+                "youtube"
+                        to
+                        true,
+                "lesson_id"
+                        to
+                        lessonId
+            )
+
+        )
     }
 
     private fun handleToolbar() {

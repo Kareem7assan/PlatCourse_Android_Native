@@ -10,26 +10,35 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.kotvertolet.youtubejextractor.JExtractorCallback
+import com.github.kotvertolet.youtubejextractor.YoutubeJExtractor
+import com.github.kotvertolet.youtubejextractor.exception.YoutubeRequestException
+import com.github.kotvertolet.youtubejextractor.models.newModels.AdaptiveFormatsItem
+import com.github.kotvertolet.youtubejextractor.models.newModels.VideoPlayerConfig
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
 import com.google.android.exoplayer2.mediacodec.MediaCodecInfo
 import com.google.android.exoplayer2.mediacodec.MediaCodecSelector
+import com.google.android.exoplayer2.source.MergingMediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.trackselection.TrackSelectionOverride
 import com.google.android.exoplayer2.trackselection.TrackSelector
 import com.google.android.exoplayer2.upstream.DefaultAllocator
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.FragmentDetailsCourseBinding
+import com.platCourse.platCourseAndroid.home.course_details.adapter.QualityAdapter
 import com.platCourse.platCourseAndroid.home.course_details.dialog.CouponBottomDialog
 import com.platCourse.platCourseAndroid.home.course_details.dialog.CouponPurchaseBottomDialog
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
@@ -42,15 +51,18 @@ import com.rowaad.app.data.model.attribute_course_model.ItemCourseDetails
 import com.rowaad.app.data.model.courses_model.CourseItem
 import com.rowaad.utils.IntentUtils
 import com.rowaad.utils.extention.*
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), MotionLayout.TransitionListener, CourseListener, ExoPlayer.AudioOffloadListener, DisplayManager.DisplayListener {
 
-    private var trackSelector: DefaultTrackSelector? = null
-    private var qualityPopUp: PopupMenu? = null
+    private var isShowQuality: Boolean = false
+    private var videoQuality: String?=null
+    private var audioQuality: String?=null
     private var audioManager: AudioManager? = null
     private var videoUrl: String? = null
+    private var youtube: Boolean? = null
     private var isPlay: Boolean = false
 
     var simplePlayer: ExoPlayer? = null
@@ -66,7 +78,7 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
     private var updateTime:Long? = null
     private var currentTime:Long? = null
     private val adapter by lazy { AttributeAdapter(this) }
-    var qualityList = ArrayList<Pair<String, TrackSelectionOverride>>()
+    private val qualityAdapter by lazy { QualityAdapter() }
     object SharedPlayer{
         var lastPos=0L
     }
@@ -79,6 +91,7 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         details=arguments?.getString("details")?.fromJson<CourseItem>()
         videoUrl=arguments?.getString("url")
         lessonId=arguments?.getInt("lesson_id")
+        youtube=arguments?.getBoolean("youtube")
         initPlayer()
         handleWaterMark()
         setupRec()
@@ -188,6 +201,17 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         }
         binding.contactBtn.setOnClickListener {
             viewModel.sendRequestTeacher(details?.ownerId ?: 0)
+        }
+
+        binding.qualityLay.setOnClickListener {
+            isShowQuality=isShowQuality.not()
+            if (isShowQuality){
+                binding.rvQualities.show().also { binding.tvQuality.setCompoundDrawablesWithIntrinsicBounds(null,null,ContextCompat.getDrawable(requireContext(),R.drawable.ic_arrow_up_24),null) }
+            }
+            else{
+                binding.rvQualities.hide().also { binding.tvQuality.setCompoundDrawablesWithIntrinsicBounds(null,null,ContextCompat.getDrawable(requireContext(),R.drawable.ic_arrow_down_24),null) }
+            }
+
         }
     }
 
@@ -333,7 +357,8 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
                         //change flag
                         isPlayedForFirstTime = true
                         initialTime = System.currentTimeMillis().div(SECOND_DURATION_INTERVAL)
-                    } else {
+                    }
+                    else {
                         if (updateTime != null) {
                             initialTime =
                                     System.currentTimeMillis().div(SECOND_DURATION_INTERVAL).minus(
@@ -360,17 +385,20 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
 
              startActivityForResult(Intent(requireContext(), FullScreenActivity::class.java).also {
                  Log.e("currentPosition",simplePlayer!!.currentPosition.toString())
-                 it.putExtra("pos", simplePlayer!!.currentPosition)
                  it.putExtra("isPlay", simplePlayer!!.isPlaying)
                  it.putExtra("name", viewModel.getUser()?.username)
                  it.putExtra("url", videoUrl ?: details?.intro!!)
+                 it.putExtra("youtube", youtube)
                  it.putExtra("speed", simplePlayer?.playbackParameters?.speed ?: 1f)
+                 it.putExtra("pos", simplePlayer!!.currentPosition)
                  it.putExtra("lesson_id", lessonId)
 
              },500).also {
                  releasePlayer()
              }
         }
+
+
 
     }
 
@@ -396,32 +424,141 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
 
 
     private fun initPlayer(speed: Float=1f) {
+
+        val MIN_BUFFER_DURATION = 1000/*3000*/ // 3 seconds
+
+        val MAX_BUFFER_DURATION = 2000/*8000*/ // 8 seconds
+
+        val MIN_PLAYBACK_RESUME_BUFFER = 500/*1500*/ // 1.5 seconds
+
+        val MIN_PLAYBACK_START_BUFFER = 500 // 0.5 seconds
+
+
+        val allocatorSize = 2 * 1024 * 1024; // 2MB
+        val allocator =  DefaultAllocator(true, allocatorSize)
+        val loadControl =  DefaultLoadControl.Builder().setAllocator( DefaultAllocator(true, 16))
+                                                       .setBufferDurationsMs(MIN_BUFFER_DURATION, MAX_BUFFER_DURATION, MIN_PLAYBACK_START_BUFFER, MIN_PLAYBACK_RESUME_BUFFER)
+                                                       .setTargetBufferBytes(-1)
+                                                       .setPrioritizeTimeOverSizeThresholds(true)
+                                                       .createDefaultLoadControl()
+
         simplePlayer = ExoPlayer.Builder(requireContext(),getDrf())
                 .setTrackSelector(getTrackSelector())
-                .setLoadControl(getLoadControl())
+                .setLoadControl(if (youtube==true) loadControl else getLoadControl())
                 .build()
-
-        val media = MediaItem
+        handleQualityRec(youtube)
+        if (youtube==true){
+            handleYoutubeExtractor(speed)
+        } else {
+            setupNormalMedia(media = MediaItem
                 .Builder()
                 .setUri(videoUrl ?: details?.intro!!)
                 .setMimeType(MimeTypes.BASE_TYPE_VIDEO)
-                .build()
+                .build(), speed = speed)
+        }
 
+
+        setupVideoListener()
+    }
+
+    private fun handleYoutubeExtractor(speed: Float) {
+        val youtubeJExtractor = YoutubeJExtractor()
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            youtubeJExtractor.extract(videoUrl, object : JExtractorCallback {
+                override fun onSuccess(videoData: VideoPlayerConfig?) {
+
+                    videoQuality =
+                        videoData?.streamingData!!.adaptiveFormats.first {
+                            it.qualityLabel?.contains(
+                                "360"
+                            ) == true
+                        }.url
+                            ?: videoData?.streamingData!!.adaptiveFormats.first {
+                                it.mimeType?.contains(
+                                    "video/mp4"
+                                ) == true
+                            }.url!!
+
+                    audioQuality =
+                        videoData?.streamingData!!.adaptiveFormats.first { it.mimeType?.contains("audio") == true }.url!!
+
+
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
+
+                        qualityAdapter.swapData(videoData?.streamingData!!.adaptiveFormats.filter {
+                            it.qualityLabel.isNullOrBlank().not()
+                        }).also { qualityAdapter.onClickItem = ::onClickItem }
+
+                        val pair = getAudioSource(audioQuality!!, videoQuality!!)
+                        simplePlayer?.setMediaSource(MergingMediaSource(pair.first, pair.second), true)
+                        setupPlayerSettings(speed)
+                    }
+
+                }
+
+                override fun onNetworkException(e: YoutubeRequestException?) {
+
+                }
+
+                override fun onError(exception: Exception?) {
+
+                }
+
+            })
+
+        }
+    }
+    private fun onClickItem(adaptiveFormatsItem: AdaptiveFormatsItem, i: Int) {
+        val speed=simplePlayer?.playbackParameters?.speed ?: 1f
+        SharedPlayer.lastPos=simplePlayer?.currentPosition ?: 0
+        viewModel.lastPos=simplePlayer?.currentPosition ?: 0
+        videoQuality=adaptiveFormatsItem.url
+        val pair=getAudioSource(audioQuality!!, videoQuality!!)
+        simplePlayer?.setMediaSource(MergingMediaSource(pair.first,pair.second),true)
+        setupPlayerSettings(speed).also { binding.rvQualities.hide() }
+        binding!!.tvQuality.text=adaptiveFormatsItem.qualityLabel
+    }
+
+    private fun getAudioSource(audioQuality:String,videoQuality:String):Pair<ProgressiveMediaSource,ProgressiveMediaSource>{
+        val audioSource=ProgressiveMediaSource
+            .Factory(DefaultHttpDataSource.Factory())
+            .createMediaSource(MediaItem.fromUri(audioQuality))
+
+        val videoSource=ProgressiveMediaSource
+            .Factory(DefaultHttpDataSource.Factory())
+            .createMediaSource(MediaItem.fromUri(videoQuality))
+    return Pair(audioSource,videoSource)
+    }
+    private fun handleQualityRec(youtube: Boolean?) {
+        if (youtube==true)
+            binding.qualityLay.show()
+        else
+            binding.qualityLay.hide()
+
+        binding.rvQualities.layoutManager=LinearLayoutManager(requireContext())
+        binding.rvQualities.adapter=qualityAdapter
+    }
+
+    private fun setupNormalMedia(media: MediaItem, speed: Float) {
         simplePlayer?.addMediaItem(media)
+        setupPlayerSettings(speed)
+    }
+
+    private fun setupPlayerSettings(speed: Float) {
+
         simplePlayer?.setPlaybackSpeed(speed)
         simplePlayer?.playWhenReady=true
         if (SharedPlayer.lastPos > 0) simplePlayer?.seekTo(viewModel.lastPos)
         simplePlayer?.playWhenReady = playWhenReady
+
+
         simplePlayer?.prepare()
         binding.styledVideo.showController()
         binding.styledVideo.controllerAutoShow=true
         binding.frameLayout.addTransitionListener(this)
         binding.progressVideo.isVisible=true
         binding.styledVideo.player = simplePlayer
-
-        setupVideoListener()
     }
-
     private fun getDrf(): DefaultRenderersFactory {
         return DefaultRenderersFactory(requireContext().applicationContext)
                 .experimentalSetSynchronizeCodecInteractionsWithQueueingEnabled(true)
@@ -627,11 +764,25 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
         if (requestCode==500 && resultCode==RESULT_OK){
             viewModel.lastPos=data?.getLongExtra("lastPos",0)!!
             SharedPlayer.lastPos=data?.getLongExtra("lastPos",0)!!
-
-            //toast(playWhenReady.toString())
-            initPlayer(data.getFloatExtra("speed",1f))
+            youtube=data.getBooleanExtra("youtube", false)
+            if (youtube==true && videoQuality!=null && audioQuality!=null)
+                 handleResumeYoutube(data.getFloatExtra("speed",0f)).also { Log.e("onActivity",youtube.toString()+","+videoQuality) }
+            else
+                initPlayer(data.getFloatExtra("speed",1f)).also { Log.e("onActivity",youtube.toString()+","+videoQuality) }
 
         }
+    }
+
+    private fun handleResumeYoutube(speed: Float) {
+        simplePlayer = ExoPlayer.Builder(requireContext(),getDrf())
+            .setTrackSelector(getTrackSelector())
+            .setLoadControl(getLoadControl())
+            .build()
+
+        val pair=getAudioSource(audioQuality!!, videoQuality!!)
+        simplePlayer?.setMediaSource(MergingMediaSource(pair.first,pair.second),true)
+        setupPlayerSettings(speed).also { binding.rvQualities.hide() }
+        setupVideoListener()
     }
 
 

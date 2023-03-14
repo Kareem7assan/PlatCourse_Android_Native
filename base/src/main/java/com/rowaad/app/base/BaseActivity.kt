@@ -79,11 +79,11 @@ abstract class BaseActivity(private val layoutResource: Int): AppCompatActivity(
                 // here stop video player
                 if (UtilitySecurity.haveManyDisplays(applicationContext)){
                     Log.e("exc", "1")
-                    addValue(PlatApp(true, uidValue ?: ""))
+                   // addValue(PlatApp(true, uidValue ?: ""))
                     manyScreenPolicy()
                 }
                 else{
-                    addValue(PlatApp(true, uidValue ?: ""))
+                   // addValue(PlatApp(true, uidValue ?: ""))
 
                     voilantPolicy()
                 }
@@ -227,10 +227,7 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
         else
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        )
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         //resources.setLanguage(baseViewModel.getBaseRepository(this).lang)
@@ -263,7 +260,8 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
         observeUnAuthorized()
         observeMaintenance()
         observeConnection()
-        checkUserRegisteredBeforeInDB(uidValue)
+        checkEmulator()
+        //checkUserRegisteredBeforeInDB(uidValue)
 
 
         if (applicationIsInstall(this, "com.teamviewer.quicksupport.market")
@@ -312,7 +310,7 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
         }
     }
 
-     fun checkUserRegisteredBeforeInDB(uidValue: String?) {
+     private fun checkUserRegisteredBeforeInDB(uidValue: String?) {
 
         ref?.child("plat_app")?.child(uidValue!!)?.get()?.addOnSuccessListener {
             val json = it.value.toJson()

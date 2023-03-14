@@ -37,7 +37,7 @@ class TermsActivity : BaseActivity(R.layout.activity_terms) {
             webSetting.javaScriptEnabled = true
             webSetting.javaScriptCanOpenWindowsAutomatically = true
             webSetting.domStorageEnabled = true
-            webSetting.setAppCacheEnabled(true)
+            //webSetting.setAppCacheEnabled(true)
             webSetting.loadWithOverviewMode = true
             webSetting.loadsImagesAutomatically = true
             webSetting.useWideViewPort = true

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootPlayer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,17 +10,26 @@
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        app:enableAutomaticInitialization="true"
-        app:showYouTubeButton="false"
-        app:showFullScreenButton="true"
-        app:showSeekBar="true"
-        app:handleNetworkEvents="true"
-        app:autoPlay="true"
-
-        app:videoId="S0Q4gqBUs7c"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+
+        app:layout_constraintBottom_toBottomOf="parent"
+         />
+<View
+    android:id="@+id/myView"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:elevation="@dimen/margin_16"
+    android:background="#00ffffff"
+    />
+
+    <LinearLayout
+        android:id="@+id/progressLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
@@ -29,9 +39,9 @@
         app:layout_constraintStart_toStartOf="@id/youtube_player_view"
         app:layout_constraintEnd_toEndOf="@id/youtube_player_view"
         android:progressTint="@color/red"
-        android:visibility="invisible"
+        android:elevation="@dimen/margin_normal"
         android:indeterminateTint="@color/red"
 
         />
-
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

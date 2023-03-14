@@ -17,7 +17,7 @@ object AddressUtils {
                     lng,
                     1
             )
-            selectedAddress=addresses[0].getAddressLine(0)
+            //selectedAddress=addresses[0]!!.getAddressLine(0)
         }
         catch (ioException: Exception) {
             ioException.printStackTrace()

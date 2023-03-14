@@ -23,6 +23,7 @@ data class LessonsModel(
     @SerializedName("videos") val videos: List<VideoModel>,
     @SerializedName("course") val course: Int,
     @SerializedName("can_start") val canStart: Boolean=false,
+    @SerializedName("first_unsolved_required_quiz") val firstUnsolvedRequiredQuiz: QuizItem?=null,
     @SerializedName("created_at") val created_at: String,
     @SerializedName("updated_at") val updated_at: String,
     //for UI purpose
@@ -34,6 +35,7 @@ data class VideoModel(
     @SerializedName("content_type") val content_type : Int?,
     @SerializedName("video_link") val video_link : String?,
     @SerializedName("video_file") var video_file : String?,
+    @SerializedName("video_id") var video_id : String?,
     @SerializedName("downloadable") var downloadable: Boolean?,
     var videoName: String? = null,
     var file: String? = null,

@@ -16,6 +16,8 @@
     <string name="login">تسجيل الدخول</string>
     <string name="delete_address">هل تريد حذف العنوان ؟</string>
     <string name="delete_msg_address">سيتم حذف العنوان نهائياً من قائمة العناوين اذا كنت تريد الحذف حقاً يرجي تأكيد الخذف</string>
+    <string name="msg_dialog_quiz">عفواً يجب أولاً حل اختبار %1$s</string>
+    <string name="go_test">الذهاب للاختبار</string>
 
     <string name="delete_msg_fav">سيتم حذف الاعلان نهائياً من المفضلة اذا كنت تريد الحذف حقاً يرجي تأكيد الخذف ؟</string>
     <string name="delete">حذف</string>

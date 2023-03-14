@@ -17,29 +17,48 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.*
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.kotvertolet.youtubejextractor.JExtractorCallback
+import com.github.kotvertolet.youtubejextractor.YoutubeJExtractor
+import com.github.kotvertolet.youtubejextractor.exception.YoutubeRequestException
+import com.github.kotvertolet.youtubejextractor.models.newModels.AdaptiveFormatsItem
+import com.github.kotvertolet.youtubejextractor.models.newModels.VideoPlayerConfig
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.mediacodec.MediaCodecInfo
 import com.google.android.exoplayer2.mediacodec.MediaCodecSelector
+import com.google.android.exoplayer2.source.MergingMediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelector
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DefaultAllocator
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.util.Util
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ActivityFullScreenBinding
+import com.platCourse.platCourseAndroid.home.course_details.adapter.QualityAdapter
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.utils.extention.hide
+import com.rowaad.utils.extention.invisible
 import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.Listener, MotionLayout.TransitionListener, DisplayManager.DisplayListener {
 
+    private var youtube: Boolean = false
     private var speed: Float = 1f
+    private val qualityAdapter by lazy { QualityAdapter() }
+    private var isShowQuality: Boolean = false
 
     private var lastPos: Long = 0
     private var playWhenReady: Boolean = true
@@ -47,6 +66,8 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
     private var binding: ActivityFullScreenBinding? = null
     private var isPlay: Boolean = false
     private val viewModel: CoursesViewModel by viewModels()
+    private var videoQuality: String?=null
+    private var audioQuality: String?=null
 
     private var initialTime = 0L
     private var updateTime:Long? = null
@@ -62,8 +83,24 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
         //hideSystemBars()
         handleMuting()
         //window.decorView.setOnSystemUiVisibilityChangeListener(onSystemUiVisibilityChangeListener);
-        binding!!.rootFullScreen.setOnApplyWindowInsetsListener(onApplyWindowInsetsListener);
+        binding!!.rootFullScreen.setOnApplyWindowInsetsListener(onApplyWindowInsetsListener)
+        setupActions()
 
+    }
+
+    private fun setupActions() {
+        binding!!.qualityLay.setOnClickListener {
+            isShowQuality=isShowQuality.not()
+            if (isShowQuality){
+                binding!!.rvQualities.show().also { binding!!.tvQuality.setCompoundDrawablesWithIntrinsicBounds(null,null,
+                    ContextCompat.getDrawable(this,R.drawable.ic_arrow_up_24),null) }
+            }
+            else{
+                binding!!.rvQualities.hide().also { binding!!.tvQuality.setCompoundDrawablesWithIntrinsicBounds(null,null,
+                    ContextCompat.getDrawable(this,R.drawable.ic_arrow_down_24),null) }
+            }
+            playFullScreen()
+        }
     }
 
 
@@ -164,33 +201,22 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
                 .setTrackSelector(getTrackSelector())
                 .setLoadControl(getLoadControl())
                 .build()
+        handleQualityRec(youtube)
 
-        val media = MediaItem
+        if (youtube){
+            handleYoutubeExtractor(speed,url,pos)
+        } else {
+            setupNormalMedia(media = MediaItem
                 .Builder()
                 .setUri(url)
                 .setMimeType(MimeTypes.BASE_TYPE_VIDEO)
-                .build()
-
-        simplePlayer?.addMediaItem(media)
-        simplePlayer?.playWhenReady=true
-        if (lastPos > 0) simplePlayer?.seekTo(lastPos)
-
-        simplePlayer?.playWhenReady = playWhenReady
-        simplePlayer?.setPlaybackSpeed(speed)
-        simplePlayer?.prepare()
-        simplePlayer?.addListener(this)
-        binding?.frameLayout?.addTransitionListener(this)
-        binding?.styledVideo?.showController()
-        binding?.styledVideo?.controllerAutoShow=true
+                .build(), speed = speed)
+        }
 
 
-        val params: ConstraintLayout.LayoutParams = binding?.styledVideo?.layoutParams as ConstraintLayout.LayoutParams
-        params.width = MATCH_PARENT
-        params.height = MATCH_PARENT
-        binding?.styledVideo?.layoutParams = params
-        binding?.styledVideo?.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
 
-        //setCurrentPosition(simplePlayer!!, pos).also {if (isPlay) simplePlayer!!.play() }
+
+        playFullScreen()
         binding?.styledVideo?.player= simplePlayer
 
 
@@ -198,12 +224,107 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
             intent.putExtra("lastPos", simplePlayer?.currentPosition)
             intent.putExtra("isPlay", simplePlayer?.isPlaying)
             intent.putExtra("speed", simplePlayer?.playbackParameters?.speed)
+            intent.putExtra("youtube", youtube)
+
             setResult(RESULT_OK, intent)
             releasePlayer()
             finish()
 
         }
+        setupVideoListener()
+    }
+    private fun setupNormalMedia(media: MediaItem, speed: Float) {
+        simplePlayer?.addMediaItem(media)
+        setupPlayerSettings(speed)
+    }
+    private fun handleYoutubeExtractor(speed: Float,url: String, pos: Long) {
+        val youtubeJExtractor = YoutubeJExtractor()
+        GlobalScope.launch {
+            youtubeJExtractor.extract(url, object : JExtractorCallback {
+                override fun onSuccess(videoData: VideoPlayerConfig?) {
+                    videoQuality =
+                        videoData?.streamingData!!.adaptiveFormats.first { it.qualityLabel?.contains("360") == true }.url
+                            ?:
+                                    videoData?.streamingData!!.adaptiveFormats.first { it.mimeType?.contains("video/mp4") == true }.url!!
 
+                    audioQuality=videoData?.streamingData!!.adaptiveFormats.first { it.mimeType?.contains("audio")==true }.url!!
+
+
+                    launch(Dispatchers.Main){
+                        qualityAdapter.swapData(videoData?.streamingData!!.adaptiveFormats.filter { it.qualityLabel.isNullOrBlank().not() }).also { qualityAdapter.onClickItem=::onClickItem }
+                        val pair=getAudioSource(audioQuality!!, videoQuality!!)
+                        simplePlayer?.setMediaSource(MergingMediaSource(pair.first,pair.second),true)
+                        setupPlayerSettings(speed).also {
+                            playFullScreen()
+
+                        }
+                    }
+                }
+
+                override fun onNetworkException(e: YoutubeRequestException?) {
+
+                }
+
+                override fun onError(exception: Exception?) {
+
+                }
+
+            })
+        }
+    }
+
+    private fun playFullScreen() {
+        val params: ConstraintLayout.LayoutParams =
+            binding?.styledVideo?.layoutParams as ConstraintLayout.LayoutParams
+        params.width = MATCH_PARENT
+        params.height = MATCH_PARENT
+        binding?.styledVideo?.layoutParams = params
+        binding?.styledVideo?.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+    }
+
+    private fun onClickItem(adaptiveFormatsItem: AdaptiveFormatsItem, i: Int) {
+        val speed=simplePlayer?.playbackParameters?.speed ?: 1f
+        lastPos=simplePlayer?.currentPosition ?: 0
+        videoQuality=adaptiveFormatsItem.url
+        val pair=getAudioSource(audioQuality!!, videoQuality!!)
+        simplePlayer?.setMediaSource(MergingMediaSource(pair.first,pair.second),true)
+        setupPlayerSettings(speed).also { binding!!.rvQualities.hide() }
+        binding!!.tvQuality.text=adaptiveFormatsItem.qualityLabel
+    }
+    private fun setupPlayerSettings(speed: Float) {
+        simplePlayer?.setPlaybackSpeed(speed)
+        simplePlayer?.playWhenReady=true
+        if (lastPos > 0) simplePlayer?.seekTo(lastPos)
+        simplePlayer?.playWhenReady = playWhenReady
+        simplePlayer?.prepare()
+        binding?.styledVideo?.showController()
+        binding?.styledVideo?.controllerAutoShow=true
+        binding?.frameLayout?.addTransitionListener(this)
+        binding?.progressVideo?.isVisible=true
+        binding?.styledVideo?.player = simplePlayer
+        simplePlayer?.addListener(this)
+    }
+
+    private fun getAudioSource(audioQuality:String,videoQuality:String):Pair<ProgressiveMediaSource, ProgressiveMediaSource>{
+        val audioSource= ProgressiveMediaSource
+            .Factory(DefaultHttpDataSource.Factory())
+            .createMediaSource(MediaItem.fromUri(audioQuality))
+
+        val videoSource= ProgressiveMediaSource
+            .Factory(DefaultHttpDataSource.Factory())
+            .createMediaSource(MediaItem.fromUri(videoQuality))
+        return Pair(audioSource,videoSource)
+    }
+    private fun handleQualityRec(youtube: Boolean?) {
+        if (youtube==true)
+            binding!!.qualityLay.show()
+        else
+            binding!!.qualityLay.hide()
+
+        binding!!.rvQualities.layoutManager= LinearLayoutManager(this)
+        binding!!.rvQualities.adapter=qualityAdapter
+    }
+    private fun setupVideoListener(){
         simplePlayer?.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
@@ -214,19 +335,20 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
                         //change flag
                         isPlayedForFirstTime = true
                         initialTime = System.currentTimeMillis()
-                                .div(CourseDetailsFragment.SECOND_DURATION_INTERVAL)
-                    } else {
+                            .div(CourseDetailsFragment.SECOND_DURATION_INTERVAL)
+                    }
+                    else {
                         if (updateTime != null) {
                             initialTime = System.currentTimeMillis()
-                                    .div(CourseDetailsFragment.SECOND_DURATION_INTERVAL).minus(
-                                            updateTime ?: 0L
-                                    )
+                                .div(CourseDetailsFragment.SECOND_DURATION_INTERVAL).minus(
+                                    updateTime ?: 0L
+                                )
                             updateTime = null
                         }
                     }
                     binding?.styledVideo?.postDelayed(
-                            this@FullScreenActivity::calculatePlayingTime,
-                            CourseDetailsFragment.SECOND_DURATION_INTERVAL
+                        this@FullScreenActivity::calculatePlayingTime,
+                        CourseDetailsFragment.SECOND_DURATION_INTERVAL
                     )
                 }
                 if (!isPlaying) {
@@ -235,8 +357,8 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
             }
 
         })
-    }
 
+    }
     private fun getDrf(): DefaultRenderersFactory {
         return DefaultRenderersFactory(this.applicationContext)
                 .experimentalSetSynchronizeCodecInteractionsWithQueueingEnabled(true)
@@ -388,6 +510,7 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
     }
 
     private fun initPlayer(){
+        youtube=intent?.getBooleanExtra("youtube",false) ?: false
         val url=intent.getStringExtra("url")!!
         lastPos=if (lastPos==0L) intent.getLongExtra("pos", 0L) else lastPos
         val name=intent.getStringExtra("name")
@@ -500,6 +623,7 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
         intent.putExtra("lastPos", simplePlayer?.currentPosition)
         intent.putExtra("isPlay", simplePlayer?.isPlaying)
         intent.putExtra("speed", simplePlayer?.playbackParameters?.speed)
+        intent.putExtra("youtube", youtube)
         setResult(RESULT_OK, intent)
         finish()
         releasePlayer()

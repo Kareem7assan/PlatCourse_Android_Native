@@ -16,7 +16,9 @@
     <string name="login">Login</string>
     <string name="delete_msg_fav">this ad will delete from your fav are you sure you want delete ?</string>
     <string name="delete_msg_address">this address will delete from your addresses ?</string>
+    <string name="msg_dialog_quiz">this address will delete from your addresses ?</string>
     <string name="delete">delete</string>
+    <string name="go_test">Go test</string>
 
     <string name="connection_problem">You have a connection problem</string>
     <string name="connection_problem_details">You have a problem connecting to the internet Try to connect again and try again</string>

@@ -1,74 +1,134 @@
 package com.platCourse.platCourseAndroid.home.youtube
 
+
 import android.content.res.Configuration
-import android.os.Bundle
-import android.util.Log
-import android.widget.ProgressBar
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AppCompatActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.PlayerUiController
 import com.platCourse.platCourseAndroid.R
+import com.platCourse.platCourseAndroid.databinding.ActivityYoutubeBinding
+import com.rowaad.app.base.BaseActivity
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
-import com.rowaad.utils.extention.toast
 
 
-class YoutubeActivity : AppCompatActivity() {
-    private lateinit var youTubePlayerView: YouTubePlayerView
-    private var progress: ProgressBar?=null
+class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_youtube)
-        youTubePlayerView = findViewById(R.id.youtube_player_view)
-         progress = findViewById(R.id.progress)
-        lifecycle.addObserver(youTubePlayerView)
-        val tracker = YouTubePlayerTracker()
-        val iFramePlayerOptions =  IFramePlayerOptions.Builder()
-        iFramePlayerOptions.controls(1)
-        iFramePlayerOptions.rel(0)
-        val build = iFramePlayerOptions.build()
-        youTubePlayerView.addYouTubePlayerListener(tracker)
-        //IFramePlayerOptions.Builder().rel()
-        //youTubePlayerView.addYouTubePlayerListener(listener)
+    private var isSpeed: Boolean = false
+    private lateinit var controller: PlayerUiController
+    private lateinit var player: YouTubePlayerView
+    private lateinit var tracker: YouTubePlayerTracker
+    private var videoId: String?=null
+    private var binding: ActivityYoutubeBinding? = null
 
-        //youTubePlayerView.initializeWithWebUi(listener,true)
-        youTubePlayerView.getYouTubePlayerWhenReady(object : YouTubePlayerCallback {
-            override fun onYouTubePlayer(youTubePlayer: YouTubePlayer) {
-                //toast("ready")
-          //      toast(tracker.currentSecond.toString()+)
+    override fun init() {
+        binding= ActivityYoutubeBinding.bind(findViewById(R.id.rootPlayer))
+        videoId=intent.getStringExtra("video_id") ?: ""
+        val title=intent.getStringExtra("video_title") ?: ""
+        binding!!.progress.show()
+        tracker = YouTubePlayerTracker()
+        player=binding!!.youtubePlayerView
+        //controller=binding!!.youtubePlayerView.getPlayerUiController()
+        /*player.enableAutomaticInitialization=false
+        player.addYouTubePlayerListener(tracker)
+        player.initialize(tracker, IFramePlayerOptions.Builder()
+            .controls(1)
+            .rel(0)
+            .build())
+        */
+        //DefaultPlayerUiController().rootView.
+        binding!!.progressLay.show()
+        binding!!.youtubePlayerView.hide()
+        lifecycle.addObserver(player)
+      //  player.getPlayerUiController().setVideoTitle(title)
+       // controller.showUi(true)
+        binding!!.myView.setOnClickListener {  }
 
-                tracker.onPlaybackQualityChange(youTubePlayer,PlayerConstants.PlaybackQuality.SMALL)
+        player.addYouTubePlayerListener(object : YouTubePlayerListener {
+            override fun onApiChange(youTubePlayer: YouTubePlayer) {
+
+            }
+
+            override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
+
+            }
+
+            override fun onError(youTubePlayer: YouTubePlayer, error: PlayerConstants.PlayerError) {
+
+            }
+
+            override fun onPlaybackQualityChange(
+                youTubePlayer: YouTubePlayer,
+                playbackQuality: PlayerConstants.PlaybackQuality
+            ) {
+
+            }
+
+            override fun onPlaybackRateChange(
+                youTubePlayer: YouTubePlayer,
+                playbackRate: PlayerConstants.PlaybackRate
+            ) {
+
+            }
+
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                binding!!.youtubePlayerView.show()
+                binding!!.progressLay.hide()
+                youTubePlayer.loadVideo(videoId!!,0f)
+                //player.enableBackgroundPlayback(true)
+
+
+            }
+
+            override fun onStateChange(
+                youTubePlayer: YouTubePlayer,
+                state: PlayerConstants.PlayerState
+            ) {
+                when(state){
+                    PlayerConstants.PlayerState.ENDED ->{
+                        binding!!.progress.show()
+                    }
+                    PlayerConstants.PlayerState.PLAYING ->{
+                        binding!!.progress.hide()
+                        binding!!.youtubePlayerView.show()
+                    }
+                    else->{
+                    }
+
+                }
+            }
+
+            override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
+
+            }
+
+            override fun onVideoId(youTubePlayer: YouTubePlayer, videoId: String) {
+            }
+
+            override fun onVideoLoadedFraction(
+                youTubePlayer: YouTubePlayer,
+                loadedFraction: Float
+            ) {
+
             }
         })
-        youTubePlayerView.addFullScreenListener(object : YouTubePlayerFullScreenListener {
-            override fun onYouTubePlayerEnterFullScreen() {
-            }
-
-            override fun onYouTubePlayerExitFullScreen() {
-
-            }
-        })
-        //controller.showYouTubeButton(false)
 
     }
+
+
 
     override fun onConfigurationChanged(@NonNull newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            youTubePlayerView.enterFullScreen()
+            binding!!.youtubePlayerView.enterFullScreen()
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            youTubePlayerView.exitFullScreen()
+            binding!!.youtubePlayerView.exitFullScreen()
         }
     }
 }

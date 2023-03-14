@@ -23,6 +23,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
     private var lessonId:Int? = null
     var onClickItemVideo: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemYoutube: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
     var onClickItemAssign: ((VideoModel, Int) -> Unit)? = null
 
@@ -70,24 +71,28 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
             else{
                     view5.show()
             }
-                if (item.video_link!=null || item.video_file!=null) {
+            //videos
+                if (item.video_link!=null || item.video_file!=null || item.video_id!=null) {
                     tvTitle.text = item.videoName
                     grpVideo.isVisible=true
                     // add click listener
                     ivMime.onClick {
-                        if (item.video_file!=null)
-                            onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
-                        else
-                            onClickItemLink?.invoke(item,bindingAdapterPosition)
+                        when {
+                            item.video_file!=null -> onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
+                            item.video_id != null -> onClickItemYoutube?.invoke(item,bindingAdapterPosition)
+                            else -> onClickItemLink?.invoke(item,bindingAdapterPosition)
+                        }
                     }
                     tvTitle.onClick {
-                        if (item.video_file!=null)
-                            onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
-                        else
-                            onClickItemLink?.invoke(item,bindingAdapterPosition)
+                        when {
+                            item.video_file!=null -> onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
+                            item.video_id != null -> onClickItemYoutube?.invoke(item,bindingAdapterPosition)
+                            else -> onClickItemLink?.invoke(item,bindingAdapterPosition)
+                        }
                     }
 
                 }
+            //files
             if (item.file!=null){
                     tvTitleDoc.text = item.videoName
                     //update Mime Icon
@@ -105,7 +110,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
             else{
                 grpDoc.isVisible=false
             }
-            Log.e("quizes",item.quizzes?.size.toString())
+            //quizzes
             if (item.quizzes?.size ?: 0 > 0){
                     tvTitleAssign.text = item.quizzes?.first()?.quiz?.quiz_title
                     //update Mime Icon

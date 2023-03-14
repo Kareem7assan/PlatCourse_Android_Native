@@ -62,7 +62,7 @@ class QuizWebViewFragment : BaseFragment(R.layout.fragment_ads) {
         webSetting.javaScriptEnabled = true
         webSetting.javaScriptCanOpenWindowsAutomatically = true
         webSetting.domStorageEnabled = true
-        webSetting.setAppCacheEnabled(true)
+        //webSetting.setAppCacheEnabled(true)
         webSetting.loadWithOverviewMode = true
         webSetting.loadsImagesAutomatically = true
         webSetting.builtInZoomControls = true

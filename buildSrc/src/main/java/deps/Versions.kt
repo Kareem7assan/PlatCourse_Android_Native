@@ -1,7 +1,7 @@
 package deps
 object Versions {
 
-    const val kotlin = "1.4.32"
+    const val kotlin = "1.6.0"
 
     const val junit = "4.13"
     const val testRules = "1.4.0"
@@ -46,7 +46,7 @@ object Versions {
     const val performancePlugin = "1.3.1"
     const val vkSdk = "2.2.1"
     const val gradleVersionsPlugin = "0.28.0"
-    const val hilt_version = "2.31.2-alpha"
+    const val hilt_version = "2.40.5"
     const val lifecycle_version = "2.4.0"
     const val room_version = "2.2.6"
     const val facebook = "[4,5)"

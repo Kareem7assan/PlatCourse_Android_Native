@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
@@ -34,7 +35,9 @@
         android:theme="@style/Theme.PlatCourse"
         android:usesCleartextTraffic="true"
         tools:replace="allowBackup, label,theme">
-        <activity android:name=".home.youtube.YoutubeActivity"></activity>
+        <activity android:name=".home.youtube.YoutubeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            />
         <activity android:name=".home.course_sections.files.DownloadPdfActivity" />
         <activity android:name=".error.ErrorScreenActivity" />
 

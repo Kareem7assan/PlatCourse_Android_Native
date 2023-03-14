@@ -21,11 +21,14 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
     private var data: MutableList<LessonsModel> = ArrayList()
 
     var onClickItem: ((LessonsModel, Int) -> Unit)? = null
+    var onClickItemFirstQuiz: ((LessonsModel, Int) -> Unit)? = null
 
     var onClickItemVideo: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
     var onClickItemAssign: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemYoutube: ((VideoModel, Int) -> Unit)? = null
+
 
     var onDropDownClicked:((isExpanded:Boolean,position:Int) -> Unit)? = null
 
@@ -99,17 +102,23 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
                 adapter.onClickItemLink = ::onClickLink
                 adapter.onClickItemDoc = ::onClickDoc
                 adapter.onClickItemAssign = ::onClickItemAssign
+                adapter.onClickItemYoutube = ::onClickItemYoutube
             }
             else{
                 ivDropDown.isVisible=false
                 lessonBg.backgroundColorResource=R.color.light_grey_blue
                 itemView.onClick {
-                    Toast.makeText(itemView.context, itemView.context.getString(R.string.pending_lesson), Toast.LENGTH_LONG).show()
+                    onClickItemFirstQuiz?.invoke(item,bindingAdapterPosition)
+                    //Toast.makeText(itemView.context, itemView.context.getString(R.string.pending_lesson), Toast.LENGTH_LONG).show()
                 }
             }
         }
 
 
+    }
+
+    private fun onClickItemYoutube(videoModel: VideoModel, i: Int) {
+        onClickItemYoutube?.invoke(videoModel,i)
     }
 
     private fun onClickItemAssign(videoModel: VideoModel, i: Int) {

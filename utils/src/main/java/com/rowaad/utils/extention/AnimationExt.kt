@@ -5,12 +5,14 @@ import android.animation.AnimatorListenerAdapter
 import android.view.View
 
 
+/*
 
 fun View.animateHide(){
     animate()
         .translationY(height.toFloat())
         .alpha(0.0f)
         .setListener(object : AnimatorListenerAdapter() {
+
             override fun onAnimationEnd(animation: Animator?) {
                 super.onAnimationEnd(animation)
                 visibility = View.GONE
@@ -53,3 +55,4 @@ fun View.animateShowOnly(){
         })
 }
 
+*/
