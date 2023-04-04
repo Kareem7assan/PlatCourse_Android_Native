@@ -1,9 +1,6 @@
 package com.platCourse.platCourseAndroid.home.course_sections.files
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -14,6 +11,7 @@ import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,7 +80,7 @@ class CourseFilesFragment : BaseFragment(R.layout.fragment_files_course) {
             requireActivity().checkDownloadPermissions {
                 if (it) {
                     openLink("https://platcourse.com/pdf_file?username=${viewModel.getUser()?.username}&phone_number=${viewModel.getUser()?.phone_number}&link=${item.file!!}")
-                    ///downloadLink("https://platcourse.com/pdf_file?username=${viewModel.getUser()?.username}&phone_number=${viewModel.getUser()?.phone_number}&link=${item.file!!}")
+                  //  downloadLink("https://platcourse.com/pdf_file?username=${viewModel.getUser()?.username}&phone_number=${viewModel.getUser()?.phone_number}&link=${item.file!!}")
                 }
             }
         }
@@ -110,35 +108,16 @@ class CourseFilesFragment : BaseFragment(R.layout.fragment_files_course) {
         Log.e("url",url)
 
         lifecycleScope.launch(Dispatchers.IO) {
-            //convertBase64StringToFileAndStoreIt(getBase64StringFromBlobUrl())
-           /* val url = URL(url)
-            val urlConnection = url.openConnection() as HttpURLConnection
-            urlConnection.instanceFollowRedirects=true
-            try {
-                val inputStream: InputStream = urlConnection.inputStream
-                //val saveFilePath: String = requireActivity().externalCacheDir?.path + File.separator + fileName
-                if (isExternalStorageAvailable()){
-                    myExternalFile =  java.io.File(requireActivity().getExternalFilesDir("platcourse"), System.currentTimeMillis().toString()+".pdf")
-                }
-                else{
-                    Log.e("isAvailable","false")
-                }
-                // opens an output stream to save into file
-                // opens an output stream to save into file
-                val outputStream = FileOutputStream(myExternalFile)
-                var bytesRead = -1
-                val buffer = ByteArray(1024 * 1024)
-                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-                    outputStream.write(buffer, 0, bytesRead)
-                }
-                outputStream.close()
-                inputStream.close()
+             val downloadManager = requireContext().getSystemService(DownloadManager::class.java)
+            val request = DownloadManager.Request(url.toUri())
+                .setMimeType("application/pdf")
+                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setTitle("${System.currentTimeMillis()}.pdf")
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "${System.currentTimeMillis()}.pdf")
+             downloadManager.enqueue(request)
 
-
-            } finally {
-                urlConnection.disconnect()
-            }*/
-    }
+        }
     }
 
     fun getBase64StringFromBlobUrl(blobUrl: String): String? {
@@ -228,14 +207,7 @@ class CourseFilesFragment : BaseFragment(R.layout.fragment_files_course) {
 
 
 
-    private interface MyDownloadService{
-        @GET("pdf_file")
-        suspend fun download(
-            @Query("username") username:String,
-            @Query("phone_number") phone_number:String,
-            @Query("link") link:String
-        )
-    }
+
     private fun hasNext(): Boolean {
         return next!=null
     }

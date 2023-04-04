@@ -2,7 +2,10 @@ package com.platCourse.platCourseAndroid.home.youtube
 
 
 import android.content.res.Configuration
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.annotation.NonNull
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
@@ -129,6 +132,15 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
             binding!!.youtubePlayerView.enterFullScreen()
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             binding!!.youtubePlayerView.exitFullScreen()
+            binding!!.rootPlayer.layoutParams= FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+
+            binding!!.youtubePlayerView.layoutParams=binding!!.rootPlayer.layoutParams
+           // ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT)
+            //binding!!.youtubePlayerView.layoutParams=binding!!.rootPlayer.layoutParams
+
         }
     }
 }

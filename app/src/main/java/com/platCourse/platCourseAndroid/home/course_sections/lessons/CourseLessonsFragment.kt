@@ -145,11 +145,12 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     }
 
     private fun onClickItemYoutube(videoModel: VideoModel, pos: Int) {
-        /*startActivity(Intent(requireContext(),YoutubeActivity::class.java).also {
+        startActivity(Intent(requireContext(),YoutubeActivity::class.java).also {
             Log.e("video_id",videoModel.video_id.toString())
             it.putExtra("video_id",videoModel.video_id)
             it.putExtra("video_title",videoModel.videoName)
-        })*/
+        })
+/*
         findNavController().navigate(
             R.id.action_global_courseDetailsFragment,
             bundleOf(
@@ -168,6 +169,7 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
             )
 
         )
+*/
     }
 
     private fun handleToolbar() {
