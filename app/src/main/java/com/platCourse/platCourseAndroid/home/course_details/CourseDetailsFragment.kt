@@ -665,7 +665,8 @@ class CourseDetailsFragment : BaseFragment(R.layout.fragment_details_course), Mo
                 R.id.action_global_courseLessonsFragment, bundleOf(
                 "course"
                         to
-                        details.toJson()
+                        details.toJson(),
+                "lesson_id" to lessonId
         )
         )
     }

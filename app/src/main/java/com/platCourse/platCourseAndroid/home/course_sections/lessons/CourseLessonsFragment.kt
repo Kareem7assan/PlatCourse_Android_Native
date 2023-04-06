@@ -149,6 +149,8 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
             Log.e("video_id",videoModel.video_id.toString())
             it.putExtra("video_id",videoModel.video_id)
             it.putExtra("video_title",videoModel.videoName)
+            //TODO Ya kareem please check lessonId why it always equals zero
+            it.putExtra("lesson_id",lessonId)
         })
 /*
         findNavController().navigate(
