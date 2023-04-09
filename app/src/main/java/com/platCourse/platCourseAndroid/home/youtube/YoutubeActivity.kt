@@ -3,29 +3,38 @@ package com.platCourse.platCourseAndroid.home.youtube
 
 import android.content.res.Configuration
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.annotation.NonNull
-import androidx.constraintlayout.widget.ConstraintLayout
+import com.jaedongchicken.ytplayer.YoutubePlayerView
+import com.jaedongchicken.ytplayer.YoutubePlayerView.STATE
+import com.jaedongchicken.ytplayer.YoutubePlayerView.YouTubeListener
+import com.jaedongchicken.ytplayer.model.PlaybackQuality
+import com.jaedongchicken.ytplayer.model.YTParams
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.DefaultPlayerUiController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.PlayerUiController
+//import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
+//import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.PlayerUiController
 import com.platCourse.platCourseAndroid.R
 import com.platCourse.platCourseAndroid.databinding.ActivityYoutubeBinding
 import com.platCourse.platCourseAndroid.home.courses.CoursesViewModel
 import com.rowaad.app.base.BaseActivity
 import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
+import com.rowaad.utils.extention.toast
 
 
 class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
 
     private var isSpeed: Boolean = false
-    private lateinit var controller: PlayerUiController
+   // private lateinit var controller: PlayerUiController
     private lateinit var player: YouTubePlayerView
     private lateinit var tracker: YouTubePlayerTracker
     private var videoId: String? = null
@@ -50,25 +59,25 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
         binding!!.progress.show()
         tracker = YouTubePlayerTracker()
         player = binding!!.youtubePlayerView
+
         //controller=binding!!.youtubePlayerView.getPlayerUiController()
-        /*player.enableAutomaticInitialization=false
-        player.addYouTubePlayerListener(tracker)
-        player.initialize(tracker, IFramePlayerOptions.Builder()
-            .controls(1)
-            .rel(0)
-            .build())
-        */
         //DefaultPlayerUiController().rootView.
         binding!!.progressLay.show()
         binding!!.youtubePlayerView.hide()
         lifecycle.addObserver(player)
-        //  player.getPlayerUiController().setVideoTitle(title)
-        // controller.showUi(true)
         binding!!.myView.setOnClickListener { }
+        val options: IFramePlayerOptions = IFramePlayerOptions.Builder()
+            .controls(0).build()
 
-        player.addYouTubePlayerListener(object : YouTubePlayerListener {
+
+
+
+       // player.initialize(listener, options);
+
+
+        val listener=object : AbstractYouTubePlayerListener() {
             override fun onApiChange(youTubePlayer: YouTubePlayer) {
-
+                //youTubePlayer.setPlaybackRate()
             }
 
             override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
@@ -88,7 +97,7 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
                     }
 
                     // make this check every 15 sec
-                    if (second.toInt().rem(15) == 0){
+                    if (second.toInt().rem(15) == 0) {
                         calculatePlayingTime()
                     }
                 }
@@ -97,7 +106,10 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
                 }
             }
 
-            override fun onError(youTubePlayer: YouTubePlayer, error: PlayerConstants.PlayerError) {
+            override fun onError(
+                youTubePlayer: YouTubePlayer,
+                error: PlayerConstants.PlayerError
+            ) {
 
             }
 
@@ -105,7 +117,7 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
                 youTubePlayer: YouTubePlayer,
                 playbackQuality: PlayerConstants.PlaybackQuality
             ) {
-
+                toast(playbackQuality.name)
             }
 
             override fun onPlaybackRateChange(
@@ -118,10 +130,14 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 binding!!.youtubePlayerView.show()
                 binding!!.progressLay.hide()
+                val controller = DefaultPlayerUiController(player, youTubePlayer)
+                controller.apply {
+                    showPlayPauseButton(true)
+                    showMenuButton(false)
+                    showYouTubeButton(false)
+                }
+                player.setCustomPlayerUi(controller.rootView)
                 youTubePlayer.loadVideo(videoId!!, 0f)
-                //player.enableBackgroundPlayback(true)
-
-
             }
 
             override fun onStateChange(
@@ -135,22 +151,26 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
                     PlayerConstants.PlayerState.PLAYING -> {
                         binding!!.progress.hide()
                         binding!!.youtubePlayerView.show()
-                        isPlaying=true
+                        isPlaying = true
                         //
 
                     }
                     else -> {
-                        isPlaying=false
+                        isPlaying = false
                     }
 
                 }
             }
 
             override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
-                currentDuration = duration* SECOND_DURATION_INTERVAL
+                currentDuration = duration * SECOND_DURATION_INTERVAL
             }
 
             override fun onVideoId(youTubePlayer: YouTubePlayer, videoId: String) {
+            }
+
+            override fun onVideoQuality(youTubePlayer: YouTubePlayer, quality: String) {
+                youTubePlayer.setPlaybackQuality(quality)
             }
 
 
@@ -160,9 +180,123 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
             ) {
 
             }
-        })
+        }
+
+         /*   player.addYouTubePlayerListener(object : YouTubePlayerListener {
+                override fun onApiChange(youTubePlayer: YouTubePlayer) {
+
+                }
+
+                override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
+                    if (isPlaying && viewModel.isUserLogin()) {
+                        if (!isPlayedForFirstTime) {
+                            //change flag
+                            isPlayedForFirstTime = true
+                            initialTime =
+                                System.currentTimeMillis().div(SECOND_DURATION_INTERVAL)
+                        } else {
+                            if (updateTime != null) {
+                                initialTime =
+                                    System.currentTimeMillis().div(SECOND_DURATION_INTERVAL)
+                                        .minus(updateTime ?: 0L)
+                                updateTime = null
+                            }
+                        }
+
+                        // make this check every 15 sec
+                        if (second.toInt().rem(15) == 0) {
+                            calculatePlayingTime()
+                        }
+                    }
+                    if (!isPlaying) {
+                        updateTime = currentTime?.minus((initialTime))
+                    }
+                }
+
+                override fun onError(
+                    youTubePlayer: YouTubePlayer,
+                    error: PlayerConstants.PlayerError
+                ) {
+
+                }
+
+                override fun onPlaybackQualityChange(
+                    youTubePlayer: YouTubePlayer,
+                    playbackQuality: PlayerConstants.PlaybackQuality
+                ) {
+
+                }
+
+                override fun onPlaybackRateChange(
+                    youTubePlayer: YouTubePlayer,
+                    playbackRate: PlayerConstants.PlaybackRate
+                ) {
+
+                }
+
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+                    binding!!.youtubePlayerView.show()
+                    binding!!.progressLay.hide()
+                    val controller = DefaultPlayerUiController(player, youTubePlayer)
+                    controller.apply {
+                        showMenuButton(false)
+                        showYouTubeButton(false)
+                        showCustomAction2(false)
+                    }
+                    player.setCustomPlayerUi(controller.rootView)
+
+                    youTubePlayer.loadVideo(videoId!!, 0f)
+                    //player.enableBackgroundPlayback(true)
+
+
+                }
+
+                override fun onStateChange(
+                    youTubePlayer: YouTubePlayer,
+                    state: PlayerConstants.PlayerState
+                ) {
+                    when (state) {
+                        PlayerConstants.PlayerState.ENDED -> {
+                            binding!!.progress.show()
+                        }
+                        PlayerConstants.PlayerState.PLAYING -> {
+                            binding!!.progress.hide()
+                            binding!!.youtubePlayerView.show()
+                            isPlaying = true
+                            //
+
+                        }
+                        else -> {
+                            isPlaying = false
+                        }
+
+                    }
+                }
+
+                override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
+                    currentDuration = duration * SECOND_DURATION_INTERVAL
+                }
+
+                override fun onVideoId(youTubePlayer: YouTubePlayer, videoId: String) {
+                }
+
+
+                override fun onVideoLoadedFraction(
+                    youTubePlayer: YouTubePlayer,
+                    loadedFraction: Float
+                ) {
+
+                }
+            }
+            )*/
+
+
+
+        player.initialize(listener,options)
+
 
     }
+
 
     fun calculatePlayingTime() {
         val totalDuration = currentDuration.div(SECOND_DURATION_INTERVAL)
@@ -172,7 +306,7 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
 
         val diff = (difference.div(totalDuration )).times(100)
 
-        Log.e("Youtube Player", "calculatePlayingTime: $diff %", )
+        Log.e("Youtube Player", "calculatePlayingTime: $diff %")
         //check if video pass 60% watching
         if (lessonId != 0 && isWatched.not() && diff >= WATCHED_DURATION) {
             //change flag
@@ -187,9 +321,9 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding!!.youtubePlayerView.enterFullScreen()
+            //binding!!.youtubePlayerView.enterFullScreen()
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            binding!!.youtubePlayerView.exitFullScreen()
+            //binding!!.youtubePlayerView.exitFullScreen()
             binding!!.rootPlayer.layoutParams = FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
@@ -200,6 +334,7 @@ class YoutubeActivity : BaseActivity(R.layout.activity_youtube) {
             //binding!!.youtubePlayerView.layoutParams=binding!!.rootPlayer.layoutParams
 
         }
+
     }
 
     companion object {

@@ -112,6 +112,8 @@ dependencies {
     implementation project(path: ':data')
     implementation project(path: ':dialogs-utils')
     implementation project(path: ':utils')
+    implementation project(path: ':core')
+    implementation project(path: ':custom-ui')
     implementation 'com.itextpdf:itextg:5.5.10'
 
     implementation 'com.github.halilozercan:BetterVideoPlayer:2.0.0-alpha01'
@@ -130,8 +132,11 @@ dependencies {
     implementation Deps.design.lottie
     implementation Deps.design.swipeRefresh
     implementation Deps.design.shimmer
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0'
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.26'
+//    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0'
+
+    compile 'com.jaedongchicken:ytplayer:1.4.4'
+
+    //implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui:12.0.0'
     implementation 'com.github.HaarigerHarald:android-youtubeExtractor:2.1.0'
     implementation 'com.github.kotvertolet:youtube-jextractor:0.3.4'
 
@@ -139,11 +144,11 @@ dependencies {
     //hilt
     implementation Deps.dagger_hilt.hilt
     implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.palette:palette-ktx:1.0.0'
 
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //implementation files('/Users/osx/AndroidStudioProjects/PlatCourseApplication2/ddmlib.jar')
 
 
     kapt Deps.dagger_hilt.hilt_compiler

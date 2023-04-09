@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.hardware.display.DisplayManager
+import android.hardware.usb.UsbManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -19,6 +20,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -40,6 +42,7 @@ import com.rowaad.app.data.utils.Constants_Api
 import com.rowaad.dialogs_utils.*
 import com.rowaad.utils.extention.fromJson
 import com.rowaad.utils.extention.toJson
+import com.rowaad.utils.extention.toast
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,9 +51,19 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
 
 import java.net.Socket
 import java.util.*
+import java.util.concurrent.TimeUnit
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.minutes
 
 
 @AndroidEntryPoint
@@ -215,6 +228,32 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
         .fromApplication(appContext, BaseActivityEntryPoint::class.java)
         .baseRepository
 
+    class Cli {
+        @RequiresApi(Build.VERSION_CODES.O)
+        @OptIn(ExperimentalTime::class)
+        fun runCommand(cmd: String, workingDir: File = File("."), timeout: Duration = 3.minutes): String? {
+            // this is modified from https://stackoverflow.com/a/52441962/940217
+            return try {
+                val parts = "\\s".toRegex().split(cmd)
+                val proc = ProcessBuilder(*parts.toTypedArray())
+                    .directory(workingDir)
+                    .redirectOutput(ProcessBuilder.Redirect.PIPE)
+                    .redirectError(ProcessBuilder.Redirect.PIPE)
+                    .start()
+
+                proc.waitFor(timeout.inWholeSeconds, TimeUnit.SECONDS)
+                proc.inputStream.bufferedReader().readText()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                null
+            }
+        }
+    }
+
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -261,6 +300,7 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
         observeMaintenance()
         observeConnection()
         checkEmulator()
+       // checkADB()
         //checkUserRegisteredBeforeInDB(uidValue)
 
 
@@ -288,7 +328,25 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
 
     }
 
-     fun checkEmulator() {
+    private fun checkADB() {
+        if (Settings.Global.getInt(contentResolver, Settings.Global.ADB_ENABLED)==1){
+            intent.component = (ComponentName(
+                "com.platcourse.platcourseapplication",
+                "com.platCourse.platCourseAndroid.error.ErrorScreenActivity"
+            ))
+            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.putExtra(
+                "error",
+                "  قم بإغلاق وضع المطور (developer mode) ثم قم بفتح التطبيق مرة أخرى"
+            )
+            intent.putExtra(
+                "adb",
+                true
+            )
+        }
+    }
+
+    fun checkEmulator() {
         if (UtilitySecurity.CheckIsRealPhoneMain(this).not()) {
             intent.component = (ComponentName(
                 "com.platcourse.platcourseapplication",

@@ -23,7 +23,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
     private var lessonId:Int? = null
     var onClickItemVideo: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
-    var onClickItemYoutube: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemYoutube: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
     var onClickItemAssign: ((VideoModel, Int) -> Unit)? = null
 
@@ -79,14 +79,14 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonVH>() {
                     ivMime.onClick {
                         when {
                             item.video_file!=null -> onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
-                            item.video_id != null -> onClickItemYoutube?.invoke(item,bindingAdapterPosition)
+                            item.video_id != null -> onClickItemYoutube?.invoke(item,bindingAdapterPosition,lessonId)
                             else -> onClickItemLink?.invoke(item,bindingAdapterPosition)
                         }
                     }
                     tvTitle.onClick {
                         when {
                             item.video_file!=null -> onClickItemVideo?.invoke(item,bindingAdapterPosition,lessonId)
-                            item.video_id != null -> onClickItemYoutube?.invoke(item,bindingAdapterPosition)
+                            item.video_id != null -> onClickItemYoutube?.invoke(item,bindingAdapterPosition,lessonId)
                             else -> onClickItemLink?.invoke(item,bindingAdapterPosition)
                         }
                     }

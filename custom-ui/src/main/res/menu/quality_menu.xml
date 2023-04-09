@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item
+        android:id="@+id/quality_hd720"
+        android:title="720"
+        />
+    <item
+        android:id="@+id/large"
+        android:title="480"
+        />
+    <item
+        android:id="@+id/medium"
+        android:title="360"
+        />
+    <item
+        android:id="@+id/small"
+        android:title="240"
+        />
+    <item
+        android:id="@+id/tiny"
+        android:title="144"
+        />
+    <item
+        android:id="@+id/auto"
+        android:title="auto"
+        />
+
+</menu>

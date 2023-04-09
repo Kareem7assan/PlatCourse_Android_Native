@@ -1,12 +1,19 @@
 package com.platCourse.platCourseAndroid.home
 
-import android.os.Handler
-import android.os.Looper
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.hardware.usb.UsbDevice
+import android.hardware.usb.UsbManager
+import android.net.wifi.p2p.WifiP2pDevice
+import android.net.wifi.p2p.WifiP2pManager
 import android.os.SystemClock
+import android.provider.ContactsContract
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -20,10 +27,8 @@ import com.rowaad.utils.extention.hide
 import com.rowaad.utils.extention.show
 import com.rowaad.utils.extention.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 @AndroidEntryPoint
@@ -55,18 +60,83 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
             }
 
         },0,60000)
-        binding.toolbar?.notificationCount.hide()
+        binding.toolbar.notificationCount.hide()
         handleCount()
 
 
+    }
+
+    private fun handleUsbConnection() {
+        val manager = getSystemService(Context.USB_SERVICE) as UsbManager
+        intent?.let {
+            when (it.action) {
+                "android.hardware.usb.action.USB_DEVICE_ATTACHED" -> {
+                    val deviceList: HashMap<String, UsbDevice> = manager.deviceList
+                    val deviceIterator: Iterator<UsbDevice> = deviceList.values.iterator()
+                }
+                "android.hardware.usb.action.USB_STATE" -> {
+                    it.extras?.apply {
+                        if (getBoolean("connected") && getBoolean("mtp")) {
+                            // your code here
+                            toast(getBoolean("connected").toString())
+                        }
+                    }
+                }
+               WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION->
+                {
+                    val device: WifiP2pDevice? = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE)
+                    toast(device?.deviceName.toString()+",")
+                }
+
+                else -> {}
+            }
+        }
+          /*  val actionString = "$packageName.action.USB_PERMISSION"
+
+            val mPermissionIntent: PendingIntent =
+                PendingIntent.GetBroadcast(this, 0, Intent(actionString), 0)
+            mUsbManager.RequestPermission(device, permissionIntent)
+*/
+            val deviceList : HashMap<String, UsbDevice> = manager .deviceList
+        val deviceIterator:Iterator<UsbDevice> = deviceList.values.iterator()
+        while (deviceIterator.hasNext()) {
+            val device = deviceIterator.next()
+            manager.hasPermission(device)
+            val model = device.deviceName
+            val deviceID = device.deviceId
+            val vendor = device.vendorId
+            val product = device.productId
+            val mClass = device.deviceClass
+            val subclass = device.deviceSubclass
+            if (!manager.hasPermission(device)) {
+                toast("not granted")
+
+                val ACTION_USB_PERMISSION  = "yourPackageName.USB_PERMISSION";
+                val mPermissionIntent = PendingIntent.getBroadcast(this, 0,  Intent(ACTION_USB_PERMISSION), 0);
+                manager.requestPermission(device, mPermissionIntent);
+                return;
+            } else {
+                toast("granted")
+                Log.e("model", "$model,$vendor")
+            }
+
+        }
+        //toast(isConnected(this).toString())
+
+
+    }
+    fun isConnected(context: Context): Boolean {
+        intent =
+            context.registerReceiver(null, IntentFilter("android.hardware.usb.action.USB_STATE"))
+        return intent.extras!!.getBoolean("connected")
     }
 
     private fun handleCount() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.hasSeenNotifications.collectLatest { hasUnSeen ->
-                    if (hasUnSeen && binding.toolbar?.ivNotif.isVisible) binding.toolbar?.notificationCount.show()
-                    else binding.toolbar?.notificationCount.hide()
+                    if (hasUnSeen && binding.toolbar.ivNotif.isVisible) binding.toolbar.notificationCount.show()
+                    else binding.toolbar.notificationCount.hide()
                 }
             }
         }
@@ -193,31 +263,30 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
 
     private fun setupBottomNavigation() {
-        binding?.mainBottomNavigation?.setOnItemSelectedListener { menuItem->
+        binding.mainBottomNavigation.setOnItemSelectedListener { menuItem->
             // mis-clicking prevention, using threshold of 1000 ms
             if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
                 return@setOnItemSelectedListener false
-            }
-            else {
+            } else {
                 mLastClickTime = SystemClock.elapsedRealtime()
 
                 when (menuItem.itemId) {
-                  R.id.coursesMenuFragment -> {
+                    R.id.coursesMenuFragment -> {
                         navController.navigate(R.id.action_global_coursesFragment)
                         return@setOnItemSelectedListener true
-                }
+                    }
                     R.id.myCoursesMenuFragment -> {
                         navController.navigate(R.id.action_global_myCoursesFragment)
                         return@setOnItemSelectedListener true
-                }
+                    }
                     R.id.homeMenuFragment -> {
                         navController.navigate(R.id.action_global_homeFragment)
                         return@setOnItemSelectedListener true
-                }
+                    }
                     R.id.moreMenuFragment -> {
                         navController.navigate(R.id.action_global_menuFragment)
                         return@setOnItemSelectedListener true
-                }
+                    }
 
                     else -> return@setOnItemSelectedListener false
                 }

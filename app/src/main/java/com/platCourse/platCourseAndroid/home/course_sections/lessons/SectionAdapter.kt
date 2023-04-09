@@ -24,7 +24,7 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
     var onClickItemAssign: ((VideoModel, Int) -> Unit)? = null
-    var onClickItemYoutube: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemYoutube: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
 
     var onDropDownClicked:((parentPosition: Int) -> Unit)? = null
     var selectedItemPosition = -1
@@ -94,8 +94,8 @@ class SectionAdapter:RecyclerView.Adapter<SectionAdapter.SectionHolder>() {
     }
     override fun getItemCount()=data.size
 
-    private fun onClickItemYoutube(videoModel: VideoModel, i: Int) {
-        onClickItemYoutube?.invoke(videoModel,i)
+    private fun onClickItemYoutube(videoModel: VideoModel, i: Int,lessonId:Int?) {
+        onClickItemYoutube?.invoke(videoModel,i,lessonId)
     }
     private fun onClickItemFirstQuiz(lesson: LessonsModel, i: Int) {
         onClickItemFirstQuiz?.invoke(lesson,i)

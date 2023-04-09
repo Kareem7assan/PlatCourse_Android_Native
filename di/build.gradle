@@ -39,7 +39,7 @@ dependencies {
     implementation project(path: ':domain')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation Deps.kotlin.stdLib
     //hilt
     implementation Deps.dagger_hilt.hilt
     kapt Deps.dagger_hilt.hilt_compiler

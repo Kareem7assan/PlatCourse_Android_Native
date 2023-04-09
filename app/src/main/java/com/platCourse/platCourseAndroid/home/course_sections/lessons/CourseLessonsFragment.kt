@@ -144,12 +144,11 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
         IntentUtils.openUrl(requireContext(), videoModel.video_link)
     }
 
-    private fun onClickItemYoutube(videoModel: VideoModel, pos: Int) {
+    private fun onClickItemYoutube(videoModel: VideoModel, pos: Int,lessonId: Int?) {
         startActivity(Intent(requireContext(),YoutubeActivity::class.java).also {
             Log.e("video_id",videoModel.video_id.toString())
             it.putExtra("video_id",videoModel.video_id)
             it.putExtra("video_title",videoModel.videoName)
-            //TODO Ya kareem please check lessonId why it always equals zero
             it.putExtra("lesson_id",lessonId)
         })
 /*

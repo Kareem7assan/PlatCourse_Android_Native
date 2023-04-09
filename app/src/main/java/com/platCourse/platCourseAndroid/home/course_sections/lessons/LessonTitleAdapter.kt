@@ -27,7 +27,7 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
     var onClickItemLink: ((VideoModel, Int) -> Unit)? = null
     var onClickItemDoc: ((VideoModel, Int) -> Unit)? = null
     var onClickItemAssign: ((VideoModel, Int) -> Unit)? = null
-    var onClickItemYoutube: ((VideoModel, Int) -> Unit)? = null
+    var onClickItemYoutube: ((VideoModel, Int,LessonId:Int?) -> Unit)? = null
 
 
     var onDropDownClicked:((isExpanded:Boolean,position:Int) -> Unit)? = null
@@ -117,8 +117,8 @@ class LessonTitleAdapter : RecyclerView.Adapter<LessonTitleAdapter.LessonTitleVH
 
     }
 
-    private fun onClickItemYoutube(videoModel: VideoModel, i: Int) {
-        onClickItemYoutube?.invoke(videoModel,i)
+    private fun onClickItemYoutube(videoModel: VideoModel, i: Int,lessonId:Int?) {
+        onClickItemYoutube?.invoke(videoModel,i,lessonId)
     }
 
     private fun onClickItemAssign(videoModel: VideoModel, i: Int) {

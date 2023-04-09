@@ -6,3 +6,6 @@ include ':domain'
 include ':data'
 include ':app'
 rootProject.name = "PlatCourse Android"
+
+include ':core'
+include ':custom-ui'
