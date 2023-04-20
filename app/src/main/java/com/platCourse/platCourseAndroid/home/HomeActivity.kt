@@ -40,6 +40,10 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
     private val viewModel: MenuViewModel by viewModels()
 
 
+    override fun onResume() {
+        super.onResume()
+        checkADB()
+    }
     override fun init() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.home_nav_host) as NavHostFragment
@@ -82,12 +86,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
                         }
                     }
                 }
-               WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION->
-                {
-                    val device: WifiP2pDevice? = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE)
-                    toast(device?.deviceName.toString()+",")
-                }
-
                 else -> {}
             }
         }
@@ -125,11 +123,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
 
     }
-    fun isConnected(context: Context): Boolean {
-        intent =
-            context.registerReceiver(null, IntentFilter("android.hardware.usb.action.USB_STATE"))
-        return intent.extras!!.getBoolean("connected")
-    }
+
 
     private fun handleCount() {
         lifecycleScope.launch {

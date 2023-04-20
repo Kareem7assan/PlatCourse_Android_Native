@@ -38,6 +38,8 @@
         tools:replace="allowBackup, label,theme">
         <activity android:name=".home.youtube.YoutubeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:hardwareAccelerated="true"
+            android:theme="@style/AppFullScreenTheme"
             />
         <activity android:name=".home.course_sections.files.DownloadPdfActivity" />
         <activity android:name=".error.ErrorScreenActivity" />

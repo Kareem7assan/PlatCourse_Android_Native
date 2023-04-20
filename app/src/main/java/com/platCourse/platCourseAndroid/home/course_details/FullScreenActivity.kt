@@ -80,10 +80,11 @@ class FullScreenActivity : BaseActivity(R.layout.activity_full_screen), Player.L
     override fun init() {
         binding=ActivityFullScreenBinding.bind(findViewById(R.id.rootFullScreen))
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        binding!!.rootFullScreen.setOnApplyWindowInsetsListener(onApplyWindowInsetsListener)
+
         //hideSystemBars()
         handleMuting()
         //window.decorView.setOnSystemUiVisibilityChangeListener(onSystemUiVisibilityChangeListener);
-        binding!!.rootFullScreen.setOnApplyWindowInsetsListener(onApplyWindowInsetsListener)
         setupActions()
 
     }

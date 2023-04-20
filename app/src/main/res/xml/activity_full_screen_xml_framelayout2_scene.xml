@@ -182,7 +182,6 @@
             android:layout_height="wrap_content"
             android:visibility="invisible"
             motion:layout_constraintTop_toTopOf="parent"
-
             />
     </ConstraintSet>
 

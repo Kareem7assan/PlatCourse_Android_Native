@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
+
     >
     <item
         android:id="@+id/speed"
         android:title="السرعة"
-        android:showAsAction="ifRoom"
+        android:iconTint="#000000"
         android:icon="@drawable/baseline_speed_24"
         />
 
     <item
         android:id="@+id/quality"
         android:title="الجودة"
-        android:showAsAction="ifRoom"
+        android:iconTint="#000000"
         android:icon="@drawable/baseline_high_quality_24"
 
         />

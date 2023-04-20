@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
@@ -300,7 +301,8 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
         observeMaintenance()
         observeConnection()
         checkEmulator()
-       // checkADB()
+        checkADB()
+       // checkUsbConnected()
         //checkUserRegisteredBeforeInDB(uidValue)
 
 
@@ -328,8 +330,10 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
 
     }
 
-    private fun checkADB() {
-        if (Settings.Global.getInt(contentResolver, Settings.Global.ADB_ENABLED)==1){
+
+     fun checkADB() {
+         //toast(Settings.Global.getInt(contentResolver, Settings.Global.ADB_ENABLED).toString())
+        if (Settings.Global.getInt(contentResolver, Settings.Global.ADB_ENABLED)!=0 || isWifiAdbEnabled()){
             intent.component = (ComponentName(
                 "com.platcourse.platcourseapplication",
                 "com.platCourse.platCourseAndroid.error.ErrorScreenActivity"
@@ -343,6 +347,31 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
                 "adb",
                 true
             )
+            startActivity(intent)
+            finish()
+        }
+
+    }
+
+    fun isWifiAdbEnabled(): Boolean {
+        // "this" is your activity or context
+        return Settings.Global.getInt(this.contentResolver, "adb_wifi_enabled", 0) != 0
+    }
+
+    private fun checkUsbConnected() {
+        if (isConnected(this)){
+            intent.component = (ComponentName(
+                "com.platcourse.platcourseapplication",
+                "com.platCourse.platCourseAndroid.error.ErrorScreenActivity"
+            ))
+            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.putExtra(
+                "error",
+                "  عذراً لا يسمح بتوصيل الusb أثناء استخدام التطبيق برجاء نزعها و اعادة فتح التطبيق"
+            )
+
+            startActivity(intent)
+            finish()
         }
     }
 
@@ -424,6 +453,8 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
         super.onResume()
         val displayManager = applicationContext.getSystemService(DISPLAY_SERVICE) as DisplayManager
         displayManager.registerDisplayListener(listener, null)
+        checkADB()
+        //checkUsbConnected()
 
     }
 
@@ -461,6 +492,7 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
                 .inflate(progressViewRes, viewBase?.flContent, false) as ViewGroup
         viewBase?.flContent?.addView(progress)
     }
+
 
     private fun inflateMain(layoutResource: Int) {
         //viewBase?.flProgress?.show()
@@ -509,6 +541,13 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
             updateResourcesLegacy(context, appLocale)
 
     }
+
+    fun isConnected(context: Context): Boolean {
+        intent =
+            context.registerReceiver(null, IntentFilter("android.hardware.usb.action.USB_STATE"))
+        return intent.extras!!.getBoolean("connected")
+    }
+
     private fun updateResources(context: Context, newLocale: Locale): Context {
         val currentResources = context.resources
 
