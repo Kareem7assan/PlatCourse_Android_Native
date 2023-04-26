@@ -34,6 +34,8 @@ import java.net.URL
 
 class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
 
+    private var selectedSection: LessonsResponse?=null
+    private  var sectionsResp: List<LessonsResponse> = listOf()
     private var lessonId: Int? = null
     private var course: CourseItem? = null
     private var course_id: Int? = null
@@ -118,6 +120,7 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     }
 
     private fun expandLesson(parentPosition:Int){
+       // selectedSection=sectionsResp[parentPosition]
         adapter.updateSelectedItem(parentPosition,lessonId)
 
     }
@@ -183,13 +186,13 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
     private fun handleLessonsFlow() {
         handleSharedFlow(viewModel.lessonsFlow, onSuccess = {
             val sections = it as List<LessonsResponse>
+             sectionsResp = it as List<LessonsResponse>
             val section=sections.find {section->
                 section.lessons.find { it.id == lessonId }!=null
             }
             section?.lessons?.map {
                 it.isExpanded=it.id==lessonId
             }
-
 
             if (sections.isEmpty())
                 binding.rvLessonsTitles.hide().also { binding.tvEmpty.show() }
@@ -200,7 +203,8 @@ class CourseLessonsFragment : BaseFragment(R.layout.fragment_lessons_course) {
                 }
                         .also { binding.tvEmpty.hide() }
 
-            if (lessonId!=null) expandLesson(sections.indexOf(section))
+            if (lessonId!=null &&  sections.indexOf(section)!=-1) expandLesson(sections.indexOf(section))
+            //else if (selectedSection!=null && sections.indexOf(selectedSection)!=-1) expandLesson(sections.indexOf(selectedSection))
         })
 
     }

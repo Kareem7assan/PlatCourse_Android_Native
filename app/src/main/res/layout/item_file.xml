@@ -18,14 +18,18 @@
         >
 <TextView
     android:id="@+id/tvTitle"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@id/lay"
     android:layout_marginStart="@dimen/margin_normal"
+    android:gravity="start"
+    android:textAlignment="viewStart"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     />
         <LinearLayout
+            android:id="@+id/lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"

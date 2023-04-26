@@ -331,7 +331,7 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
     }
 
 
-     fun checkADB() {
+     fun checkADB(fromHome:Boolean=false) {
          //toast(Settings.Global.getInt(contentResolver, Settings.Global.ADB_ENABLED).toString())
         if (Settings.Global.getInt(contentResolver, Settings.Global.ADB_ENABLED)!=0 || isWifiAdbEnabled()){
             intent.component = (ComponentName(
@@ -348,7 +348,7 @@ data class PlatApp(val isRecording: Boolean, val uid: String)
                 true
             )
             startActivity(intent)
-            finish()
+            if (fromHome) finish()
         }
 
     }

@@ -42,7 +42,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
     override fun onResume() {
         super.onResume()
-        checkADB()
+        checkADB(fromHome = true)
     }
     override fun init() {
         val navHostFragment =
